@@ -1,57 +1,12 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบรับสมัครแพทย์เข้าศึกษาต่อ - คณะแพทยศาสตร์</title>
-    <!-- Google Fonts: Prompt for modern Thai typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'chula-pink': '#FF8FA3',      /* สีชมพูอ่อนจุฬาฯ */
-                        'chula-dark-pink': '#D41A68', /* สีชมพูเข้ม/บานเย็น จุฬาฯ (อ้างอิงจากปุ่มในภาพ) */
-                        'red-cross': '#ED1C24',       /* สีแดงกาชาด */
-                        'gray-bg': '#F8F9FA'
-                    },
-                    fontFamily: {
-                        sans: ['Prompt', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #F8F9FA;
-        }
-        .card-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-        .hover-card-shadow:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-    </style>
-</head>
-<body class="text-gray-800 antialiased font-sans">
-
+<!-- ... existing code ... -->
     <!-- Header / Navbar -->
     <header class="bg-white shadow-sm border-b-4 border-chula-dark-pink sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-3">
-                    <!-- Logo Placeholder (Red Cross shape combined with medical cross) -->
-                    <div class="w-12 h-12 bg-red-cross text-white rounded-lg flex items-center justify-center font-bold text-2xl shadow-sm">
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
+                    <!-- แก้ไขตรงนี้: ใส่ไฟล์รูปโลโก้ของคุณที่ชื่อ LOGO -->
+                    <!-- ถ้าไฟล์ของคุณเป็น .jpg ให้เปลี่ยนจาก LOGO.png เป็น LOGO.jpg -->
+                    <img src="LOGO.png" alt="โลโก้" class="w-12 h-12 object-contain">
                     <div>
                         <h1 class="text-xl font-bold text-gray-900 leading-tight">ระบบรับสมัครแพทย์</h1>
                         <p class="text-sm text-chula-dark-pink font-medium">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
@@ -60,165 +15,21 @@
                 <div class="hidden md:flex space-x-6">
                     <a href="#" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หน้าแรก</a>
                     <a href="#announcements" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หลักสูตรที่เปิดเรียน</a>
-                    <a href="#announcements" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">ประกาศล่าสุด</a>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="py-10">
+    <main class="pb-10">
 
-        <!-- ข่าวประกาศรับสมัครล่าสุด (Latest Announcements) -->
-        <section id="announcements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-            
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-[#203a55] mb-4">ข่าวประกาศรับสมัครล่าสุด</h2>
-                <div class="w-20 h-1.5 bg-chula-dark-pink mx-auto"></div>
-            </div>
-
-            <!-- Grid ประกาศรับสมัคร -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Card 1 (Active) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <!-- Badge status -->
-                        <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-xs font-semibold px-3 py-1.5 rounded-full">
-                                กำลังเปิดรับสมัคร รอบ 2
-                            </span>
-                        </div>
-                        
-                        <!-- Title -->
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                            ศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า
-                        </h3>
-                        
-                        <!-- Year -->
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
-                        </div>
-                        
-                        <!-- Description -->
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรแพทย์ประจำบ้านต่อยอด (Fellowship) ด้านศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า
-                        </p>
-                    </div>
-                    
-                    <!-- Button -->
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
-                            สมัคร / อ่านรายละเอียด
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 2 (Closed) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
-                            </span>
-                        </div>
-                        
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                            โสตวิทยาและโสตประสาทวิทยา
-                        </h3>
-                        
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
-                        </div>
-                        
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            ประกาศนียบัตรวิชาชีพเวชกรรมด้านโสตวิทยาและโสตประสาทวิทยา จำนวน 2 ตำแหน่ง
-                        </p>
-                    </div>
-                    
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
-                            อ่านรายละเอียด
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 3 (Closed) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
-                            </span>
-                        </div>
-                        
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                            ศัลยศาสตร์กล่องเสียงและหลอดลม
-                        </h3>
-                        
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
-                        </div>
-                        
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านศัลยศาสตร์กล่องเสียงและหลอดลม จำนวน 1 ตำแหน่ง
-                        </p>
-                    </div>
-                    
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
-                            อ่านรายละเอียด
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 4 (Closed) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
-                            </span>
-                        </div>
-                        
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                            โสต ศอ นาสิกวิทยาการนอนหลับ
-                        </h3>
-                        
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
-                        </div>
-                        
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรแพทย์ประจำบ้านต่อยอด (Fellowship) ด้านการนอนหลับ (Sleep Medicine)
-                        </p>
-                    </div>
-                    
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
-                            อ่านรายละเอียด
-                        </button>
-                    </div>
-                </div>
-
-            </div>
+        <!-- เพิ่มส่วนแบนเนอร์ตรงนี้ -->
+        <section class="w-full h-64 md:h-[400px] bg-gray-200 relative">
+            <!-- ใส่ไฟล์รูปแบนเนอร์ของคุณตรงนี้ (แนะนำขนาด 1920x400) -->
+            <!-- ตัวอย่างใส่ URL ของภาพ Placeholder ไว้ก่อน คุณสามารถเปลี่ยนเป็นชื่อไฟล์ของคุณได้ เช่น src="banner.jpg" -->
+            <img src="https://placehold.co/1920x400/FF8FA3/FFFFFF?text=Header+Banner+(1920x400)" alt="แบนเนอร์" class="w-full h-full object-cover">
         </section>
 
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 pt-8 pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-             <div class="w-12 h-12 bg-red-cross text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-sm mb-4">
-                 <i class="fa-solid fa-plus"></i>
-             </div>
-             <p class="text-gray-500 text-sm">© 2026 ระบบรับสมัครแพทย์ประจำบ้านและแพทย์ต่อยอด</p>
-        </div>
-    </footer>
-
-</body>
-</html>
+        <!-- ข่าวประกาศรับสมัครล่าสุด (Latest Announcements) -->
+        <section id="announcements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+<!-- ... existing code ... -->
