@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -102,31 +102,36 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- Card 0 (New: ประกาศรับสมัครแพทย์ประจำบ้าน 2570) -->
+                <!-- Card 1: แพทย์ประจำบ้าน (Residency) -->
                 <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-2 ring-pink-100">
-                    <!-- ป้าย Highlight มุมขวาบน (NEW) -->
                     <div class="absolute top-0 right-0 bg-red-cross text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg z-10">
                         NEW
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <!-- ป้ายสถานะ พร้อมวันที่เปิดรับสมัคร -->
                             <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> เปิดรับ 1 - 31 ต.ค. 2569
                             </span>
                         </div>
                         
-                        <h3 class="text-xl font-bold text-gray-900 mb-2 leading-snug">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug">
                             แพทย์ประจำบ้าน (Residency)
                         </h3>
                         
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2570</span>
+                        <!-- Subtopic: ปีการศึกษา และ จำนวนรับ -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: รอระบุจำนวน</span>
+                            </div>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรการฝึกอบรมแพทย์เฉพาะทาง สาขาโสต ศอ นาสิกวิทยา (แพทย์ประจำบ้าน) ประจำปีการศึกษา 2570
+                            หลักสูตรการฝึกอบรมแพทย์เฉพาะทาง สาขาโสต ศอ นาสิกวิทยา (แพทย์ประจำบ้าน)
                         </p>
                     </div>
                     
@@ -137,22 +142,66 @@
                     </div>
                 </div>
 
-                <!-- Card 1 (Active) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full">
+                <!-- Card 2: นาสิกวิทยาและโรคภูมิแพ้ (รอประกาศ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-yellow-400 flex flex-col h-full">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-xs font-semibold px-3 py-1.5 rounded-full">
-                                กำลังเปิดรับสมัคร รอบ 2
+                            <span class="bg-yellow-50 text-yellow-700 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-yellow-200">
+                                <i class="fa-solid fa-hourglass-half mr-1"></i> รอประกาศวันในเร็วๆนี้
                             </span>
                         </div>
                         
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
+                            นาสิกวิทยาและโรคภูมิแพ้
+                        </h3>
+                        
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: รอระบุจำนวน</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-6 flex-grow">
+                            หลักสูตรการอบรมแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านนาสิกวิทยาและโรคภูมิแพ้
+                        </p>
+                    </div>
+                    
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-yellow-50 text-yellow-700 font-medium py-3 px-4 rounded-lg hover:bg-yellow-100 transition-colors">
+                            รอประกาศรายละเอียด
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: ศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า (ยังไม่เปิดรับ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <span class="bg-gray-100 text-gray-500 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
                             ศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า
                         </h3>
                         
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2570</span>
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: 1 ตำแหน่ง</span>
+                            </div>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
@@ -161,32 +210,39 @@
                     </div>
                     
                     <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
-                            สมัคร / อ่านรายละเอียด
+                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
+                            อ่านรายละเอียด
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 2 (Closed) -->
+                <!-- Card 4: โสตวิทยาและโสตประสาทวิทยา (ยังไม่เปิดรับ) -->
                 <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
+                            <span class="bg-gray-100 text-gray-500 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
                             </span>
                         </div>
                         
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
                             โสตวิทยาและโสตประสาทวิทยา
                         </h3>
                         
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2570</span>
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: 2 ตำแหน่ง</span>
+                            </div>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            ประกาศนียบัตรวิชาชีพเวชกรรมด้านโสตวิทยาและโสตประสาทวิทยา จำนวน 2 ตำแหน่ง
+                            ประกาศนียบัตรวิชาชีพเวชกรรมด้านโสตวิทยาและโสตประสาทวิทยา
                         </p>
                     </div>
                     
@@ -197,56 +253,107 @@
                     </div>
                 </div>
 
-                <!-- Card 3 (Closed) -->
+                <!-- Card 5: โสต ศอ นาสิกวิทยาการนอนหลับ (ยังไม่เปิดรับ) -->
                 <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
+                            <span class="bg-gray-100 text-gray-500 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
                             </span>
                         </div>
                         
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                            ศัลยศาสตร์กล่องเสียงและหลอดลม
-                        </h3>
-                        
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2570</span>
-                        </div>
-                        
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านศัลยศาสตร์กล่องเสียงและหลอดลม จำนวน 1 ตำแหน่ง
-                        </p>
-                    </div>
-                    
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
-                            อ่านรายละเอียด
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 4 (Closed) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="mb-4 inline-block">
-                            <span class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">
-                                ปิดรับสมัคร
-                            </span>
-                        </div>
-                        
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
                             โสต ศอ นาสิกวิทยาการนอนหลับ
                         </h3>
                         
-                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
-                            <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2570</span>
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: 1 ตำแหน่ง</span>
+                            </div>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
                             หลักสูตรแพทย์ประจำบ้านต่อยอด (Fellowship) ด้านการนอนหลับ (Sleep Medicine)
+                        </p>
+                    </div>
+                    
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
+                            อ่านรายละเอียด
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: ศัลยศาสตร์ศีรษะและลำคอ (ยังไม่เปิดรับ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <span class="bg-gray-100 text-gray-500 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
+                            ศัลยศาสตร์ศีรษะและลำคอ
+                        </h3>
+                        
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: รอระบุจำนวน</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-6 flex-grow">
+                            หลักสูตรแพทย์ประจำบ้านต่อยอด (Fellowship) ด้านศัลยศาสตร์ศีรษะและลำคอ
+                        </p>
+                    </div>
+                    
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed">
+                            อ่านรายละเอียด
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 7: ศัลยศาสตร์กล่องเสียงและหลอดลม (ยังไม่เปิดรับ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <span class="bg-gray-100 text-gray-500 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
+                            ศัลยศาสตร์กล่องเสียงและหลอดลม
+                        </h3>
+                        
+                        <!-- Subtopic -->
+                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                                <span>ปีการศึกษา 2570</span>
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                                <span>รับสมัคร: 1 ตำแหน่ง</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-6 flex-grow">
+                            หลักสูตรแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านศัลยศาสตร์กล่องเสียงและหลอดลม
                         </p>
                     </div>
                     
