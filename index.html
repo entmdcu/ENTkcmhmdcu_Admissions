@@ -65,30 +65,27 @@
     <!-- Main Content -->
     <main class="pb-10">
 
-        <!-- Hero Section (แทนที่ Banner รูปภาพ) -->
         <section class="bg-pink-50 py-16 px-4 border-b border-pink-100">
             <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
-                <!-- โลโก้ตรงกลาง -->
-                <div class="bg-white p-4 rounded-full shadow-md mb-6 inline-block">
-                    <img src="LOGO.png" alt="โลโก้ภาควิชา" class="w-28 h-28 object-contain" onerror="this.src='https://placehold.co/150x150/ED1C24/FFFFFF?text=Logo'">
-                </div>
+                <!-- โลโก้ตรงกลาง (เอาวงกลมออกและขยายให้ใหญ่ขึ้น) -->
+                <img src="LOGO.png" alt="โลโก้ภาควิชา" class="w-40 h-40 md:w-56 md:h-56 object-contain mb-8" onerror="this.src='https://placehold.co/200x200/ED1C24/FFFFFF?text=Logo'">
                 
-                <!-- หัวข้อหลัก -->
-                <h1 class="text-3xl md:text-4xl font-bold text-[#203a55] mb-4 leading-tight">
+                <!-- หัวข้อหลัก (เพิ่มขนาดตัวหนังสือ) -->
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-[#203a55] mb-5 leading-tight">
                     เว็บไซต์รับสมัครแพทย์
                 </h1>
                 
-                <!-- ชื่อภาควิชาและสถาบัน -->
-                <h2 class="text-xl md:text-2xl font-semibold text-chula-dark-pink mb-3">
+                <!-- ชื่อภาควิชาและสถาบัน (เพิ่มขนาดตัวหนังสือ) -->
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-chula-dark-pink mb-4">
                     ภาควิชาโสต ศอ นาสิกวิทยา
                 </h2>
-                <p class="text-lg text-gray-700 font-medium mb-8">
-                    คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย / โรงพยาบาลจุฬาลงกรณ์
+                <p class="text-xl md:text-2xl text-gray-700 font-medium mb-10">
+                    คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย<br class="md:hidden"> / โรงพยาบาลจุฬาลงกรณ์
                 </p>
                 
                 <!-- ป้ายปีที่รับสมัคร -->
-                <div class="inline-block bg-white border border-chula-pink rounded-full px-6 py-2 shadow-sm">
-                    <span class="text-chula-dark-pink font-bold text-lg">
+                <div class="inline-block bg-white border border-chula-pink rounded-full px-8 py-3 shadow-sm">
+                    <span class="text-chula-dark-pink font-bold text-xl">
                         <i class="fa-solid fa-bullhorn mr-2"></i> เปิดรับสมัครประจำปีการศึกษา 2570
                     </span>
                 </div>
@@ -103,9 +100,43 @@
                 <div class="w-20 h-1.5 bg-chula-dark-pink mx-auto"></div>
             </div>
 
-            <!-- Grid ประกาศรับสมัคร -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
+                <!-- Card 0 (New: ประกาศรับสมัครแพทย์ประจำบ้าน 2570) -->
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-2 ring-pink-100">
+                    <!-- ป้าย Highlight มุมขวาบน (NEW) -->
+                    <div class="absolute top-0 right-0 bg-red-cross text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg z-10">
+                        NEW
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <!-- ป้ายสถานะ พร้อมวันที่เปิดรับสมัคร -->
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                                <i class="fa-solid fa-clock mr-1"></i> เปิดรับ 1 - 31 ต.ค. 2569
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 leading-snug">
+                            แพทย์ประจำบ้าน (Residency)
+                        </h3>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
+                            <i class="fa-regular fa-calendar text-gray-400"></i>
+                            <span>ประจำปีการศึกษา 2570</span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-6 flex-grow">
+                            หลักสูตรการฝึกอบรมแพทย์เฉพาะทาง สาขาโสต ศอ นาสิกวิทยา (แพทย์ประจำบ้าน) ประจำปีการศึกษา 2570
+                        </p>
+                    </div>
+                    
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                            สมัคร / อ่านรายละเอียด
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Card 1 (Active) -->
                 <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full">
                     <div class="p-6 flex-grow flex flex-col">
