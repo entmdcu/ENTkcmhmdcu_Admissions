@@ -48,17 +48,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-3">
-                    <!-- ตรงนี้คือส่วนที่เรียกใช้ไฟล์ LOGO.png -->
-                    <!-- หมายเหตุ: หากไฟล์จริงชื่อ LOGO.jpg หรือนามสกุลอื่น ต้องเปลี่ยนชื่อใน src ให้ตรงกัน -->
                     <img src="LOGO.png" alt="โลโก้" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/100x100/ED1C24/FFFFFF?text=Logo'">
                     <div>
                         <h1 class="text-xl font-bold text-gray-900 leading-tight">ระบบรับสมัครแพทย์</h1>
-                        <p class="text-sm text-chula-dark-pink font-medium">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด ภาควิชาโสต ศอ นาสิกวิทยา </p>
+                        <p class="text-sm text-chula-dark-pink font-medium">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-6">
                     <a href="#" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หน้าแรก</a>
-                    <!-- เปลี่ยนคำจาก อนุสาขาที่เปิดรับ เป็น หลักสูตรที่เปิดเรียน -->
                     <a href="#announcements" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หลักสูตรที่เปิดเรียน</a>
                 </div>
             </div>
@@ -68,14 +65,38 @@
     <!-- Main Content -->
     <main class="pb-10">
 
-        <!-- ส่วนแบนเนอร์รูปภาพ (Header Banner) -->
-        <!-- แนะนำอัพโหลดไฟล์ภาพขนาด 1920x400 พิกเซล แล้วเปลี่ยน src="banner.jpg" ตรงด้านล่างนี้ -->
-        <section class="w-full h-64 md:h-[400px] bg-gray-200 relative">
-            <img src="https://placehold.co/1920x400/FF8FA3/FFFFFF?text=Header+Banner+(1920x400)" alt="แบนเนอร์" class="w-full h-full object-cover">
+        <!-- Hero Section (แทนที่ Banner รูปภาพ) -->
+        <section class="bg-pink-50 py-16 px-4 border-b border-pink-100">
+            <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+                <!-- โลโก้ตรงกลาง -->
+                <div class="bg-white p-4 rounded-full shadow-md mb-6 inline-block">
+                    <img src="LOGO.png" alt="โลโก้ภาควิชา" class="w-28 h-28 object-contain" onerror="this.src='https://placehold.co/150x150/ED1C24/FFFFFF?text=Logo'">
+                </div>
+                
+                <!-- หัวข้อหลัก -->
+                <h1 class="text-3xl md:text-4xl font-bold text-[#203a55] mb-4 leading-tight">
+                    เว็บไซต์รับสมัครแพทย์
+                </h1>
+                
+                <!-- ชื่อภาควิชาและสถาบัน -->
+                <h2 class="text-xl md:text-2xl font-semibold text-chula-dark-pink mb-3">
+                    ภาควิชาโสต ศอ นาสิกวิทยา
+                </h2>
+                <p class="text-lg text-gray-700 font-medium mb-8">
+                    คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย / โรงพยาบาลจุฬาลงกรณ์
+                </p>
+                
+                <!-- ป้ายปีที่รับสมัคร -->
+                <div class="inline-block bg-white border border-chula-pink rounded-full px-6 py-2 shadow-sm">
+                    <span class="text-chula-dark-pink font-bold text-lg">
+                        <i class="fa-solid fa-bullhorn mr-2"></i> เปิดรับสมัครประจำปีการศึกษา 2570
+                    </span>
+                </div>
+            </div>
         </section>
 
-        <!-- ข่าวประกาศรับสมัครล่าสุด (นำขึ้นมาก่อน ตามที่ต้องการ) -->
-        <section id="announcements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+        <!-- ข่าวประกาศรับสมัครล่าสุด -->
+        <section id="announcements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20">
             
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-[#203a55] mb-4">ข่าวประกาศรับสมัครล่าสุด</h2>
@@ -100,7 +121,7 @@
                         
                         <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
                             <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
+                            <span>ประจำปีการศึกษา 2570</span>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
@@ -130,7 +151,7 @@
                         
                         <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
                             <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
+                            <span>ประจำปีการศึกษา 2570</span>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
@@ -160,7 +181,7 @@
                         
                         <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
                             <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
+                            <span>ประจำปีการศึกษา 2570</span>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
@@ -190,7 +211,7 @@
                         
                         <div class="flex items-center text-sm text-gray-500 mb-4 gap-2">
                             <i class="fa-regular fa-calendar text-gray-400"></i>
-                            <span>ประจำปีการศึกษา 2569</span>
+                            <span>ประจำปีการศึกษา 2570</span>
                         </div>
                         
                         <p class="text-sm text-gray-600 mb-6 flex-grow">
@@ -216,7 +237,7 @@
              <div class="w-12 h-12 bg-red-cross text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-sm mb-4">
                  <i class="fa-solid fa-plus"></i>
              </div>
-             <p class="text-gray-500 text-sm">© 2026 ระบบรับสมัครแพทย์ประจำบ้านและแพทย์ต่อยอด</p>
+             <p class="text-gray-500 text-sm">© 2570 ภาควิชาโสต ศอ นาสิกวิทยา ระบบรับสมัครแพทย์ประจำบ้านและแพทย์ต่อยอด</p>
         </div>
     </footer>
 
