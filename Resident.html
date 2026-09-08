@@ -51,23 +51,29 @@
 <body class="bg-gray-50 text-gray-800 text-lg flex flex-col min-h-screen">
 
     <!-- Header / Navigation -->
-    <header class="bg-white shadow-sm border-b-4 border-chula-pink sticky top-0 z-50">
+    <header class="bg-white shadow-sm border-b-[3px] border-[#ce1255] sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <!-- สามารถใส่ Logo ของภาควิชาที่นี่ -->
-                <div class="w-10 h-10 bg-chula-pink rounded-full flex items-center justify-center text-white font-bold">
-                    <i class="fas fa-stethoscope"></i>
+            
+            <!-- ด้านซ้าย: โลโก้ และ ชื่อระบบ -->
+            <div class="flex items-center gap-4">
+                <!-- ส่วนรูปโลโก้ (นำแท็ก <img> จากไฟล์หน้าแรกมาใส่ทับส่วนนี้ได้เลยเพื่อให้รูปตรงกันเป๊ะ) -->
+                <div class="flex items-center gap-2">
+                    <img src="ใส่ลิงก์รูปโลโก้โรงพยาบาลจุฬา" alt="Chula Hospital" class="h-10 md:h-12 object-contain">
+                    <img src="ใส่ลิงก์รูปโลโก้คณะแพทย์" alt="MDCU" class="h-10 md:h-12 object-contain">
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold text-gray-800 leading-tight">ENT MDCU</h1>
-                    <p class="text-sm text-gray-500">ภาควิชาโสต ศอ นาสิกวิทยา จุฬาลงกรณ์มหาวิทยาลัย</p>
+                
+                <div class="flex flex-col">
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">ระบบรับสมัครแพทย์</h1>
+                    <p class="text-sm md:text-base font-semibold text-[#ce1255]">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
                 </div>
             </div>
-            <nav class="hidden md:flex gap-6">
-                <a href="#" class="text-gray-600 hover:text-chula-pink font-medium transition">หน้าแรก</a>
-                <a href="#" class="text-chula-pink font-bold transition">รับสมัครแพทย์ประจำบ้าน</a>
-                <a href="#" class="text-gray-600 hover:text-chula-pink font-medium transition">ติดต่อเรา</a>
+            
+            <!-- ด้านขวา: เมนู -->
+            <nav class="flex items-center gap-6">
+                <!-- ใส่ลิงก์กลับไปหน้าแรก -->
+                <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/" class="text-gray-500 hover:text-[#ce1255] font-bold text-lg transition-colors">หน้าแรก</a>
             </nav>
+            
         </div>
     </header>
 
