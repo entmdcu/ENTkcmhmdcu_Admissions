@@ -373,7 +373,7 @@
     </div>
 
     <!-- Javascript โลจิกของแบบฟอร์ม -->
-    <script>
+  <script>
         // ใส่ URL ของ Google Apps Script ของคุณ
         const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
@@ -395,6 +395,7 @@
                 tEdit.classList.remove('text-chula', 'border-chula');
                 
                 document.getElementById('submitBtn').innerText = 'บันทึกข้อมูลและส่งใบสมัคร';
+                document.getElementById('searchStatus').innerText = ''; // ล้างข้อความสถานะ
             } else {
                 editSection.classList.remove('hidden');
                 
@@ -406,6 +407,59 @@
                 
                 document.getElementById('submitBtn').innerText = 'อัปเดตข้อมูล';
             }
+        }
+
+        // ฟังก์ชันค้นหาข้อมูล
+        function searchData() {
+            const searchId = document.getElementById('searchId').value.trim();
+            const statusText = document.getElementById('searchStatus');
+
+            if(!searchId) {
+                statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
+                statusText.className = 'mt-3 font-medium text-red-500';
+                return;
+            }
+
+            statusText.innerText = 'กำลังค้นหาข้อมูล...';
+            statusText.className = 'mt-3 font-medium text-blue-500';
+
+            // ดึงข้อมูลผ่าน GET Request
+            fetch(`${SCRIPT_URL}?action=search&searchId=${encodeURIComponent(searchId)}`)
+            .then(response => response.json())
+            .then(result => {
+                if(result.status === 'success') {
+                    statusText.innerText = 'พบข้อมูล! ระบบได้เติมข้อมูลเดิมลงในฟอร์มแล้ว กรุณาแก้ไขข้อความด้านล่าง';
+                    statusText.className = 'mt-3 font-bold text-green-600';
+                    
+                    // นำข้อมูลไปใส่ในฟอร์ม
+                    populateForm(result.data);
+                } else {
+                    statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
+                    statusText.className = 'mt-3 font-medium text-red-500';
+                }
+            })
+            .catch(error => {
+                statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบหลังบ้าน';
+                statusText.className = 'mt-3 font-medium text-red-500';
+                console.error(error);
+            });
+        }
+
+        // ฟังก์ชันนำข้อมูลมาหยอดใส่ฟอร์ม
+        function populateForm(data) {
+            // เซ็ตรหัสอ้างอิงกลับเข้าไป
+            document.getElementById('appId').value = data.appId || '';
+            
+            // วนลูปนำข้อมูล (JSON) มาใส่ใน input/select ตามแอตทริบิวต์ name
+            Object.keys(data).forEach(key => {
+                const field = document.querySelector(`[name="${key}"]`);
+                if(field && field.type !== 'file') { // ไม่นำไฟล์เดิมมาแสดงในช่องอัปโหลด
+                    field.value = data[key];
+                }
+            });
+            
+            // เรียกฟังก์ชันเพื่ออัปเดตการแสดงผลช่องพิเศษ (เช่น กล่องชื่อต้นสังกัด)
+            toggleSponsor();
         }
 
         function copyAddress() {
@@ -438,9 +492,8 @@
                 input.classList.add('border-gray-300');
                 label.classList.remove('text-gray-400');
                 label.classList.add('text-gray-800');
-                input.focus();
             } else {
-                input.value = '';
+                if(input.value === '') input.value = ''; 
                 input.disabled = true;
                 input.classList.add('bg-gray-50', 'border-gray-200');
                 input.classList.remove('border-gray-300');
@@ -449,10 +502,38 @@
             }
         }
 
+        // โค้ดส่งฟอร์ม (รวมทั้งบันทึกใหม่และอัปเดต)
         function submitForm(event) {
             event.preventDefault();
-            alert("ระบบรวบรวมข้อมูลฟอร์มพร้อมส่งแล้ว (โปรดใส่ URL ของ Apps Script ก่อน)");
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
+            submitBtn.disabled = true;
+
+            const form = document.getElementById('applicationForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if(result.status === 'success') {
+                    alert(data.appId ? 'อัปเดตข้อมูลและเอกสารสำเร็จ!' : 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + result.id);
+                    if(!data.appId) form.reset(); // ล้างฟอร์มเฉพาะตอนสมัครใหม่
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                }
+            })
+            .catch(error => alert('ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'))
+            .finally(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            });
         }
     </script>
-</body>
 </html>
