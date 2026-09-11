@@ -291,7 +291,8 @@
                     <p class="text-gray-500 mt-2 text-base">รองรับไฟล์นามสกุล .pdf, .jpg, .png (หากต้องการเลือกหลายไฟล์ในช่องเดียวกัน ให้กดปุ่ม Ctrl หรือ Cmd ค้างไว้ขณะเลือกไฟล์)</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- เปลี่ยนเป็น space-y-4 เพื่อให้เรียงเป็นแถวเดียวลงมา -->
+                <div class="space-y-4">
                     
                     <!-- 1. บัตรประชาชน -->
                     <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
@@ -342,42 +343,25 @@
                     </div>
                     
                     <!-- 9. Portfolio -->
-                    <div class="md:col-span-2 p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
                         <label class="block font-bold mb-3 text-gray-800">9. Portfolio <span class="text-gray-500 font-normal text-sm">(จะมีหรือไม่มีก็ได้)</span></label>
                         <input type="file" name="filePortfolio" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
 
-                    <!-- 10 & 11 (MULTIPLE) - Highlighted Box -->
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
-                        
-                        <!-- 10. หนังสือรับรอง -->
-                        <div class="bg-pink-50 p-6 rounded-xl border border-pink-200 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-[#ce1255] text-white text-xs font-bold px-4 py-1.5 rounded-bl-lg shadow-sm">อัปโหลดได้หลายไฟล์</div>
-                            <label class="block font-bold text-chula mb-2 mt-3">10. หนังสือรับรอง/แนะนำผู้สมัคร <span class="text-gray-600 font-normal text-sm">(ถ้ามี)</span></label>
-                            <p class="text-sm text-pink-600 mb-4">กดปุ่ม Ctrl หรือ Cmd ค้างไว้เพื่อเลือกหลายไฟล์พร้อมกัน</p>
-                            <input type="file" name="fileRecLetter" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-[#ce1255] file:text-white hover:file:bg-pink-800 file:cursor-pointer cursor-pointer bg-white border border-pink-200 rounded-lg">
-                        </div>
-
-                        <!-- 11. ใบรับรองแพทย์ -->
-                        <div class="bg-pink-50 p-6 rounded-xl border border-pink-200 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-[#ce1255] text-white text-xs font-bold px-4 py-1.5 rounded-bl-lg shadow-sm">อัปโหลดได้หลายไฟล์</div>
-                            <label class="block font-bold text-chula mb-2 mt-3">11. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ</label>
-                            <p class="text-sm text-pink-600 mb-4">กดปุ่ม Ctrl หรือ Cmd ค้างไว้เพื่อเลือกหลายไฟล์พร้อมกัน</p>
-                            <input type="file" name="fileMedical" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-[#ce1255] file:text-white hover:file:bg-pink-800 file:cursor-pointer cursor-pointer bg-white border border-pink-200 rounded-lg">
-                        </div>
-                        
+                    <!-- 10. หนังสือรับรอง (MULTIPLE) -->
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">10. หนังสือรับรอง/แนะนำผู้สมัคร <span class="text-gray-500 font-normal text-sm">(ถ้ามี - สามารถเลือกได้หลายไฟล์)</span></label>
+                        <input type="file" name="fileRecLetter" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
+
+                    <!-- 11. ใบรับรองแพทย์ (MULTIPLE) -->
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">11. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ <span class="text-gray-500 font-normal text-sm">(สามารถเลือกได้หลายไฟล์)</span></label>
+                        <input type="file" name="fileMedical" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
+                    </div>
+                        
                 </div>
             </section>
-            <div class="pt-10 text-center border-t mt-10">
-                <button type="submit" id="submitBtn" class="bg-chula hover:bg-[#a00c40] text-white font-bold text-2xl py-5 px-14 rounded-xl shadow-lg transition-transform transform hover:scale-105 w-full md:w-auto">
-                    บันทึกข้อมูลและส่งใบสมัคร
-                </button>
-                <p class="text-gray-500 mt-5 font-medium">กรุณาตรวจสอบความถูกต้องก่อนกดส่งข้อมูล</p>
-            </div>
-        </form>
-    </div>
-
     <!-- Javascript โลจิกของแบบฟอร์ม -->
     <script>
         // ใส่ URL ของ Google Apps Script ของคุณ
