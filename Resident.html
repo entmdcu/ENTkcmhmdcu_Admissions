@@ -376,7 +376,7 @@
   <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDRRF5ou5Hk1teyYc6wB_a1ujzT7Weo9JJLaFLnroH4l18kcQBJzqs9JrphcOaVS_-/exec';
 
-        function switchTab(tab) {
+       function switchTab(tab) {
             const form = document.getElementById('applicationForm');
             const editSection = document.getElementById('section-edit');
             const tNew = document.getElementById('tab-new');
@@ -385,13 +385,12 @@
 
             if(tab === 'new') {
                 editSection.classList.add('hidden');
-                form.classList.remove('hidden'); // หน้าสมัครใหม่แสดงฟอร์มปกติ
+                form.classList.remove('hidden');
                 form.reset();
                 document.getElementById('appId').value = '';
                 
                 tNew.classList.add('text-chula', 'border-chula');
                 tNew.classList.remove('text-gray-500', 'border-transparent');
-                
                 tEdit.classList.add('text-gray-500', 'border-transparent');
                 tEdit.classList.remove('text-chula', 'border-chula');
                 
@@ -399,21 +398,19 @@
                 statusText.innerText = '';
             } else {
                 editSection.classList.remove('hidden');
-                form.classList.add('hidden'); // ซ่อนฟอร์มไว้ก่อน จนกว่าจะค้นหาเจอ
+                form.classList.add('hidden');
                 form.reset();
                 
                 tEdit.classList.add('text-chula', 'border-chula');
                 tEdit.classList.remove('text-gray-500', 'border-transparent');
-                
                 tNew.classList.add('text-gray-500', 'border-transparent');
                 tNew.classList.remove('text-chula', 'border-chula');
                 
-                document.getElementById('submitBtn').innerText = 'อัปเดตข้อมูล';
+                document.getElementById('submitBtn').innerText = 'ส่งข้อมูลการอัปเดต';
                 statusText.innerText = '';
             }
         }
 
-        // ฟังก์ชันค้นหาข้อมูล
         function searchData() {
             const searchId = document.getElementById('searchId').value.trim();
             const statusText = document.getElementById('searchStatus');
@@ -422,7 +419,7 @@
             if(!searchId) {
                 statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
                 statusText.className = 'mt-3 font-medium text-red-500';
-                form.classList.add('hidden'); // ซ่อนฟอร์มไว้ถ้ายังไม่กรอก
+                form.classList.add('hidden');
                 return;
             }
 
@@ -433,22 +430,19 @@
             .then(response => response.json())
             .then(result => {
                 if(result.status === 'success') {
-                    statusText.innerText = 'พบข้อมูล! แสดงฟอร์มด้านล่างเพื่อให้ท่านแก้ไข';
+                    statusText.innerText = 'พบข้อมูล! แสดงฟอร์มด้านล่างเพื่อให้ท่านแก้ไข (ข้อมูลไฟล์เอกสารเดิมจะถูกจัดเก็บไว้แล้ว หากต้องการเพิ่มสามารถอัปโหลดไฟล์ใหม่ได้)';
                     statusText.className = 'mt-3 font-bold text-green-600';
-                    
-                    // นำข้อมูลใส่ฟอร์มและ "แสดงฟอร์มขึ้นมา"
                     populateForm(result.data);
                     form.classList.remove('hidden'); 
                 } else {
                     statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
                     statusText.className = 'mt-3 font-medium text-red-500';
-                    form.classList.add('hidden'); // ซ่อนฟอร์มถ้าหาไม่พบ
+                    form.classList.add('hidden');
                 }
             })
             .catch(error => {
-                statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบหลังบ้าน';
+                statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบ';
                 statusText.className = 'mt-3 font-medium text-red-500';
-                console.error(error);
             });
         }
 
@@ -463,21 +457,80 @@
             toggleSponsor();
         }
 
+        // ฟังก์ชันอ่านไฟล์เป็น Base64
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'กำลังอัปโหลดไฟล์และประมวลผล (กรุณารอสักครู่)...';
+            submitBtn.disabled = true;
+
+            try {
+                const form = document.getElementById('applicationForm');
+                const formData = new FormData(form);
+                const data = { files: [] };
+                
+                // ดึงข้อมูล Text และ File แยกกัน
+                for (const [key, value] of formData.entries()) {
+                    if (value instanceof File && value.name !== "") {
+                        const base64 = await readFileAsBase64(value);
+                        data.files.push({
+                            field: key,
+                            name: value.name,
+                            mimeType: value.type,
+                            base64: base64
+                        });
+                    } else if (!(value instanceof File)) {
+                        data[key] = value;
+                    }
+                }
+
+                // ส่งไปที่ Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                
+                const result = await response.json();
+                
+                if(result.status === 'success') {
+                    alert(data.appId ? 'อัปเดตข้อมูลและส่งสำเนา PDF สำเร็จ!' : 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + result.id);
+                    if(!data.appId) form.reset();
+                    else document.getElementById('searchStatus').innerText = 'ข้อมูลของคุณถูกอัปเดตเรียบร้อยแล้ว';
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('เกิดข้อผิดพลาดในการส่งข้อมูล ไฟล์อาจมีขนาดใหญ่เกินไป');
+            } finally {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        // ... ฟังก์ชัน copyAddress และ toggleSponsor (ใช้ของเดิมที่เคยให้ไป)
         function copyAddress() {
             const isChecked = document.getElementById('sameAddress').checked;
             const fields = ['no', 'village', 'moo', 'road', 'subdist', 'dist', 'prov', 'zip'];
-            
             fields.forEach(field => {
                 const target = document.getElementById('addr2_' + field);
                 if(isChecked) {
-                    const source = document.querySelector(`input[name="addr1_${field}"]`).value;
-                    target.value = source;
-                    target.readOnly = true;
-                    target.classList.add('bg-gray-100');
+                    target.value = document.querySelector(`input[name="addr1_${field}"]`).value;
+                    target.readOnly = true; target.classList.add('bg-gray-100');
                 } else {
-                    target.value = '';
-                    target.readOnly = false;
-                    target.classList.remove('bg-gray-100');
+                    target.value = ''; target.readOnly = false; target.classList.remove('bg-gray-100');
                 }
             });
         }
@@ -486,53 +539,14 @@
             const status = document.getElementById('hasSponsor').value;
             const input = document.getElementById('sponsorName');
             const label = document.getElementById('sponsorLabel');
-            
             if(status === 'มี') {
-                input.disabled = false;
-                input.classList.remove('bg-gray-50', 'border-gray-200');
-                input.classList.add('border-gray-300');
-                label.classList.remove('text-gray-400');
-                label.classList.add('text-gray-800');
+                input.disabled = false; input.classList.remove('bg-gray-50', 'border-gray-200'); input.classList.add('border-gray-300');
+                label.classList.remove('text-gray-400'); label.classList.add('text-gray-800');
             } else {
                 if(input.value === '') input.value = ''; 
-                input.disabled = true;
-                input.classList.add('bg-gray-50', 'border-gray-200');
-                input.classList.remove('border-gray-300');
-                label.classList.add('text-gray-400');
-                label.classList.remove('text-gray-800');
+                input.disabled = true; input.classList.add('bg-gray-50', 'border-gray-200'); input.classList.remove('border-gray-300');
+                label.classList.add('text-gray-400'); label.classList.remove('text-gray-800');
             }
-        }
-
-        function submitForm(event) {
-            event.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.innerText;
-            submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
-            submitBtn.disabled = true;
-
-            const form = document.getElementById('applicationForm');
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-            })
-            .then(response => response.json())
-            .then(result => {
-                if(result.status === 'success') {
-                    alert(data.appId ? 'อัปเดตข้อมูลและเอกสารสำเร็จ!' : 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + result.id);
-                    if(!data.appId) form.reset();
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
-                }
-            })
-            .catch(error => alert('ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'))
-            .finally(() => {
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
-            });
         }
     </script>
 </html>
