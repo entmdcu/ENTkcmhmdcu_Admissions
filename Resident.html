@@ -1,331 +1,137 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รับสมัครแพทย์ประจำบ้าน - ENT MDCU</title>
+    <title>ระบบรับสมัครแพทย์ประจำบ้าน - ENT MDCU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        chula: {
-                            pink: '#fe80a4',
-                            dark: '#e05c86',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Sarabun', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { 
-            font-family: 'Sarabun', sans-serif; 
-        }
-        /* Timeline Line */
-        .timeline-line::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 20px;
-            width: 3px;
-            background: #e5e7eb;
-            z-index: 0;
-        }
-        @media (min-width: 768px) {
-            .timeline-line::before {
-                left: 50%;
-                margin-left: -1.5px;
-            }
-        }
-    </style>
+    <style> body { font-family: 'Sarabun', sans-serif; } </style>
 </head>
-<body class="bg-gray-50 text-gray-800 text-lg flex flex-col min-h-screen">
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- Header / Navigation -->
-    <header class="bg-white shadow-sm border-b-[3px] border-[#ce1255] sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            
-            <!-- ด้านซ้าย: โลโก้ และ ชื่อระบบ -->
-            <div class="flex items-center gap-4">
-                <!-- ส่วนรูปโลโก้ (นำแท็ก <img> จากไฟล์หน้าแรกมาใส่ทับส่วนนี้ได้เลยเพื่อให้รูปตรงกันเป๊ะ) -->
-                <div class="flex items-center gap-2">
-                    <img src="LOGO.png" alt="โลโก้" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/100x100/ED1C24/FFFFFF?text=Logo'">
-                    
-                </div>
-                
-                <div class="flex flex-col">
-                    <h1 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">ระบบรับสมัครแพทย์</h1>
-                    <p class="text-sm md:text-base font-semibold text-[#ce1255]">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
-                </div>
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-3xl font-bold text-center mb-2 text-[#ce1255]">ใบสมัครแพทย์ประจำบ้าน ประจำปีการศึกษา 2570</h1>
+        <p class="text-center text-gray-600 mb-8">ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
+
+        <!-- Tabs -->
+        <div class="flex border-b mb-6">
+            <button onclick="switchTab('new')" class="py-2 px-4 text-[#ce1255] border-b-2 border-[#ce1255] font-bold" id="tab-new">กรอกใบสมัครใหม่</button>
+            <button onclick="switchTab('edit')" class="py-2 px-4 text-gray-500 hover:text-[#ce1255]" id="tab-edit">แก้ไข/แนบเอกสารเพิ่มเติม</button>
+        </div>
+
+        <!-- Section: ค้นหาข้อมูล (ซ่อนไว้เป็นค่าเริ่มต้น) -->
+        <div id="section-edit" class="hidden bg-white p-6 rounded-lg shadow-sm border mb-6">
+            <h2 class="text-xl font-bold mb-4">ค้นหาข้อมูลผู้สมัคร</h2>
+            <div class="flex gap-4">
+                <input type="text" id="searchId" placeholder="กรอกรหัสผู้สมัคร เช่น ENT70-01/2570" class="flex-1 border p-2 rounded">
+                <button onclick="searchData()" class="bg-[#ce1255] text-white px-6 py-2 rounded">ค้นหา</button>
             </div>
+            <p id="searchStatus" class="text-sm text-red-500 mt-2"></p>
+        </div>
+
+        <!-- ฟอร์มรับสมัคร -->
+        <form id="applicationForm" class="bg-white p-8 rounded-lg shadow-sm border space-y-8" onsubmit="submitForm(event)">
             
-            <!-- ด้านขวา: เมนู -->
-            <nav class="flex items-center gap-6">
-                <!-- ใส่ลิงก์กลับไปหน้าแรก -->
-                <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/" class="text-gray-500 hover:text-[#ce1255] font-bold text-lg transition-colors">หน้าแรก</a>
-            </nav>
+            <!-- 1. ข้อมูลส่วนตัว -->
+            <section>
+                <h2 class="text-xl font-bold border-b pb-2 mb-4 text-[#ce1255]">1. ข้อมูลส่วนตัว</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block mb-1">ชื่อ - สกุล (ภาษาไทย)</label><input type="text" name="nameTh" required class="w-full border p-2 rounded"></div>
+                    <div><label class="block mb-1">ชื่อ - สกุล (อังกฤษ)</label><input type="text" name="nameEn" required class="w-full border p-2 rounded"></div>
+                    <div><label class="block mb-1">เลขประจำตัวประชาชน</label><input type="text" name="idCard" required class="w-full border p-2 rounded"></div>
+                    <div><label class="block mb-1">E-mail (สำหรับรับ PDF)</label><input type="email" name="email" required class="w-full border p-2 rounded"></div>
+                </div>
+            </section>
+
+            <!-- 5. ประวัติการศึกษา -->
+            <section>
+                <h2 class="text-xl font-bold border-b pb-2 mb-4 text-[#ce1255]">5. ประวัติการศึกษา และคุณวุฒิทางการศึกษา</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block mb-1">สถาบันที่สำเร็จการศึกษา</label><input type="text" name="medSchool" class="w-full border p-2 rounded"></div>
+                    <div><label class="block mb-1">เกรดเฉลี่ย</label><input type="number" step="0.01" name="gpa" class="w-full border p-2 rounded"></div>
+                </div>
+                <div class="mt-4 p-4 bg-gray-50 rounded">
+                    <p class="font-bold mb-2">ผลการสอบ ศรว.</p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block mb-1 text-sm">ขั้นตอนที่ 1</label>
+                            <select name="nl1" class="w-full border p-2 rounded"><option value="ผ่าน">ผ่าน</option><option value="ไม่ผ่าน">ไม่ผ่าน</option></select>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-sm">ขั้นตอนที่ 2</label>
+                            <select name="nl2" class="w-full border p-2 rounded"><option value="ผ่าน">ผ่าน</option><option value="ไม่ผ่าน">ไม่ผ่าน</option></select>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-sm">ขั้นตอนที่ 3 OSCE</label>
+                            <select name="nl3" class="w-full border p-2 rounded"><option value="ผ่าน">ผ่าน</option><option value="ไม่ผ่าน">ไม่ผ่าน</option></select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. สถาบันที่ต้องการสมัคร -->
+            <section>
+                <h2 class="text-xl font-bold border-b pb-2 mb-4 text-[#ce1255]">7. เลือกสถาบันฝึกอบรม (เลือกได้สูงสุด 5 อันดับ)</h2>
+                <div id="choices-container" class="space-y-3">
+                    <!-- ตัวอย่างลำดับที่ 1 -->
+                    <div>
+                        <label class="block mb-1">ลำดับที่ 1</label>
+                        <select name="choice1" class="w-full border p-2 rounded">
+                            <option value="">-- เลือกสถาบัน --</option>
+                            <option value="คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย">1. คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</option>
+                            <option value="คณะแพทยศาสตร์ ศิริราชพยาบาล">2. คณะแพทยศาสตร์ ศิริราชพยาบาล</option>
+                            <option value="คณะแพทยศาสตร์ โรงพยาบาลรามาธิบดี">3. คณะแพทยศาสตร์ โรงพยาบาลรามาธิบดี</option>
+                            <option value="วิทยาลัยแพทยศาสตร์พระมงกุฎเกล้า">4. วิทยาลัยแพทยศาสตร์พระมงกุฎเกล้า</option>
+                            <option value="คณะแพทยศาสตร์วชิรพยาบาล">5. คณะแพทยศาสตร์วชิรพยาบาล</option>
+                            <!-- นำรายชื่อทั้ง 12 สถาบันมาใส่ให้ครบ -->
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- เอกสารแนบ -->
+            <section>
+                <h2 class="text-xl font-bold border-b pb-2 mb-4 text-[#ce1255]">อัปโหลดเอกสาร (PDF หรือรูปภาพ)</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block mb-1">1. ใบอนุญาตประกอบวิชาชีพเวชกรรม</label>
+                        <input type="file" name="fileLicense" accept=".pdf,.jpg,.jpeg,.png" class="w-full">
+                    </div>
+                    <div>
+                        <label class="block mb-1">2. ใบแสดงผลการศึกษา (Transcript)</label>
+                        <input type="file" name="fileTranscript" accept=".pdf,.jpg,.jpeg,.png" class="w-full">
+                    </div>
+                </div>
+            </section>
+
+            <input type="hidden" name="appId" id="appId" value="">
             
-        </div>
-    </header>
+            <button type="submit" id="submitBtn" class="w-full bg-[#ce1255] hover:bg-pink-700 text-white font-bold py-3 rounded-lg mt-6">
+                ส่งใบสมัคร
+            </button>
+        </form>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-10 flex-grow"> 
-        
-        <!-- Title Section -->
-        <div class="text-center mb-12 mt-4">
-            <span class="bg-pink-100 text-pink-700 font-semibold px-4 py-1.5 rounded-full text-sm mb-4 inline-block">Admissions 2569</span>
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-3 mt-3">รับสมัครแพทย์ประจำบ้าน</h1>
-            <p class="text-xl md:text-2xl text-gray-600">สาขาโสต ศอ นาสิกวิทยา ประจำปีการศึกษา 2569</p>
-            <div class="h-1.5 w-24 bg-chula-pink mx-auto mt-6 rounded-full"></div>
-        </div>
+    <script>
+        // URL ของ Google Apps Script Web App ที่เราจะนำมาใส่ทีหลัง
+        const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
-        <div class="flex flex-col lg:flex-row gap-8">
-            
-            <!-- Left Column: Details -->
-            <div class="lg:w-2/3 space-y-10">
-                
-                <!-- Section 1: 2-Step Process Overview -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 border-l-4 border-chula-pink relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-pink-100 text-pink-700 text-sm font-bold px-4 py-1.5 rounded-bl-lg shadow-sm">สำคัญ</div>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center border-b pb-4">
-                        <span class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4 text-xl"><i class="fas fa-list-ol"></i></span>
-                        ขั้นตอนการสมัคร (2 ขั้นตอนหลัก)
-                    </h2>
-                    
-                    <div class="space-y-10">
-                        <!-- Step 1 -->
-                        <div class="flex gap-5 group">
-                            <div class="flex-shrink-0 w-12 h-12 bg-chula-pink text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md group-hover:scale-110 transition-transform">1</div>
-                            <div class="flex-grow">
-                                <h3 class="font-bold text-xl text-gray-800 mb-3">สมัครผ่านเว็บไซต์แพทยสภา</h3>
-                                <p class="text-gray-700 leading-relaxed mb-4 text-base">
-                                    กรอกใบสมัครด้วยตนเองทางเว็บไซต์ 
-                                    <a href="https://www.tmc.or.th/tcgme/Pages/SelectTier" target="_blank" class="text-pink-600 font-semibold hover:underline inline-flex items-center text-lg transition">
-                                        “ศูนย์เวชบัณฑิตศึกษาแห่งประเทศ” <i class="fas fa-external-link-alt ml-2 text-sm"></i>
-                                    </a>
-                                </p>
-                                <div class="bg-pink-50 p-6 rounded-xl text-base text-gray-700 border border-pink-100">
-                                    <ul class="space-y-3">
-                                        <li class="flex items-start">
-                                            <i class="fas fa-calendar-check text-chula-pink mt-1.5 mr-3 text-lg"></i>
-                                            <span>เข้าสู่ระบบด้วยบัญชี <strong>MD eService</strong> ภายในวันที่ <strong class="text-pink-700 text-xl">31 ตุลาคม 2568</strong></span>
-                                        </li>
-                                        <li class="flex items-start text-sm md:text-base text-gray-600 ml-8">
-                                            <i class="fas fa-info-circle mt-1 mr-2 text-gray-400"></i>
-                                            <span>กรณีไม่มีบัญชี ให้เลือก “สร้างบัญชี MD eService” (แถบสีส้ม)</span>
-                                        </li>
-                                        <li class="flex items-start text-sm md:text-base text-gray-600 ml-8">
-                                            <i class="fas fa-phone-alt mt-1 mr-2 text-gray-400"></i>
-                                            <span>ติดปัญหาลงทะเบียน โทร. 0-2590-1887 (แพทยสภา)</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+        function switchTab(tab) {
+            if(tab === 'new') {
+                document.getElementById('section-edit').classList.add('hidden');
+                document.getElementById('applicationForm').reset();
+                document.getElementById('appId').value = '';
+                document.getElementById('tab-new').classList.add('text-[#ce1255]', 'border-b-2', 'border-[#ce1255]', 'font-bold');
+                document.getElementById('tab-edit').classList.remove('text-[#ce1255]', 'border-b-2', 'border-[#ce1255]', 'font-bold');
+            } else {
+                document.getElementById('section-edit').classList.remove('hidden');
+                document.getElementById('tab-edit').classList.add('text-[#ce1255]', 'border-b-2', 'border-[#ce1255]', 'font-bold');
+                document.getElementById('tab-new').classList.remove('text-[#ce1255]', 'border-b-2', 'border-[#ce1255]', 'font-bold');
+            }
+        }
 
-                        <!-- Step 2 -->
-                        <div class="flex gap-5 group">
-                            <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md group-hover:scale-110 transition-transform">2</div>
-                            <div class="flex-grow">
-                                <h3 class="font-bold text-xl text-gray-800 mb-3">สมัครเข้าภาควิชาฯ (จุฬาลงกรณ์มหาวิทยาลัย)</h3>
-                                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 text-gray-700 text-base">
-                                    <p class="leading-relaxed mb-3">
-                                        หลังจากสมัครกับแพทยสภาแล้ว ต้อง <a href="https://docs.google.com/forms/d/e/1FAIpQLSd9MG4S8_3E4GDHbT6gTBJ5_VZYUJgTBj64DlYah6PlND05OA/viewform" target="_blank" class="text-blue-700 font-bold hover:underline text-lg transition">กรอกแบบฟอร์มลงทะเบียนเพิ่มเติม</a> ของภาควิชาโสต ศอ นาสิกวิทยา จุฬาฯ
-                                    </p>
-                                    <ul class="list-disc list-inside space-y-2 ml-2">
-                                        <li>กรอกข้อมูลให้ครบถ้วน</li>
-                                        <li><strong>อัปโหลดเอกสาร</strong> ผ่านแบบฟอร์มออนไลน์เท่านั้น (ไม่ต้องส่งเอกสารตัวจริง)</li>
-                                        <li>ดูรายการเอกสารที่ต้องใช้ด้านล่าง</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 2: Important Dates -->
-                <div class="relative py-6">
-                    <h2 class="text-3xl font-bold text-center mb-12">กำหนดการสำคัญ</h2>
-                    <div class="timeline-line relative max-w-3xl mx-auto space-y-10">
-                        
-                        <!-- Timeline Item 1 -->
-                        <div class="relative flex items-center md:justify-between group">
-                            <div class="hidden md:block w-5/12 text-right pr-10">
-                                <h3 class="text-xl font-bold text-pink-600">เปิดรับสมัคร</h3>
-                                <p class="text-gray-500 text-base">ยื่นเอกสารทั้ง 2 ระบบ</p>
-                            </div>
-                            <div class="absolute left-0 md:left-1/2 w-10 h-10 bg-chula-pink rounded-full border-4 border-white shadow flex items-center justify-center text-white z-10 md:-ml-5"><i class="fas fa-calendar-alt text-sm"></i></div>
-                            <div class="pl-16 md:pl-10 w-full md:w-5/12">
-                                <span class="text-base font-bold bg-pink-100 text-pink-800 px-4 py-1.5 rounded-full shadow-sm">1 - 31 ต.ค. 2568</span>
-                                <div class="md:hidden mt-2">
-                                    <h3 class="font-bold text-lg">เปิดรับสมัคร</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Timeline Item 2 -->
-                        <div class="relative flex items-center md:justify-between group">
-                            <div class="hidden md:block w-5/12 text-right pr-10">
-                                <span class="text-base font-bold bg-blue-100 text-blue-800 px-4 py-1.5 rounded-full shadow-sm">14 พ.ย. 2568 (โดยประมาณ)</span>
-                            </div>
-                            <div class="absolute left-0 md:left-1/2 w-10 h-10 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-500 z-10 md:-ml-5 font-bold"><i class="fas fa-phone text-sm"></i></div>
-                            <div class="pl-16 md:pl-10 w-full md:w-5/12">
-                                <h3 class="text-xl font-bold text-gray-800">ยืนยันสิทธิ์สัมภาษณ์</h3>
-                                <p class="text-gray-500 text-base">ภาควิชาฯ จะติดต่อยืนยันทางโทรศัพท์</p>
-                                <div class="md:hidden mt-2 mb-2">
-                                    <span class="text-sm font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full">~1 สัปดาห์ก่อนสัมภาษณ์</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Timeline Item 3 -->
-                        <div class="relative flex items-center md:justify-between group">
-                            <div class="hidden md:block w-5/12 text-right pr-10">
-                                <h3 class="text-xl font-bold text-gray-800">วันสอบสัมภาษณ์</h3>
-                                <p class="text-gray-500 text-base">อาคารรัตนวิทยาพัฒน์ ชั้น 17 โซนเอ</p>
-                            </div>
-                            <div class="absolute left-0 md:left-1/2 w-10 h-10 bg-white border-2 border-green-500 rounded-full flex items-center justify-center text-green-500 z-10 md:-ml-5 font-bold"><i class="fas fa-user-tie text-sm"></i></div>
-                            <div class="pl-16 md:pl-10 w-full md:w-5/12">
-                                <span class="text-base font-bold bg-green-100 text-green-800 px-4 py-1.5 rounded-full shadow-sm">ศุกร์ที่ 21 พ.ย. 2568</span>
-                                <div class="md:hidden mt-2">
-                                    <h3 class="font-bold text-lg">สอบสัมภาษณ์</h3>
-                                    <p class="text-gray-500 text-sm">ณ โรงพยาบาลจุฬาลงกรณ์</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Section 3: Document Checklist (Detailed) -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center border-b pb-4">
-                        <span class="bg-yellow-100 text-yellow-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4 text-xl"><i class="fas fa-file-upload"></i></span>
-                        เอกสารประกอบการสมัคร (อัปโหลดออนไลน์)
-                    </h2>
-                    
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 mb-8 text-base text-yellow-800 rounded-r-lg">
-                        <i class="fas fa-exclamation-triangle mr-2 text-xl align-middle"></i>
-                        ผู้สมัครต้องอัปโหลดไฟล์เอกสารผ่านแบบฟอร์มรับสมัครออนไลน์เท่านั้น <strong>ไม่ต้องส่งเอกสารตัวจริง</strong>
-                    </div>
-
-                    <div class="grid md:grid-cols-1 gap-4 text-base text-gray-700">
-                        <!-- รายการเอกสาร -->
-                        <div class="space-y-3">
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed"><strong>ใบสมัคร</strong> พร้อมติดรูปถ่ายหน้าตรง ขนาด 2 นิ้ว (ถ่ายไม่เกิน 6 เดือน) 1 รูป</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">สำเนาบัตรประจำตัวประชาชน</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">สำเนาใบเปลี่ยนชื่อ–สกุล / ใบทะเบียนสมรส (ถ้ามี)</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม หรือหนังสือรับรองการขึ้นทะเบียน</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">สำเนาประกาศนียบัตร หรือหนังสือรับรองการผ่านโครงการเพิ่มพูนทักษะ (เฉพาะผู้ได้รับใบอนุญาตฯ ตั้งแต่ พ.ศ. 2538)</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">หนังสือจากต้นสังกัด อนุมัติให้เข้าฝึกอบรม (เฉพาะผู้มีต้นสังกัด)</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">หนังสือรับรอง/แนะนำผู้สมัคร (ถ้ามี)</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">ใบแสดงผลการศึกษา (Transcript) แพทยศาสตร์</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">เอกสารผลคะแนน ศรว. (NL)</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ</span>
-                            </label>
-                            <label class="flex items-start p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-pink-50 hover:border-pink-200 transition">
-                                <input type="checkbox" class="mt-1.5 mr-4 w-5 h-5 text-chula-pink rounded focus:ring-pink-500" disabled checked>
-                                <span class="leading-relaxed">ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Sidebar / Action -->
-            <div class="lg:w-1/3 space-y-8">
-                
-                <!-- Action Card -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg border-t-8 border-chula-pink sticky top-24">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">ดำเนินการสมัคร</h3>
-                    
-                    <a href="https://drive.google.com/file/d/1hcnjzZcIq2nSXEin3o0aIWZQ1jW9tmUk/view" target="_blank" class="block w-full bg-white border-2 border-chula-pink text-pink-600 hover:bg-pink-50 font-bold py-4 px-6 rounded-xl text-center transition mb-4 shadow-sm hover:shadow-md decoration-none text-lg">
-                        <i class="fas fa-file-download mr-2"></i> ดาวน์โหลดใบสมัคร (PDF)
-                    </a>
-
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd9MG4S8_3E4GDHbT6gTBJ5_VZYUJgTBj64DlYah6PlND05OA/viewform" target="_blank" class="block w-full bg-chula-pink hover:bg-pink-500 text-white font-bold py-4 px-6 rounded-xl text-center transition mb-4 shadow-md hover:shadow-lg decoration-none text-lg">
-                        <i class="fas fa-edit mr-2"></i> กรอกใบสมัครออนไลน์
-                    </a>
-                    
-                    <!-- Post-Submission Info -->
-                    <div class="bg-gray-50 rounded-xl p-5 text-base text-gray-700 mb-8 border border-gray-100">
-                        <h4 class="font-bold text-gray-800 mb-3 text-lg"><i class="fas fa-envelope-open-text mr-2 text-chula-pink"></i> หลังส่งใบสมัคร</h4>
-                        <ul class="space-y-3 list-disc list-inside">
-                            <li>ระบบจะส่งอีเมลยืนยันการสมัครอัตโนมัติ</li>
-                            <li>หากต้องการแก้ไขข้อมูล ให้กดปุ่ม <strong>"แก้ไขการตอบกลับ"</strong> ในอีเมลยืนยัน</li>
-                        </ul>
-                    </div>
-
-                    <hr class="my-8 border-gray-100">
-
-                    <div class="space-y-6">
-                        <h4 class="font-bold text-gray-700 border-l-4 border-chula-pink pl-3 text-xl">สอบถามเพิ่มเติม</h4>
-                        <div class="flex items-start text-gray-600">
-                            <div class="w-10 h-10 bg-pink-50 rounded-full flex items-center justify-center mr-4 text-chula-pink flex-shrink-0 mt-1"><i class="fas fa-phone text-lg"></i></div>
-                            <div>
-                                <p class="text-lg font-bold text-gray-800">02-256-4000</p>
-                                <p class="text-sm">ต่อ 61724 (คุณเกศแก้ว)</p>
-                                <p class="text-sm">ต่อ 61721 (คุณสุธี)</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center text-gray-600">
-                            <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center mr-4 text-gray-500 flex-shrink-0"><i class="fas fa-envelope text-lg"></i></div>
-                            <div>
-                                <p class="text-base font-medium">entmdcu@gmail.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-300 py-8 mt-12 w-full">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2 font-semibold">ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
-            <p class="text-sm text-gray-400">อาคารรัตนวิทยาพัฒน์ ชั้น17 โซน A โรงพยาบาลจุฬาลงกรณ์ สภากาชาดไทย ถนนพระราม 4 เขตปทุมวัน กรุงเทพฯ 10330</p>
-        </div>
-    </footer>
-
+        // โค้ดสำหรับดึงข้อมูลและส่งข้อมูลจะถูกเขียนเชื่อมกับ Apps Script ที่นี่
+    </script>
 </body>
 </html>
