@@ -284,85 +284,86 @@
                 </script>
             </section>
 
-            <input type="hidden" name="appId" id="appId" value="">
-<!-- 8. เอกสารแนบ (อัปโหลด) -->
+           <!-- 8. เอกสารแนบ (อัปโหลด) -->
             <section>
                 <div class="border-b-2 border-pink-100 pb-2 mb-6">
                     <h2 class="text-3xl font-bold text-chula">8. อัปโหลดเอกสารประกอบการสมัคร</h2>
                     <p class="text-gray-500 mt-2 text-base">รองรับไฟล์นามสกุล .pdf, .jpg, .png (หากต้องการเลือกหลายไฟล์ในช่องเดียวกัน ให้กดปุ่ม Ctrl หรือ Cmd ค้างไว้ขณะเลือกไฟล์)</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     
                     <!-- 1. บัตรประชาชน -->
-                    <div>
-                        <label class="block font-semibold mb-2">1. สำเนาบัตรประจำตัวประชาชน</label>
-                        <input type="file" name="fileIdCard" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">1. สำเนาบัตรประจำตัวประชาชน</label>
+                        <input type="file" name="fileIdCard" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
                     
                     <!-- 2. เปลี่ยนชื่อ (ถ้ามี) -->
-                    <div>
-                        <label class="block font-semibold mb-2">2. สำเนาใบเปลี่ยนชื่อ-สกุล / ใบทะเบียนสมรส <span class="text-gray-500 font-normal">(ถ้ามี)</span></label>
-                        <input type="file" name="fileNameChange" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">2. สำเนาใบเปลี่ยนชื่อ-สกุล / ใบทะเบียนสมรส <span class="text-gray-500 font-normal text-sm">(ถ้ามี)</span></label>
+                        <input type="file" name="fileNameChange" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
                     
                     <!-- 3. ใบประกอบวิชาชีพ -->
-                    <div>
-                        <label class="block font-semibold mb-2">3. สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม / หนังสือรับรอง</label>
-                        <input type="file" name="fileLicense" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">3. สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม / หนังสือรับรอง</label>
+                        <input type="file" name="fileLicense" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
                     
                     <!-- 4. เพิ่มพูนทักษะ -->
-                    <div>
-                        <label class="block font-semibold mb-2">4. สำเนาประกาศนียบัตร / ใบรับรองผ่านเพิ่มพูนทักษะ</label>
-                        <input type="file" name="fileIntern" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">4. สำเนาประกาศนียบัตร / ใบรับรองผ่านเพิ่มพูนทักษะ</label>
+                        <input type="file" name="fileIntern" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
 
                     <!-- 5. ต้นสังกัด -->
-                    <div>
-                        <label class="block font-semibold mb-2">5. หนังสือจากต้นสังกัด อนุมัติให้เข้าฝึกอบรม <span class="text-gray-500 font-normal">(เฉพาะผู้มีต้นสังกัด)</span></label>
-                        <input type="file" name="fileSponsor" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">5. หนังสือจากต้นสังกัด อนุมัติให้เข้าฝึกอบรม <span class="text-gray-500 font-normal text-sm">(เฉพาะผู้มีต้นสังกัด)</span></label>
+                        <input type="file" name="fileSponsor" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
                     
                     <!-- 6. Transcript -->
-                    <div>
-                        <label class="block font-semibold mb-2">6. ใบแสดงผลการศึกษา (Transcript) แพทยศาสตร์</label>
-                        <input type="file" name="fileTranscript" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">6. ใบแสดงผลการศึกษา (Transcript) แพทยศาสตร์</label>
+                        <input type="file" name="fileTranscript" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
 
                     <!-- 7. ศรว -->
-                    <div>
-                        <label class="block font-semibold mb-2">7. เอกสารผลคะแนน ศรว. (NL)</label>
-                        <input type="file" name="fileNL" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">7. เอกสารผลคะแนน ศรว. (NL)</label>
+                        <input type="file" name="fileNL" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
 
                     <!-- 8. CV -->
-                    <div>
-                        <label class="block font-semibold mb-2">8. ประวัติย่อ (CV) <span class="text-gray-500 font-normal">ความยาวไม่เกิน 2 หน้า</span></label>
-                        <input type="file" name="fileCV" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">8. ประวัติย่อ (CV) <span class="text-gray-500 font-normal text-sm">ความยาวไม่เกิน 2 หน้า</span></label>
+                        <input type="file" name="fileCV" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
                     
                     <!-- 9. Portfolio -->
-                    <div class="md:col-span-2">
-                        <label class="block font-semibold mb-2">9. Portfolio <span class="text-gray-500 font-normal">(จะมีหรือไม่มีก็ได้)</span></label>
-                        <input type="file" name="filePortfolio" accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-gray-50 focus:ring-2 focus:ring-pink-200">
+                    <div class="md:col-span-2 p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">9. Portfolio <span class="text-gray-500 font-normal text-sm">(จะมีหรือไม่มีก็ได้)</span></label>
+                        <input type="file" name="filePortfolio" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
 
-                    <!-- กล่องพิเศษสำหรับเอกสารที่อัปโหลดได้หลายไฟล์ (เน้นสีให้ผู้สมัครเห็นชัด) -->
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <!-- 10 & 11 (MULTIPLE) - Highlighted Box -->
+                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
                         
-                        <!-- 10. หนังสือรับรอง (MULTIPLE) -->
-                        <div class="bg-pink-50 p-5 rounded-xl border border-pink-200 shadow-sm">
-                            <label class="block font-bold text-chula mb-2">10. หนังสือรับรอง/แนะนำผู้สมัคร <span class="text-gray-600 font-normal">(ถ้ามี)</span></label>
-                            <span class="inline-block bg-pink-100 text-pink-700 text-sm px-2 py-1 rounded mb-3">อัปโหลดได้หลายไฟล์</span>
-                            <input type="file" name="fileRecLetter" multiple accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-white focus:ring-2 focus:ring-pink-300">
+                        <!-- 10. หนังสือรับรอง -->
+                        <div class="bg-pink-50 p-6 rounded-xl border border-pink-200 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-[#ce1255] text-white text-xs font-bold px-4 py-1.5 rounded-bl-lg shadow-sm">อัปโหลดได้หลายไฟล์</div>
+                            <label class="block font-bold text-chula mb-2 mt-3">10. หนังสือรับรอง/แนะนำผู้สมัคร <span class="text-gray-600 font-normal text-sm">(ถ้ามี)</span></label>
+                            <p class="text-sm text-pink-600 mb-4">กดปุ่ม Ctrl หรือ Cmd ค้างไว้เพื่อเลือกหลายไฟล์พร้อมกัน</p>
+                            <input type="file" name="fileRecLetter" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-[#ce1255] file:text-white hover:file:bg-pink-800 file:cursor-pointer cursor-pointer bg-white border border-pink-200 rounded-lg">
                         </div>
 
-                        <!-- 11. ใบรับรองแพทย์ (MULTIPLE) -->
-                        <div class="bg-pink-50 p-5 rounded-xl border border-pink-200 shadow-sm">
-                            <label class="block font-bold text-chula mb-2">11. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ</label>
-                            <span class="inline-block bg-pink-100 text-pink-700 text-sm px-2 py-1 rounded mb-3">อัปโหลดได้หลายไฟล์</span>
-                            <input type="file" name="fileMedical" multiple accept=".pdf,.jpg,.jpeg,.png" class="w-full border border-gray-300 p-2.5 rounded-lg bg-white focus:ring-2 focus:ring-pink-300">
+                        <!-- 11. ใบรับรองแพทย์ -->
+                        <div class="bg-pink-50 p-6 rounded-xl border border-pink-200 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-[#ce1255] text-white text-xs font-bold px-4 py-1.5 rounded-bl-lg shadow-sm">อัปโหลดได้หลายไฟล์</div>
+                            <label class="block font-bold text-chula mb-2 mt-3">11. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ</label>
+                            <p class="text-sm text-pink-600 mb-4">กดปุ่ม Ctrl หรือ Cmd ค้างไว้เพื่อเลือกหลายไฟล์พร้อมกัน</p>
+                            <input type="file" name="fileMedical" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-[#ce1255] file:text-white hover:file:bg-pink-800 file:cursor-pointer cursor-pointer bg-white border border-pink-200 rounded-lg">
                         </div>
                         
                     </div>
