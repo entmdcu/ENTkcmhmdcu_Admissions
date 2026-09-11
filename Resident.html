@@ -48,31 +48,59 @@
         <!-- ======================= ฟอร์มรับสมัครหลัก ======================= -->
         <form id="applicationForm" class="bg-white p-6 md:p-12 rounded-xl shadow-md border border-gray-100 space-y-12" onsubmit="submitForm(event)">
             
-            <!-- 1. ข้อมูลส่วนตัว -->
+           <!-- 1. ข้อมูลส่วนตัว -->
+     
             <section>
                 <div class="border-b-2 border-pink-100 pb-2 mb-6">
                     <h2 class="text-3xl font-bold text-chula">1. ข้อมูลส่วนตัว</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2"><label class="block font-semibold mb-2">ชื่อ - สกุล (ภาษาไทย)</label><input type="text" name="nameTh" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- ชื่อไทย -->
+                    <div>
+                        <label class="block font-semibold mb-2">คำนำหน้า (ภาษาไทย)</label>
+                        <select name="titleTh" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200">
+                            <option value="">- เลือก -</option>
+                            <option value="นาย">นาย</option>
+                            <option value="นาง">นาง</option>
+                            <option value="นางสาว">นางสาว</option>
+                        </select>
+                    </div>
+                    <div><label class="block font-semibold mb-2">ชื่อ (ภาษาไทย)</label><input type="text" name="firstNameTh" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    <div><label class="block font-semibold mb-2">นามสกุล (ภาษาไทย)</label><input type="text" name="lastNameTh" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+
+                    <!-- ชื่ออังกฤษ -->
+                    <div>
+                        <label class="block font-semibold mb-2">คำนำหน้า (อังกฤษ)</label>
+                        <select name="titleEn" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200">
+                            <option value="">- เลือก -</option>
+                            <option value="Mr.">Mr.</option>
+                            <option value="Mrs.">Mrs.</option>
+                            <option value="Miss">Miss</option>
+                        </select>
+                    </div>
+                    <div><label class="block font-semibold mb-2">First Name</label><input type="text" name="firstNameEn" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    <div><label class="block font-semibold mb-2">Last Name</label><input type="text" name="lastNameEn" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+
+                    <!-- ข้อมูลอื่นๆ -->
                     <div><label class="block font-semibold mb-2">ชื่อเล่น</label><input type="text" name="nickname" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
-                    <div class="lg:col-span-2"><label class="block font-semibold mb-2">ชื่อ - สกุล (อังกฤษ)</label><input type="text" name="nameEn" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
                     <div><label class="block font-semibold mb-2">เพศ</label>
                         <select name="gender" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200">
                             <option value="">- เลือก -</option><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option>
                         </select>
                     </div>
                     <div><label class="block font-semibold mb-2">วัน เดือน ปี เกิด</label><input type="date" name="dob" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    
                     <div><label class="block font-semibold mb-2">อายุ (ปี)</label><input type="number" name="age" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
                     <div><label class="block font-semibold mb-2">เลขที่ประจำตัวประชาชน</label><input type="text" name="idCard" required pattern="[0-9]{13}" maxlength="13" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
-                    
                     <div><label class="block font-semibold mb-2">เชื้อชาติ</label><input type="text" name="race" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    
                     <div><label class="block font-semibold mb-2">สัญชาติ</label><input type="text" name="nationality" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
                     <div><label class="block font-semibold mb-2">ศาสนา</label><input type="text" name="religion" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
-                    
                     <div><label class="block font-semibold mb-2">โทรศัพท์ (บ้าน/ที่ทำงาน)</label><input type="tel" name="phoneHome" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    
                     <div><label class="block font-semibold mb-2">โทรศัพท์มือถือ</label><input type="tel" name="mobile" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
-                    <div><label class="block font-semibold mb-2">E-mail</label><input type="email" name="email" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
+                    <div class="md:col-span-2"><label class="block font-semibold mb-2">E-mail</label><input type="email" name="email" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-pink-200"></div>
                 </div>
             </section>
 
