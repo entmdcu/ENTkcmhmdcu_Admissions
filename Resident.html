@@ -373,8 +373,7 @@
     </div>
 
     <!-- Javascript โลจิกของแบบฟอร์ม -->
-  <script>
-        // ใส่ URL ของ Google Apps Script ของคุณ
+  <s<script>
         const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
         function switchTab(tab) {
@@ -382,9 +381,11 @@
             const editSection = document.getElementById('section-edit');
             const tNew = document.getElementById('tab-new');
             const tEdit = document.getElementById('tab-edit');
+            const statusText = document.getElementById('searchStatus');
 
             if(tab === 'new') {
                 editSection.classList.add('hidden');
+                form.classList.remove('hidden'); // หน้าสมัครใหม่แสดงฟอร์มปกติ
                 form.reset();
                 document.getElementById('appId').value = '';
                 
@@ -395,9 +396,11 @@
                 tEdit.classList.remove('text-chula', 'border-chula');
                 
                 document.getElementById('submitBtn').innerText = 'บันทึกข้อมูลและส่งใบสมัคร';
-                document.getElementById('searchStatus').innerText = ''; // ล้างข้อความสถานะ
+                statusText.innerText = '';
             } else {
                 editSection.classList.remove('hidden');
+                form.classList.add('hidden'); // ซ่อนฟอร์มไว้ก่อน จนกว่าจะค้นหาเจอ
+                form.reset();
                 
                 tEdit.classList.add('text-chula', 'border-chula');
                 tEdit.classList.remove('text-gray-500', 'border-transparent');
@@ -406,6 +409,7 @@
                 tNew.classList.remove('text-chula', 'border-chula');
                 
                 document.getElementById('submitBtn').innerText = 'อัปเดตข้อมูล';
+                statusText.innerText = '';
             }
         }
 
@@ -413,29 +417,32 @@
         function searchData() {
             const searchId = document.getElementById('searchId').value.trim();
             const statusText = document.getElementById('searchStatus');
+            const form = document.getElementById('applicationForm');
 
             if(!searchId) {
                 statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
                 statusText.className = 'mt-3 font-medium text-red-500';
+                form.classList.add('hidden'); // ซ่อนฟอร์มไว้ถ้ายังไม่กรอก
                 return;
             }
 
             statusText.innerText = 'กำลังค้นหาข้อมูล...';
             statusText.className = 'mt-3 font-medium text-blue-500';
 
-            // ดึงข้อมูลผ่าน GET Request
             fetch(`${SCRIPT_URL}?action=search&searchId=${encodeURIComponent(searchId)}`)
             .then(response => response.json())
             .then(result => {
                 if(result.status === 'success') {
-                    statusText.innerText = 'พบข้อมูล! ระบบได้เติมข้อมูลเดิมลงในฟอร์มแล้ว กรุณาแก้ไขข้อความด้านล่าง';
+                    statusText.innerText = 'พบข้อมูล! แสดงฟอร์มด้านล่างเพื่อให้ท่านแก้ไข';
                     statusText.className = 'mt-3 font-bold text-green-600';
                     
-                    // นำข้อมูลไปใส่ในฟอร์ม
+                    // นำข้อมูลใส่ฟอร์มและ "แสดงฟอร์มขึ้นมา"
                     populateForm(result.data);
+                    form.classList.remove('hidden'); 
                 } else {
                     statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
                     statusText.className = 'mt-3 font-medium text-red-500';
+                    form.classList.add('hidden'); // ซ่อนฟอร์มถ้าหาไม่พบ
                 }
             })
             .catch(error => {
@@ -445,20 +452,14 @@
             });
         }
 
-        // ฟังก์ชันนำข้อมูลมาหยอดใส่ฟอร์ม
         function populateForm(data) {
-            // เซ็ตรหัสอ้างอิงกลับเข้าไป
             document.getElementById('appId').value = data.appId || '';
-            
-            // วนลูปนำข้อมูล (JSON) มาใส่ใน input/select ตามแอตทริบิวต์ name
             Object.keys(data).forEach(key => {
                 const field = document.querySelector(`[name="${key}"]`);
-                if(field && field.type !== 'file') { // ไม่นำไฟล์เดิมมาแสดงในช่องอัปโหลด
+                if(field && field.type !== 'file') {
                     field.value = data[key];
                 }
             });
-            
-            // เรียกฟังก์ชันเพื่ออัปเดตการแสดงผลช่องพิเศษ (เช่น กล่องชื่อต้นสังกัด)
             toggleSponsor();
         }
 
@@ -502,10 +503,8 @@
             }
         }
 
-        // โค้ดส่งฟอร์ม (รวมทั้งบันทึกใหม่และอัปเดต)
         function submitForm(event) {
             event.preventDefault();
-            
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerText;
             submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
@@ -524,7 +523,7 @@
             .then(result => {
                 if(result.status === 'success') {
                     alert(data.appId ? 'อัปเดตข้อมูลและเอกสารสำเร็จ!' : 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + result.id);
-                    if(!data.appId) form.reset(); // ล้างฟอร์มเฉพาะตอนสมัครใหม่
+                    if(!data.appId) form.reset();
                 } else {
                     alert('เกิดข้อผิดพลาด: ' + result.message);
                 }
