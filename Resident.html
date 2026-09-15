@@ -315,7 +315,7 @@
             <section>
                 <div class="border-b-2 border-pink-100 pb-2 mb-6">
                     <h2 class="text-3xl font-bold text-chula">8. อัปโหลดเอกสารประกอบการสมัคร</h2>
-                    <p class="text-gray-500 mt-2 text-base">รองรับไฟล์นามสกุล .pdf, .jpg, .png (หากต้องการเลือกหลายไฟล์ในช่องเดียวกัน ให้กดปุ่ม Ctrl หรือ Cmd ค้างไว้ขณะเลือกไฟล์)</p>
+                    <p class="text-gray-500 mt-2 text-base">รองรับไฟล์นามสกุล .pdf, .jpg, .png (แนะนำไม่เกิน 15MB ต่อไฟล์ — หากไฟล์ใหญ่เกิน ระบบจะแจ้งเตือนให้บีบอัดก่อนส่ง) (หากต้องการเลือกหลายไฟล์ในช่องเดียวกัน ให้กดปุ่ม Ctrl หรือ Cmd ค้างไว้ขณะเลือกไฟล์)</p>
                 </div>
                 
                 <!-- เปลี่ยนเป็น space-y-4 เพื่อให้เรียงเป็นแถวเดียวลงมา -->
@@ -391,6 +391,14 @@
             </section>
             <input type="hidden" name="appId" id="appId" value="">
 
+            <!-- แถบแสดงความคืบหน้าการอัปโหลด -->
+            <div id="uploadProgress" class="hidden max-w-3xl mx-auto">
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="uploadProgressBar" class="bg-chula h-4 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="uploadProgressText" class="text-center text-gray-600 mt-2 text-base"></p>
+            </div>
+
             <div class="pt-10 text-center border-t mt-10">
                 <button type="submit" id="submitBtn" class="bg-chula hover:bg-[#a00c40] text-white font-bold text-2xl py-5 px-14 rounded-xl shadow-lg transition-transform transform hover:scale-105 w-full md:w-auto">
                     บันทึกข้อมูลและส่งใบสมัคร
@@ -402,7 +410,13 @@
 
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxexe8zWoxye_iIeIZO5rHddSjq4FulFjOYOqT8e2VF7yHxkJ-ZXh19xNucEYQ0HkL2/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZVOyQkxKNIFg9zHL8T0rgnizQ1eWwidxu5PiIETEGmPNLQDy2JOhE-NeB-EfhWwHB/exec';
+
+        // ปรับได้ตามที่ฝั่ง Apps Script/Drive รองรับ (ไฟล์ที่ใหญ่กว่านี้จะถูกเตือนให้บีบอัดก่อน)
+        const MAX_FILE_MB = 15;
+        // ไฟล์รูปภาพที่ใหญ่กว่านี้จะถูกย่อขนาด/บีบอัดอัตโนมัติก่อนส่ง (PDF จะไม่ถูกแตะต้อง)
+        const IMAGE_MAX_DIMENSION = 1600;
+        const IMAGE_QUALITY = 0.75;
 
        function switchTab(tab) {
             const form = document.getElementById('applicationForm');
@@ -495,56 +509,157 @@
             });
         }
 
+        // ย่อ/บีบอัดไฟล์รูปภาพก่อนอัปโหลด (ไม่แตะไฟล์ PDF) เพื่อลดขนาด base64 ที่ต้องส่ง
+        function compressImageIfNeeded(file) {
+            return new Promise((resolve) => {
+                if (!file.type || !file.type.startsWith('image/')) {
+                    resolve(file); // ไม่ใช่รูปภาพ (เช่น PDF) ส่งต้นฉบับไปตามเดิม
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > IMAGE_MAX_DIMENSION || height > IMAGE_MAX_DIMENSION) {
+                            const scale = IMAGE_MAX_DIMENSION / Math.max(width, height);
+                            width = Math.round(width * scale);
+                            height = Math.round(height * scale);
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        canvas.toBlob((blob) => {
+                            if (!blob || blob.size >= file.size) {
+                                resolve(file); // ถ้าบีบแล้วไม่เล็กลง ใช้ไฟล์เดิม
+                            } else {
+                                resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                            }
+                        }, 'image/jpeg', IMAGE_QUALITY);
+                    };
+                    img.onerror = () => resolve(file);
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function setProgress(percent, text) {
+            const wrap = document.getElementById('uploadProgress');
+            const bar = document.getElementById('uploadProgressBar');
+            const label = document.getElementById('uploadProgressText');
+            wrap.classList.remove('hidden');
+            bar.style.width = percent + '%';
+            label.innerText = text;
+        }
+
         async function submitForm(event) {
             event.preventDefault();
-            
+
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerText;
-            submitBtn.innerText = 'กำลังอัปโหลดไฟล์และประมวลผล (กรุณารอสักครู่)...';
+            const form = document.getElementById('applicationForm');
+            const formData = new FormData(form);
+
+            // 1. แยกฟิลด์ข้อความออกจากไฟล์ และตรวจสอบขนาดไฟล์ก่อนเริ่มอัปโหลดใดๆ
+            const textData = {};
+            const fileEntries = [];
+            for (const [key, value] of formData.entries()) {
+                if (value instanceof File && value.name !== "") {
+                    if (value.size > MAX_FILE_MB * 1024 * 1024) {
+                        alert(`ไฟล์ "${value.name}" มีขนาด ${(value.size / 1024 / 1024).toFixed(1)}MB ซึ่งเกิน ${MAX_FILE_MB}MB ต่อไฟล์\n\nกรุณาบีบอัดไฟล์ PDF หรือถ่ายรูปใหม่ให้มีขนาดเล็กลง แล้วลองอัปโหลดอีกครั้ง`);
+                        return;
+                    }
+                    fileEntries.push({ field: key, file: value });
+                } else if (!(value instanceof File)) {
+                    textData[key] = value;
+                }
+            }
+
+            // 2. สร้าง appId ถ้ายังไม่มี (ใบสมัครใหม่) เพื่อใช้เชื่อมไฟล์ทั้งหมดเข้ากับแถวข้อมูลเดียวกัน
+            let appId = document.getElementById('appId').value;
+            const isNewApplication = !appId;
+            if (!appId) {
+                appId = 'ENT' + Date.now() + Math.floor(Math.random() * 1000);
+                document.getElementById('appId').value = appId;
+            }
+            textData.appId = appId;
+
             submitBtn.disabled = true;
 
             try {
-                const form = document.getElementById('applicationForm');
-                const formData = new FormData(form);
-                const data = { files: [] };
-                
-                // ดึงข้อมูล Text และ File แยกกัน
-                for (const [key, value] of formData.entries()) {
-                    if (value instanceof File && value.name !== "") {
-                        const base64 = await readFileAsBase64(value);
-                        data.files.push({
-                            field: key,
-                            name: value.name,
-                            mimeType: value.type,
-                            base64: base64
-                        });
-                    } else if (!(value instanceof File)) {
-                        data[key] = value;
+                // 3. ส่งข้อมูลฟอร์ม (ข้อความล้วน) เป็น request แรกก่อน - เล็กมาก ไม่มีทางเกิน limit
+                submitBtn.innerText = 'กำลังบันทึกข้อมูลฟอร์ม...';
+                setProgress(5, 'กำลังบันทึกข้อมูลฟอร์ม...');
+                const saveRes = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'saveData', ...textData }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                const saveResult = await saveRes.json();
+                if (saveResult.status !== 'success') {
+                    throw new Error(saveResult.message || 'บันทึกข้อมูลฟอร์มไม่สำเร็จ');
+                }
+
+                // 4. ส่งไฟล์ทีละไฟล์ (แต่ละคำขอมีไฟล์เดียว) เพื่อไม่ให้ payload รวมใหญ่เกินไป
+                for (let i = 0; i < fileEntries.length; i++) {
+                    const { field, file } = fileEntries[i];
+                    const percent = 10 + Math.round((i / Math.max(fileEntries.length, 1)) * 85);
+                    submitBtn.innerText = `กำลังอัปโหลดไฟล์ ${i + 1}/${fileEntries.length}...`;
+                    setProgress(percent, `กำลังอัปโหลดไฟล์ ${i + 1}/${fileEntries.length}: ${file.name}`);
+
+                    const fileToSend = await compressImageIfNeeded(file);
+                    const base64 = await readFileAsBase64(fileToSend);
+
+                    const res = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'uploadFile',
+                            appId,
+                            field,
+                            name: fileToSend.name,
+                            mimeType: fileToSend.type,
+                            base64
+                        }),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    });
+                    const result = await res.json();
+                    if (result.status !== 'success') {
+                        throw new Error(`อัปโหลดไฟล์ "${file.name}" ไม่สำเร็จ: ${result.message || ''}`);
                     }
                 }
 
-                // ส่งไปที่ Apps Script
-                const response = await fetch(SCRIPT_URL, {
+                // 5. ปิดท้ายด้วย finalize ครั้งเดียว - ฝั่งเซิร์ฟเวอร์จะสร้าง PDF จาก template และส่งอีเมลตอนนี้
+                //    (แทนที่จะสร้าง PDF/ส่งอีเมลซ้ำทุกครั้งที่มีการอัปโหลดไฟล์แบบเดิม)
+                submitBtn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
+                setProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
+                const finalizeRes = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify(data),
+                    body: JSON.stringify({ action: 'finalize', appId, isUpdate: !isNewApplication }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-                
-                const result = await response.json();
-                
-                if(result.status === 'success') {
-                    alert(data.appId ? 'อัปเดตข้อมูลและส่งสำเนา PDF สำเร็จ!' : 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + result.id);
-                    if(!data.appId) form.reset();
-                    else document.getElementById('searchStatus').innerText = 'ข้อมูลของคุณถูกอัปเดตเรียบร้อยแล้ว';
+                const finalizeResult = await finalizeRes.json();
+                if (finalizeResult.status !== 'success') {
+                    throw new Error(finalizeResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
+                }
+
+                setProgress(100, 'เสร็จสิ้น!');
+                alert(isNewApplication ? 'ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + appId : 'อัปเดตข้อมูลและไฟล์เรียบร้อยแล้ว!');
+                if (isNewApplication) {
+                    form.reset();
+                    document.getElementById('appId').value = '';
                 } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                    document.getElementById('searchStatus').innerText = 'ข้อมูลของคุณถูกอัปเดตเรียบร้อยแล้ว';
                 }
             } catch (error) {
                 console.error(error);
-                alert('เกิดข้อผิดพลาดในการส่งข้อมูล ไฟล์อาจมีขนาดใหญ่เกินไป');
+                alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + error.message);
             } finally {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
+                document.getElementById('uploadProgress').classList.add('hidden');
             }
         }
         
