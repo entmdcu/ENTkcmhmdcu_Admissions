@@ -142,42 +142,52 @@
                 </div>
                 </div>
 
-                <!-- Card 2: นาสิกวิทยาและโรคภูมิแพ้ (รอประกาศ) -->
-                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-yellow-400 flex flex-col h-full">
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="mb-4 inline-block">
-                            <span class="bg-yellow-50 text-yellow-700 text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-yellow-200">
-                                <i class="fa-solid fa-hourglass-half mr-1"></i> รอประกาศวันในเร็วๆนี้
-                            </span>
-                        </div>
-                        
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">
-                            ด้านนาสิกวิทยาและโรคภูมิแพ้
-                        </h3>
-                        
-                        <!-- Subtopic -->
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
-                            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
-                                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
-                                <span>ปีการศึกษา 2570</span>
-                            </div>
-                            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
-                                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
-                                <span>รับสมัคร: รอระบุจำนวน</span>
-                            </div>
-                        </div>
-                        
-                        <p class="text-sm text-gray-600 mb-6 flex-grow">
-                            หลักสูตรการอบรมแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านนาสิกวิทยาและโรคภูมิแพ้
-                        </p>
-                    </div>
-                    
-                    <div class="px-6 pb-6 mt-auto">
-                        <button class="w-full bg-yellow-50 text-yellow-700 font-medium py-3 px-4 rounded-lg hover:bg-yellow-100 transition-colors">
-                            รอประกาศรายละเอียด
-                        </button>
-                    </div>
-                </div>
+<!-- Card: นาสิกวิทยาและโรคภูมิแพ้ -->
+<div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-2 ring-pink-100">
+    <!-- ป้าย NEW มุมขวาบน -->
+    <div class="absolute top-0 right-0 bg-red-cross text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg z-10">
+        NEW
+    </div>
+    
+    <div class="p-6 flex-grow flex flex-col">
+        <!-- ป้ายสถานะ เปิดรับสมัคร -->
+        <div class="mb-4 inline-block">
+            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[13px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                <i class="fa-solid fa-clock mr-1"></i> เปิดรับ 1 - 31 ต.ค. 2569
+            </span>
+        </div>
+        
+        <!-- ชื่อหลักสูตร -->
+        <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug">
+            นาสิกวิทยาและโรคภูมิแพ้
+        </h3>
+        
+        <!-- Subtopic: ปีการศึกษา และ จำนวนรับ -->
+        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+            <div class="flex items-center text-sm text-gray-700 mb-1 gap-2">
+                <i class="fa-regular fa-calendar text-gray-400 w-4 text-center"></i>
+                <span>ปีการศึกษา 2570</span>
+            </div>
+            <div class="flex items-center text-sm font-semibold text-chula-dark-pink gap-2">
+                <i class="fa-solid fa-user-doctor text-chula-pink w-4 text-center"></i>
+                <span>รับสมัคร: 1 ตำแหน่ง</span>
+            </div>
+        </div>
+        
+        <!-- รายละเอียดแบบย่อ -->
+        <p class="text-sm text-gray-600 mb-6 flex-grow">
+            หลักสูตรการอบรมแพทย์เพื่อประกาศนียบัตรในวิชาชีพเวชกรรม ด้านนาสิกวิทยาและโรคภูมิแพ้
+        </p>
+    </div>
+
+    <!-- ปุ่มกดไปหน้าสาขา -->
+    <div class="px-6 pb-6 mt-auto">
+        <!-- เปลี่ยน href เป็นชื่อไฟล์หน้าเว็บของสาขานี้ -->
+        <a href="rhinology.html" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-md">
+            สมัคร / อ่านรายละเอียด
+        </a>
+    </div>
+</div>
 
                 <!-- Card 3: อนุสาขาศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า (ยังไม่เปิดรับ) -->
                 <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[5px] border-t-gray-200 flex flex-col h-full">
