@@ -51,8 +51,17 @@
                 <a href="index.html" class="flex items-center text-chula-blue hover:text-chula-light-blue transition text-lg font-medium">
                     <i class="fa-solid fa-arrow-left mr-3 bg-blue-50 p-2 rounded-full"></i> กลับหน้าหลัก
                 </a>
-                <div class="font-bold text-gray-800 text-lg hidden md:block">
-                    หน่วยนาสิกวิทยาและภูมิแพ้
+                
+                <!-- พื้นที่สำหรับใส่สัญลักษณ์ของหน่วย (Logo) -->
+                <div class="flex items-center gap-3">
+                     <!-- 
+                        เปลี่ยน src เป็นที่อยู่ไฟล์โลโก้ของคุณ เช่น src="rhino-logo.png"
+                        ถ้ายังไม่มี ให้ปล่อยเป็น Placeholder ไว้ก่อนได้ครับ
+                     -->
+                    <img src="https://placehold.co/100x100/1c3d5a/FFFFFF?text=Logo" alt="โลโก้หน่วยงาน" class="w-10 h-10 object-contain rounded-full border border-gray-200">
+                    <div class="font-bold text-gray-800 text-lg hidden md:block">
+                        หน่วยนาสิกวิทยาและภูมิแพ้
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,23 +100,29 @@
 
     <main class="max-w-5xl mx-auto px-4 sm:px-6 pb-24">
         
-        <!-- ข้อมูลหน่วยงาน -->
-        <div class="text-center mb-16 px-4">
-            <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
-                ดำเนินการโดย<br>
-                <span class="text-chula-blue font-bold text-xl md:text-2xl mt-2 block">ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส</span>
-                แห่งโรงพยาบาลจุฬาลงกรณ์ สภากาชาดไทย <br class="hidden md:block">
-                และ <span class="text-chula-blue font-bold">หน่วยนาสิกวิทยาและภูมิแพ้</span> ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
+        <!-- ข้อมูลหน่วยงาน (ปรับขนาดตัวอักษรให้เท่ากัน) -->
+        <div class="text-center mb-16 px-4 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+             <div class="flex justify-center mb-4">
+                 <!-- พื้นที่สำหรับใส่สัญลักษณ์ของหน่วย (Logo) ขนาดใหญ่ขึ้น -->
+                 <img src="https://placehold.co/150x150/1c3d5a/FFFFFF?text=Logo" alt="โลโก้หน่วยงาน" class="w-24 h-24 object-contain">
+             </div>
+            <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium">
+                ดำเนินการโดย
+            </p>
+            <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium mt-2">
+                ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส โรงพยาบาลจุฬาลงกรณ์<br>
+                และ หน่วยนาสิกวิทยาและภูมิแพ้ ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
             </p>
         </div>
 
+        <!-- หลักสูตรที่เปิดสอน -->
         <div class="mb-16">
-            <div class="flex items-center justify-center mb-10">
+            <div class="flex items-center justify-center mb-6">
                 <div class="w-16 h-1 bg-chula-blue mr-4 rounded-full"></div>
                 <h3 class="text-2xl md:text-3xl font-bold text-gray-900 text-center">หลักสูตรที่เปิดสอน</h3>
                 <div class="w-16 h-1 bg-chula-blue ml-4 rounded-full"></div>
             </div>
-            <p class="text-center text-lg text-gray-500 mb-10">(ผู้สมัครสามารถเลือกเรียนในหลักสูตรใดหลักสูตรหนึ่งดังต่อไปนี้)</p>
+            <p class="text-center text-lg text-gray-600 mb-10">(ผู้สมัครสามารถเลือกเรียนในหลักสูตรใดหลักสูตรหนึ่งดังต่อไปนี้)</p>
             
             <div class="grid md:grid-cols-2 gap-8">
                 
