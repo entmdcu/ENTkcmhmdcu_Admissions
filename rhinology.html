@@ -1,284 +1,72 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประกาศรับสมัครแพทย์ประจำบ้านต่อยอด - อนุสาขานาสิกวิทยา</title>
-    <!-- Google Fonts: Prompt -->
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'chula-blue': '#1c3d5a',     /* สีน้ำเงินเข้ม / กรมท่า */
-                        'chula-light-blue': '#4a90e2', /* สีฟ้าอ่อน */
-                        'chula-accent': '#eab308',   /* สีเหลืองทองสำหรับเน้นจุดสำคัญ */
-                        'gray-bg': '#f4f7f9'         /* สีเทาอมฟ้าอ่อนๆ สำหรับพื้นหลัง */
-                    },
-                    fontFamily: {
-                        sans: ['Prompt', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #f4f7f9;
-        }
-        .hero-pattern {
-            background-color: #1c3d5a;
-            background-image: radial-gradient(#2c5282 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-    </style>
-</head>
-<body class="text-gray-800 antialiased font-sans">
-
-    <header class="bg-white shadow-md sticky top-0 z-50">
+<!-- Header / Navbar (มีแค่ปุ่มกลับหน้าหลัก ลบโลโก้ขวามือออกแล้ว) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center text-chula-blue hover:text-chula-light-blue transition text-lg font-medium">
-                    <i class="fa-solid fa-arrow-left mr-3 bg-blue-50 p-2 rounded-full"></i> กลับหน้าหลัก
+            <div class="flex justify-between items-center h-16">
+                <!-- ปุ่มกลับหน้าหลัก -->
+                <a href="index.html" class="flex items-center gap-2 text-gray-600 hover:text-blue-800 transition font-medium">
+                    <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
                 </a>
-                
-                <!-- พื้นที่สำหรับใส่สัญลักษณ์ของหน่วย (Logo) -->
-                <div class="flex items-center gap-3">
-                     <!-- 
-                        เปลี่ยน src เป็นที่อยู่ไฟล์โลโก้ของคุณ เช่น src="rhino-logo.png"
-                        ถ้ายังไม่มี ให้ปล่อยเป็น Placeholder ไว้ก่อนได้ครับ
-                     -->
-                    <img src="https://placehold.co/100x100/1c3d5a/FFFFFF?text=Logo" alt="โลโก้หน่วยงาน" class="w-10 h-10 object-contain rounded-full border border-gray-200">
-                    <div class="font-bold text-gray-800 text-lg hidden md:block">
-                        หน่วยนาสิกวิทยาและภูมิแพ้
-                    </div>
-                </div>
             </div>
         </div>
     </header>
 
-    <section class="hero-pattern text-white relative pt-16 pb-32 md:pt-24 md:pb-40 px-4 border-b-8 border-chula-accent">
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <span class="inline-block py-1.5 px-4 rounded-full bg-blue-900/50 border border-blue-400 text-blue-200 font-medium tracking-wide mb-6 text-sm md:text-base">
+    <!-- Main Banner (Hero Section) โทนสีกรมท่า -->
+    <section class="bg-[#1e3a5f] text-white py-16 md:py-24 relative overflow-hidden">
+        <!-- พื้นหลัง Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+            <!-- ปีการศึกษา -->
+            <div class="inline-block border border-blue-400/50 rounded-full px-5 py-1.5 text-blue-200 text-sm font-medium mb-6">
                 ปีการศึกษา 2570
-            </span>
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            </div>
+            
+            <!-- หัวข้อประกาศ (ลดขนาดตัวอักษรลง และบังคับให้อยู่บรรทัดเดียวกันบนจอขนาดกลางขึ้นไป) -->
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight tracking-tight md:whitespace-nowrap">
                 ประกาศรับสมัครแพทย์ประจำบ้านต่อยอด
             </h1>
-            <h2 class="text-2xl md:text-3xl text-blue-100 font-medium leading-relaxed max-w-4xl mx-auto">
-                อนุสาขานาสิกวิทยา โรคภูมิแพ้ <br class="hidden md:block">และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า
+            
+            <!-- ชื่ออนุสาขา -->
+            <h2 class="text-lg md:text-xl lg:text-2xl text-blue-200 font-medium mb-10 leading-relaxed max-w-4xl mx-auto">
+                อนุสาขานาสิกวิทยา โรคภูมิแพ้ และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า
             </h2>
+
+            <!-- กลุ่มปุ่ม 3 ปุ่ม -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4">
+                <a href="#course-details" class="w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> ข้อมูลหลักสูตร
+                </a>
+                <a href="ประกาศรับFellow_Rhinology_2570.pdf" target="_blank" class="w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-pdf"></i> ประกาศรับสมัคร
+                </a>
+                <a href="#" class="w-full sm:w-auto px-8 py-3 bg-blue-500 hover:bg-blue-400 text-white rounded-lg font-bold shadow-lg shadow-blue-500/40 transition duration-200 flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                    <i class="fa-solid fa-laptop-medical"></i> สมัครออนไลน์
+                </a>
+            </div>
         </div>
     </section>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative -mt-20 md:-mt-24 z-20 mb-16">
-        <div class="glass-card rounded-2xl p-8 md:p-12 border-t-8 border-chula-light-blue text-center flex flex-col items-center justify-center">
-            <h3 class="text-xl md:text-2xl text-gray-600 font-medium mb-2">เปิดรับสมัครจำนวน</h3>
-            <div class="flex items-baseline justify-center gap-4 my-2">
-                <span class="text-7xl md:text-9xl font-extrabold text-chula-blue drop-shadow-sm">1</span>
-                <span class="text-3xl md:text-4xl font-bold text-gray-700">ตำแหน่ง</span>
-            </div>
-            <div class="mt-4 inline-flex items-center bg-green-50 text-green-700 px-6 py-2 rounded-full text-lg font-medium border border-green-200">
-                <span class="relative flex h-4 w-4 mr-3">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
-                </span>
-                เปิดรับสมัครถึง 31 ตุลาคม 2569
-            </div>
-        </div>
-    </div>
-
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 pb-24">
-        
-        <!-- ข้อมูลหน่วยงาน (ปรับขนาดตัวอักษรให้เท่ากัน) -->
-        <div class="text-center mb-16 px-4 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-             <div class="flex justify-center mb-4">
-                 <!-- พื้นที่สำหรับใส่สัญลักษณ์ของหน่วย (Logo) ขนาดใหญ่ขึ้น -->
-                 <img src="https://placehold.co/150x150/1c3d5a/FFFFFF?text=Logo" alt="โลโก้หน่วยงาน" class="w-24 h-24 object-contain">
-             </div>
-            <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium">
-                ดำเนินการโดย
-            </p>
-            <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium mt-2">
-                ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส โรงพยาบาลจุฬาลงกรณ์<br>
-                และ หน่วยนาสิกวิทยาและภูมิแพ้ ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
-            </p>
-        </div>
-
-        <!-- หลักสูตรที่เปิดสอน -->
-        <div class="mb-16">
-            <div class="flex items-center justify-center mb-6">
-                <div class="w-16 h-1 bg-chula-blue mr-4 rounded-full"></div>
-                <h3 class="text-2xl md:text-3xl font-bold text-gray-900 text-center">หลักสูตรที่เปิดสอน</h3>
-                <div class="w-16 h-1 bg-chula-blue ml-4 rounded-full"></div>
-            </div>
-            <p class="text-center text-lg text-gray-600 mb-10">(ผู้สมัครสามารถเลือกเรียนในหลักสูตรใดหลักสูตรหนึ่งดังต่อไปนี้)</p>
+    <!-- ส่วนเนื้อหาหลัก -->
+    <main class="py-12 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="grid md:grid-cols-2 gap-8">
+            <!-- โลโก้ และ ชื่อหน่วยงาน (ปรับเป็นชื่อเต็ม) -->
+            <div class="text-center mb-12">
+                <!-- โลโก้ (เว้นที่ไว้ให้ใส่รูป) -->
+                <div class="w-24 h-24 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-6 shadow-sm">
+                    <i class="fa-regular fa-image text-gray-400 text-3xl"></i>
+                    <!-- หากมีรูปโลโก้ ให้ใช้แท็กนี้แทน: <img src="ชื่อไฟล์รูป.png" class="w-24 h-24 object-contain"> -->
+                </div>
                 
-                <!-- หลักสูตร 2 ปี -->
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex flex-col hover:shadow-xl transition-shadow">
-                    <div class="bg-chula-blue text-white p-6 text-center">
-                        <h4 class="text-2xl font-bold mb-1">หลักสูตร 2 ปี</h4>
-                        <p class="text-blue-200">1 ก.ค. 2570 - 30 มิ.ย. 2572</p>
-                    </div>
-                    <div class="p-8 flex-grow flex flex-col">
-                        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-                            ศึกษาและปฏิบัติงานใน <strong>โรงพยาบาลจุฬาลงกรณ์ สภากาชาดไทย</strong> และ <strong>คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</strong> ตลอดระยะเวลา 2 ปี
-                        </p>
-                        
-                        <div class="mt-auto bg-blue-50 p-6 rounded-xl border border-blue-100">
-                            <h5 class="text-chula-blue font-bold text-lg mb-4 flex items-center">
-                                <i class="fa-solid fa-award text-2xl mr-3 text-chula-accent"></i> วุฒิที่จะได้รับ:
-                            </h5>
-                            <ul class="space-y-4 text-base md:text-lg text-gray-800">
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>ปริญญาโท</strong> สาขาวิทยาศาสตร์มหาบัณฑิต (คณะแพทยศาสตร์ จุฬาฯ)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>วุฒิบัตร</strong> อนุสาขานาสิกวิทยาฯ (แพทยสภา)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>ประกาศนียบัตร</strong> วิชาชีพเวชกรรม ด้านนาสิกวิทยาและโรคภูมิแพ้ (รพ.จุฬาลงกรณ์)</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- หลักสูตร 3 ปี -->
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex flex-col hover:shadow-xl transition-shadow">
-                    <div class="bg-chula-light-blue text-white p-6 text-center">
-                        <h4 class="text-2xl font-bold mb-1">หลักสูตร 3 ปี</h4>
-                        <p class="text-blue-100">1 ก.ค. 2570 - 30 มิ.ย. 2573</p>
-                    </div>
-                    <div class="p-8 flex-grow flex flex-col">
-                        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-                            ศึกษาและปฏิบัติงานในรพ.จุฬาลงกรณ์ / คณะแพทยศาสตร์ จุฬาฯ <strong>2 ปีแรก</strong> <br>
-                            <span class="text-chula-light-blue font-bold inline-block mt-2">ส่วนปีที่ 3 สามารถกลับไปปฏิบัติงานที่ต้นสังกัดได้</span>
-                        </p>
-                        
-                        <div class="mt-auto bg-blue-50 p-6 rounded-xl border border-blue-100">
-                            <h5 class="text-chula-blue font-bold text-lg mb-4 flex items-center">
-                                <i class="fa-solid fa-award text-2xl mr-3 text-chula-accent"></i> วุฒิที่จะได้รับ:
-                            </h5>
-                            <ul class="space-y-4 text-base md:text-lg text-gray-800">
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>ปริญญาเอก</strong> สาขาวิทยาศาสตร์ดุษฎีบัณฑิต (คณะแพทยศาสตร์ จุฬาฯ)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>วุฒิบัตร</strong> อนุสาขานาสิกวิทยาฯ (แพทยสภา)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fa-solid fa-check text-green-600 mt-1.5 mr-3"></i>
-                                    <span><strong>ประกาศนียบัตร</strong> วิชาชีพเวชกรรม ด้านนาสิกวิทยาและโรคภูมิแพ้ (รพ.จุฬาลงกรณ์)</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="grid lg:grid-cols-5 gap-8 mb-16">
-            
-            <!-- กำหนดการ (กินพื้นที่ 2 ส่วน) -->
-            <div class="lg:col-span-2 bg-white rounded-2xl p-8 border-t-4 border-t-chula-accent shadow-sm">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                    <i class="fa-regular fa-calendar-check text-chula-blue text-3xl mr-4"></i> กำหนดการ
-                </h3>
+                <h3 class="text-sm text-gray-500 font-medium mb-4 uppercase tracking-widest">ดำเนินการโดย</h3>
                 
-                <div class="relative border-l-4 border-blue-100 pl-6 ml-3 space-y-10">
-                    <div class="relative">
-                        <div class="absolute w-5 h-5 bg-chula-blue rounded-full -left-[36px] top-1 border-4 border-white"></div>
-                        <h4 class="text-lg font-bold text-gray-900">ปิดรับสมัคร</h4>
-                        <p class="text-xl font-medium text-chula-light-blue mt-1">วันศุกร์ที่ 31 ตุลาคม 2569</p>
-                    </div>
-                    
-                    <div class="relative">
-                        <div class="absolute w-5 h-5 bg-chula-accent rounded-full -left-[36px] top-1 border-4 border-white"></div>
-                        <h4 class="text-lg font-bold text-gray-900">กำหนดสอบสัมภาษณ์</h4>
-                        <p class="text-xl font-medium text-chula-light-blue mt-1 mb-2">วันศุกร์ที่ 13 พฤศจิกายน 2569</p>
-                        <div class="bg-gray-50 p-4 rounded-lg text-base text-gray-700 space-y-2 border border-gray-100">
-                            <p><i class="fa-regular fa-clock w-5 text-gray-400"></i> เวลา 12.00 - 13.00 น.</p>
-                            <p class="leading-relaxed"><i class="fa-solid fa-location-dot w-5 text-gray-400"></i> ณ อาคารรัตนวิทยาพัฒน์ ชั้น 17 โซน A รพ.จุฬาลงกรณ์</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- ใช้ชื่อเต็มทั้งหมดตามเอกสารประกาศ -->
+                <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium mb-2">
+                    ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส แห่งโรงพยาบาลจุฬาลงกรณ์ สภากาชาดไทย
+                </p>
+                <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-medium">
+                    และหน่วยนาสิกวิทยาและภูมิแพ้ ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
+                </p>
             </div>
-
-            <!-- เอกสาร (กินพื้นที่ 3 ส่วน) -->
-            <div class="lg:col-span-3 bg-white rounded-2xl p-8 border-t-4 border-t-chula-blue shadow-sm">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                    <i class="fa-solid fa-file-signature text-chula-blue text-3xl mr-4"></i> เอกสารประกอบการสมัคร
-                </h3>
-                <ol class="list-decimal pl-6 space-y-5 text-lg text-gray-800 marker:text-chula-blue marker:font-bold">
-                    <li class="pl-2">สำเนา Transcript</li>
-                    <li class="pl-2">
-                        สำเนาวุฒิบัตรฯ หรือหนังสืออนุมัติฯ สาขาโสต ศอ นาสิกวิทยา
-                        <div class="mt-3 bg-yellow-50 p-5 rounded-xl border border-yellow-200 text-base">
-                            <p class="mb-3">
-                                <span class="inline-block bg-yellow-200 text-yellow-800 text-sm font-bold px-3 py-1 rounded mb-2">กรณีที่ยังเป็นแพทย์ประจำบ้าน</span><br>
-                                ให้ใช้ใบรับรองการเป็นแพทย์ประจำบ้านจากสถาบันที่ศึกษาอยู่
-                            </p>
-                            <p>
-                                <span class="inline-block bg-yellow-200 text-yellow-800 text-sm font-bold px-3 py-1 rounded mb-2">กรณีเป็นแพทย์ใช้ทุนเพื่อการสอบวุฒิบัตรฯ</span><br>
-                                ให้ใช้ใบรับรองการเป็นแพทย์ใช้ทุนเพื่อการสอบวุฒิบัตรฯ จากสถาบันที่ศึกษาอยู่
-                            </p>
-                        </div>
-                    </li>
-                    <li class="pl-2">ใบ Recommended</li>
-                    <li class="pl-2">หนังสือรับรองจากต้นสังกัด <span class="text-gray-500 text-base font-normal">(กรณีที่มีต้นสังกัด)</span></li>
-                    <li class="pl-2 font-semibold text-chula-blue">ผลการทดสอบ CU-TEP</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="bg-gradient-to-br from-chula-blue to-blue-900 rounded-3xl p-10 text-center text-white shadow-xl relative overflow-hidden">
-            <!-- Background Graphic -->
-            <i class="fa-solid fa-hospital absolute -right-10 -bottom-10 text-9xl text-white opacity-10"></i>
             
-            <h3 class="text-2xl md:text-3xl font-bold mb-4 relative z-10">สอบถามข้อมูลเพิ่มเติม</h3>
-            <p class="text-lg md:text-xl text-blue-200 mb-8 relative z-10">ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส</p>
-            
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-xl font-medium mb-10 relative z-10">
-                <a href="tel:022565231" class="flex items-center hover:text-chula-accent transition-colors bg-white/10 px-6 py-3 rounded-full">
-                    <i class="fa-solid fa-phone-volume text-2xl mr-3"></i> 02-256-5231
-                </a>
-                <a href="mailto:ecsinus@gmail.com" class="flex items-center hover:text-chula-accent transition-colors bg-white/10 px-6 py-3 rounded-full">
-                    <i class="fa-solid fa-envelope text-2xl mr-3"></i> ecsinus@gmail.com
-                </a>
-            </div>
-
-            <!-- ปุ่มสมัคร -->
-            <div class="relative z-10">
-                <a href="#" class="inline-flex items-center justify-center bg-chula-accent hover:bg-yellow-400 text-blue-900 font-bold py-5 px-12 rounded-full transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-1 text-xl md:text-2xl">
-                    <i class="fa-solid fa-paper-plane mr-3 text-2xl"></i> ดาวน์โหลดใบสมัคร / สมัครเรียน
-                </a>
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="bg-gray-800 text-gray-400 text-center py-10 mt-auto">
-        <p class="text-base">© 2570 ศูนย์ความเป็นเลิศทางการแพทย์การผ่าตัดส่องกล้องโรคจมูกและไซนัส รพ.จุฬาลงกรณ์</p>
-    </footer>
-
-</body>
-</html>
+            <!-- ส่วนอื่นๆ ของหน้าเว็บต่อจากตรงนี้... -->
