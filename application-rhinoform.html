@@ -37,10 +37,10 @@
     <header class="bg-brand-blue text-white shadow-md sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="rhinology.html" class="flex items-center gap-2 text-blue-200 hover:text-white transition font-medium">
+                <a href="rhinology.html" class="flex items-center gap-2 text-blue-200 hover:text-white transition font-medium text-lg">
                     <i class="fa-solid fa-arrow-left"></i> กลับไปหน้ารายละเอียด
                 </a>
-                <span class="font-semibold hidden sm:block">ระบบรับสมัครออนไลน์</span>
+                <span class="font-semibold text-lg hidden sm:block">ระบบรับสมัครออนไลน์</span>
             </div>
         </div>
     </header>
@@ -54,174 +54,187 @@
                 <!-- หัวฟอร์ม (Form Header) -->
                 <div class="bg-brand-light p-8 md:p-10 border-b border-gray-200 text-center">
                     <div class="flex justify-center gap-6 mb-6">
-                        <!-- โลโก้ (เว้นที่ไว้ใส่รูปตามเอกสาร) -->
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-200"><i class="fa-solid fa-plus text-red-500 text-2xl"></i></div>
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-200"><i class="fa-solid fa-school text-pink-500 text-2xl"></i></div>
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-200"><i class="fa-solid fa-plus text-red-500 text-3xl"></i></div>
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-200"><i class="fa-solid fa-school text-pink-500 text-3xl"></i></div>
                     </div>
                     <h1 class="text-2xl md:text-3xl font-bold text-brand-blue mb-2">ใบสมัครเข้าฝึกอบรมแพทย์ประจำบ้านต่อยอด</h1>
-                    <h2 class="text-lg text-blue-700 font-medium">อนุสาขานาสิกวิทยา โรคภูมิแพ้ และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า</h2>
+                    <h2 class="text-lg md:text-xl text-blue-700 font-medium">อนุสาขานาสิกวิทยา โรคภูมิแพ้ และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า</h2>
                 </div>
 
                 <div class="p-8 md:p-10 space-y-12">
 
                     <!-- ส่วนที่ 1: ข้อมูลส่วนบุคคล -->
                     <section>
-                        <h3 class="text-xl font-bold text-gray-900 form-section-title">1. ข้อมูลส่วนบุคคล</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 form-section-title">1. ข้อมูลส่วนบุคคล</h3>
                         
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
                             <!-- อัปโหลดรูปถ่าย -->
-                            <div class="md:col-span-12 flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-xl border border-dashed border-gray-300">
-                                <div class="w-24 h-32 bg-white border border-gray-200 flex flex-col items-center justify-center text-gray-400 shrink-0">
-                                    <i class="fa-regular fa-image text-2xl mb-1"></i>
-                                    <span class="text-xs">รูปถ่ายหน้าตรง</span>
+                            <div class="md:col-span-12 flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-5 rounded-xl border border-dashed border-gray-300">
+                                <div class="w-28 h-36 bg-white border border-gray-200 flex flex-col items-center justify-center text-gray-400 shrink-0">
+                                    <i class="fa-regular fa-image text-3xl mb-2"></i>
+                                    <span class="text-sm">รูปถ่ายหน้าตรง</span>
                                 </div>
                                 <div class="w-full">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">อัปโหลดรูปถ่าย</label>
-                                    <input type="file" accept="image/jpeg, image/png" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition">
-                                    <p class="text-xs text-gray-500 mt-1">ไฟล์ .jpg หรือ .png ขนาดไม่เกิน 2MB</p>
+                                    <label class="block text-base font-medium text-gray-800 mb-2">อัปโหลดรูปถ่าย <span class="text-red-500">*</span></label>
+                                    <input type="file" accept="image/jpeg, image/png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" required>
+                                    <p class="text-sm text-gray-500 mt-2">ไฟล์ .jpg หรือ .png ขนาดไม่เกิน 2MB</p>
                                 </div>
                             </div>
 
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">คำนำหน้า[cite: 8]</label>
-                                <select class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">คำนำหน้า <span class="text-red-500">*</span></label>
+                                <select class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                                     <option value="">เลือก</option>
                                     <option value="นพ.">นพ.</option>
                                     <option value="พญ.">พญ.</option>
                                 </select>
                             </div>
                             <div class="md:col-span-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุลผู้สมัคร[cite: 8] <span class="text-red-500">*</span></label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required>
+                                <label class="block text-base font-medium text-gray-800 mb-2">ชื่อ-นามสกุลผู้สมัคร <span class="text-red-500">*</span></label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">อายุ (ปี)[cite: 8]</label>
-                                <input type="number" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">อายุ (ปี)</label>
+                                <input type="number" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">สถานที่ติดต่อ[cite: 8] <span class="text-red-500">*</span></label>
-                                <textarea rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required></textarea>
+                                <label class="block text-base font-medium text-gray-800 mb-2">สถานที่ติดต่อ <span class="text-red-500">*</span></label>
+                                <textarea rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">หมายเลขโทรศัพท์[cite: 8] <span class="text-red-500">*</span></label>
-                                <input type="tel" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required>
+                                <label class="block text-base font-medium text-gray-800 mb-2">หมายเลขโทรศัพท์ <span class="text-red-500">*</span></label>
+                                <input type="tel" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">E-Mail[cite: 8] <span class="text-red-500">*</span></label>
-                                <input type="email" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required>
+                                <label class="block text-base font-medium text-gray-800 mb-2">E-Mail <span class="text-red-500">*</span></label>
+                                <input type="email" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">อาชีพบิดา[cite: 8]</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">อาชีพบิดา</label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">อาชีพมารดา[cite: 8]</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">อาชีพมารดา</label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
                     </section>
 
                     <!-- ส่วนที่ 2: ประวัติการศึกษาและการทำงาน -->
                     <section>
-                        <h3 class="text-xl font-bold text-gray-900 form-section-title">2. ประวัติการศึกษาและการทำงาน</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 form-section-title">2. ประวัติการศึกษาและการทำงาน</h3>
                         
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
                             <div class="md:col-span-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">จบการศึกษา พ.บ. จากสถาบัน[cite: 8] <span class="text-red-500">*</span></label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required>
+                                <label class="block text-base font-medium text-gray-800 mb-2">จบการศึกษา พ.บ. จากสถาบัน <span class="text-red-500">*</span></label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">ปี พ.ศ.[cite: 8]</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">ปี พ.ศ.</label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">เกรดเฉลี่ย[cite: 8]</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border">
+                                <label class="block text-base font-medium text-gray-800 mb-2">เกรดเฉลี่ย</label>
+                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
 
-                        <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6">
-                            <label class="block text-sm font-bold text-brand-blue mb-3">คุณวุฒิ สาขาโสต ศอ นาสิกวิทยา[cite: 8]</label>
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                                <div class="md:col-span-4 flex gap-4">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="board_type" value="หนังสืออนุมัติ" class="text-blue-600 focus:ring-blue-500">
-                                        <span class="ml-2 text-sm text-gray-700">หนังสืออนุมัติ[cite: 8]</span>
+                        <div class="bg-blue-50/50 p-6 rounded-xl border border-blue-100 mb-6">
+                            <label class="block text-lg font-bold text-brand-blue mb-4">คุณวุฒิ สาขาโสต ศอ นาสิกวิทยา</label>
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                                <div class="md:col-span-4 flex gap-5">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="radio" name="board_type" value="หนังสืออนุมัติ" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer">
+                                        <span class="ml-2 text-base text-gray-800">หนังสืออนุมัติ</span>
                                     </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="board_type" value="วุฒิบัตร" class="text-blue-600 focus:ring-blue-500">
-                                        <span class="ml-2 text-sm text-gray-700">วุฒิบัตร[cite: 8]</span>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="radio" name="board_type" value="วุฒิบัตร" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer">
+                                        <span class="ml-2 text-base text-gray-800">วุฒิบัตร</span>
                                     </label>
                                 </div>
-                                <div class="md:col-span-3 flex items-center gap-2">
-                                    <label class="text-sm font-medium text-gray-700 whitespace-nowrap">ปี พ.ศ.[cite: 8]</label>
-                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-2 border">
+                                <div class="md:col-span-3 flex items-center gap-3">
+                                    <label class="text-base font-medium text-gray-800 whitespace-nowrap">ปี พ.ศ.</label>
+                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
                                 </div>
-                                <div class="md:col-span-5 flex items-center gap-2">
-                                    <label class="text-sm font-medium text-gray-700 whitespace-nowrap">จากสถาบัน[cite: 8]</label>
-                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-2 border">
+                                <div class="md:col-span-5 flex items-center gap-3">
+                                    <label class="text-base font-medium text-gray-800 whitespace-nowrap">จากสถาบัน</label>
+                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">สถานที่ทำงานปัจจุบัน[cite: 8] <span class="text-red-500">*</span></label>
-                            <textarea rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 border" required></textarea>
+                            <!-- ปรับช่องสถานที่ทำงานปัจจุบันให้เป็นบรรทัดเดียว (Input Text) -->
+                            <label class="block text-base font-medium text-gray-800 mb-2">สถานที่ทำงานปัจจุบัน <span class="text-red-500">*</span></label>
+                            <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" placeholder="ระบุชื่อสถานที่ทำงาน" required>
                         </div>
                     </section>
 
-                    <!-- ส่วนที่ 3: ต้นสังกัด และ เอกสารรับรอง -->
+                    <!-- ส่วนที่ 3: ต้นสังกัด -->
                     <section>
-                        <h3 class="text-xl font-bold text-gray-900 form-section-title">3. ต้นสังกัด และ จดหมายรับรอง</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 form-section-title">3. ต้นสังกัด</h3>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <!-- ต้นสังกัด -->
-                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
-                                <label class="block text-base font-bold text-gray-800 mb-3">ต้นสังกัด[cite: 8]</label>
-                                <div class="flex flex-col gap-3">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="affiliation" value="ไม่มี" class="text-blue-600 w-4 h-4" checked>
-                                        <span class="ml-2 text-gray-700">ไม่มีต้นสังกัด[cite: 8]</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="affiliation" value="มี" class="text-blue-600 w-4 h-4">
-                                        <span class="ml-2 text-gray-700">มีต้นสังกัด (โปรดระบุสถาบัน)[cite: 8]</span>
-                                    </label>
-                                    <input type="text" placeholder="ชื่อสถาบันต้นสังกัด..." class="mt-1 w-full border-gray-300 rounded-lg shadow-sm p-2.5 border text-sm">
-                                </div>
-                            </div>
-
-                            <!-- ใบ Recommend -->
-                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
-                                <label class="block text-base font-bold text-gray-800 mb-3">ใบ Recommend (จดหมายแนะนำ)[cite: 8]</label>
-                                <div class="flex flex-col gap-3">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="recommend" value="ไม่มี" class="text-blue-600 w-4 h-4" checked>
-                                        <span class="ml-2 text-gray-700">ไม่มี[cite: 8]</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="recommend" value="มี" class="text-blue-600 w-4 h-4">
-                                        <span class="ml-2 text-gray-700">มี (โปรดระบุผู้รับรอง)[cite: 8]</span>
-                                    </label>
-                                    <input type="text" placeholder="ได้รับจาก..." class="mt-1 w-full border-gray-300 rounded-lg shadow-sm p-2.5 border text-sm">
-                                </div>
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                            <label class="block text-lg font-bold text-gray-800 mb-4">ท่านมีสถาบันต้นสังกัดหรือไม่?</label>
+                            <div class="flex flex-col gap-4">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="affiliation" value="ไม่มี" class="text-blue-600 w-5 h-5" checked>
+                                    <span class="ml-3 text-base text-gray-800">ไม่มีต้นสังกัด</span>
+                                </label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="affiliation" value="มี" class="text-blue-600 w-5 h-5">
+                                    <span class="ml-3 text-base text-gray-800">มีต้นสังกัด (โปรดระบุสถาบันด้านล่าง)</span>
+                                </label>
+                                <input type="text" placeholder="ระบุชื่อสถาบันต้นสังกัด..." class="mt-2 w-full md:w-1/2 border-gray-300 rounded-lg shadow-sm p-3 border text-base">
                             </div>
                         </div>
                     </section>
 
-                    <!-- ส่วนที่ 4: การรับรองข้อมูลส่วนตัว (แทนลายเซ็น) -->
+                    <!-- ส่วนที่ 4: อัปโหลดเอกสารประกอบการสมัคร -->
+                    <section>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 form-section-title">4. อัปโหลดเอกสารประกอบการสมัคร</h3>
+                        
+                        <div class="space-y-5">
+                            <!-- Transcript -->
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                <label class="block text-base font-bold text-brand-blue mb-2">สำเนาผลการศึกษา (Transcript) <span class="text-red-500">*</span></label>
+                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                            </div>
+                            
+                            <!-- วุฒิบัตร / หนังสืออนุมัติ -->
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                <label class="block text-base font-bold text-brand-blue mb-1">สำเนาวุฒิบัตรฯ หรือ หนังสืออนุมัติฯ <span class="text-red-500">*</span></label>
+                                <p class="text-sm text-gray-500 mb-3">(หากเป็นแพทย์ประจำบ้าน/ใช้ทุน ให้ใช้ใบรับรองจากสถาบันที่ศึกษาอยู่)</p>
+                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" required>
+                            </div>
+
+                            <!-- จดหมายแนะนำ (Recommendation Letter) -->
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                <label class="block text-base font-bold text-brand-blue mb-2">จดหมายแนะนำ (Recommendation Letter) <span class="text-red-500">*</span></label>
+                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                            </div>
+
+                            <!-- ผลการทดสอบภาษาอังกฤษ CU-TEP -->
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                <label class="block text-base font-bold text-brand-blue mb-2">ผลการทดสอบภาษาอังกฤษ CU-TEP <span class="text-red-500">*</span></label>
+                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- การรับรองข้อมูล -->
                     <section class="border-t border-gray-200 pt-8 mt-8">
-                        <div class="bg-blue-50 border border-blue-200 p-5 rounded-xl flex items-start gap-4">
-                            <input type="checkbox" id="certify" class="mt-1 w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500" required>
-                            <label for="certify" class="text-sm text-gray-700 leading-relaxed">
-                                ข้าพเจ้าขอรับรองว่าข้อความทั้งหมดในใบสมัครนี้เป็นความจริงทุกประการ 
-                                (เทียบเท่ากับการลงชื่อผู้สมัคร[cite: 8] ในรูปแบบอิเล็กทรอนิกส์)
+                        <div class="bg-blue-50 border border-blue-200 p-6 rounded-xl flex items-start gap-4">
+                            <input type="checkbox" id="certify" class="mt-1.5 w-6 h-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer shrink-0" required>
+                            <label for="certify" class="text-base text-gray-800 leading-relaxed cursor-pointer font-medium">
+                                ข้าพเจ้าขอรับรองว่าข้อความทั้งหมดและเอกสารที่แนบมาในใบสมัครนี้เป็นความจริงทุกประการ 
+                                (การทำเครื่องหมายในช่องนี้ถือเป็นการลงลายมือชื่ออิเล็กทรอนิกส์)
                             </label>
                         </div>
                     </section>
@@ -229,12 +242,12 @@
                 </div>
 
                 <!-- ปุ่ม Submit -->
-                <div class="bg-gray-50 p-8 border-t border-gray-200 flex justify-end gap-4">
-                    <button type="reset" class="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-100 transition">
+                <div class="bg-gray-50 p-8 md:px-10 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-4">
+                    <button type="reset" class="w-full sm:w-auto px-8 py-3.5 border border-gray-300 text-gray-700 text-lg font-medium rounded-xl hover:bg-gray-100 transition">
                         ล้างข้อมูล
                     </button>
-                    <button type="submit" class="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/30 transition transform hover:-translate-y-0.5">
-                        <i class="fa-solid fa-paper-plane mr-2"></i> ส่งใบสมัครออนไลน์
+                    <button type="submit" class="w-full sm:w-auto px-10 py-3.5 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> ส่งใบสมัครออนไลน์
                     </button>
                 </div>
             </form>
