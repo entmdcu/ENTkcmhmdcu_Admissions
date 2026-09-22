@@ -684,17 +684,28 @@
             });
         }
 
-        function toggleSponsor() {
-            const status = document.getElementById('hasSponsor').value;
+      function toggleSponsor() {
+            const select = document.getElementById('hasSponsor');
             const input = document.getElementById('sponsorName');
             const label = document.getElementById('sponsorLabel');
-            if(status === 'มี') {
-                input.disabled = false; input.classList.remove('bg-gray-50', 'border-gray-200'); input.classList.add('border-gray-300');
-                label.classList.remove('text-gray-400'); label.classList.add('text-gray-800');
+            
+            // เช็คว่าผู้ใช้เลือกตัวเลือกที่ 2 (index 1) ซึ่งก็คือ "มีต้นสังกัด" หรือไม่
+            if(select.selectedIndex === 1 || select.value === 'มี') {
+                input.disabled = false; 
+                input.removeAttribute('disabled'); // ปลดล็อคช่องกรอกแบบบังคับ
+                input.classList.remove('bg-gray-50', 'border-gray-200'); 
+                input.classList.add('border-gray-300');
+                label.classList.remove('text-gray-400'); 
+                label.classList.add('text-gray-800');
+                input.focus(); // ให้เคอร์เซอร์เด้งไปรอพิมพ์อัตโนมัติ
             } else {
-                if(input.value === '') input.value = ''; 
-                input.disabled = true; input.classList.add('bg-gray-50', 'border-gray-200'); input.classList.remove('border-gray-300');
-                label.classList.add('text-gray-400'); label.classList.remove('text-gray-800');
+                input.value = ''; 
+                input.disabled = true; 
+                input.setAttribute('disabled', 'true');
+                input.classList.add('bg-gray-50', 'border-gray-200'); 
+                input.classList.remove('border-gray-300');
+                label.classList.add('text-gray-400'); 
+                label.classList.remove('text-gray-800');
             }
         }
     </script>
