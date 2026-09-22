@@ -320,7 +320,11 @@
                 
                 <!-- เปลี่ยนเป็น space-y-4 เพื่อให้เรียงเป็นแถวเดียวลงมา -->
                 <div class="space-y-4">
-                    
+                    <!-- 0. รูปถ่าย -->
+                    <div class="p-5 border-2 border-pink-200 rounded-xl bg-pink-50 hover:bg-white hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">รูปถ่ายหน้าตรงผู้สมัคร <span class="text-gray-500 font-normal text-sm">(แต่งกายสุภาพ)</span></label>
+                        <input type="file" name="filePhoto" accept=".jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-pink-200 file:text-pink-800 hover:file:bg-pink-300 file:cursor-pointer cursor-pointer">
+                    </div>
                     <!-- 1. บัตรประชาชน -->
                     <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:border-pink-300 hover:shadow-md transition-all duration-200">
                         <label class="block font-bold mb-3 text-gray-800">1. สำเนาบัตรประจำตัวประชาชน</label>
@@ -410,7 +414,7 @@
 
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxEF3hibXYpYBUeIr_rwEypK4zhKa7SkKxQy-t9fFz3fdPon1tYx73FNdJk6HjTpkVm/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJnhjOMZj0rGneJxYP3rOUV68rv5aFumKfNRIaSj45xQ9gzX-7hAJ7AksVtQxipaEV/exec';
 
         // ปรับได้ตามที่ฝั่ง Apps Script/Drive รองรับ (ไฟล์ที่ใหญ่กว่านี้จะถูกเตือนให้บีบอัดก่อน)
         const MAX_FILE_MB = 15;
@@ -578,13 +582,11 @@
                 }
             }
 
-            // 2. สร้าง appId ถ้ายังไม่มี (ใบสมัครใหม่) เพื่อใช้เชื่อมไฟล์ทั้งหมดเข้ากับแถวข้อมูลเดียวกัน
+               // 2. ตรวจสอบ appId
             let appId = document.getElementById('appId').value;
             const isNewApplication = !appId;
-            if (!appId) {
-                appId = 'ENT' + Date.now() + Math.floor(Math.random() * 1000);
-                document.getElementById('appId').value = appId;
-            }
+            
+            // ถ้าเป็นใบสมัครใหม่ ปล่อยให้ appId เป็นค่าว่าง เพื่อให้หลังบ้านรันเลข 3 หลักให้
             textData.appId = appId;
 
             submitBtn.disabled = true;
@@ -601,6 +603,10 @@
                 const saveResult = await saveRes.json();
                 if (saveResult.status !== 'success') {
                     throw new Error(saveResult.message || 'บันทึกข้อมูลฟอร์มไม่สำเร็จ');
+                    // *** เพิ่มตรงนี้: นำรหัส 3 หลักที่หลังบ้านออกให้ มาใช้งานอัปโหลดไฟล์ต่อ ***
+                if (isNewApplication) {
+                    appId = saveResult.id;
+                    document.getElementById('appId').value = appId;
                 }
 
                 // 4. ส่งไฟล์ทีละไฟล์ (แต่ละคำขอมีไฟล์เดียว) เพื่อไม่ให้ payload รวมใหญ่เกินไป
