@@ -414,7 +414,7 @@
 
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJnhjOMZj0rGneJxYP3rOUV68rv5aFumKfNRIaSj45xQ9gzX-7hAJ7AksVtQxipaEV/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJhFOfcDU1cgNrR2UiXbi_5C7GQv87czi2JKwIzLhYYB6IHhab_h_N45k02L-tqlE4/exec';
 
         // ปรับได้ตามที่ฝั่ง Apps Script/Drive รองรับ (ไฟล์ที่ใหญ่กว่านี้จะถูกเตือนให้บีบอัดก่อน)
         const MAX_FILE_MB = 15;
@@ -603,7 +603,9 @@
                 const saveResult = await saveRes.json();
                 if (saveResult.status !== 'success') {
                     throw new Error(saveResult.message || 'บันทึกข้อมูลฟอร์มไม่สำเร็จ');
-                    // *** เพิ่มตรงนี้: นำรหัส 3 หลักที่หลังบ้านออกให้ มาใช้งานอัปโหลดไฟล์ต่อ ***
+                }
+
+                // *** นำรหัสที่หลังบ้านสร้างให้ มาใช้งานอัปโหลดไฟล์ต่อ ***
                 if (isNewApplication) {
                     appId = saveResult.id;
                     document.getElementById('appId').value = appId;
@@ -709,4 +711,5 @@
             }
         }
     </script>
+</body>
 </html>
