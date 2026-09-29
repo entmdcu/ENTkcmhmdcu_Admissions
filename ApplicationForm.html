@@ -26,25 +26,45 @@
 
         <!-- ระบบนำทาง Tabs -->
         <div class="flex border-b mb-8 justify-center gap-4">
-            <button onclick="switchTab('new')" id="tab-new" class="py-3 px-6 text-chula border-b-4 border-chula font-bold text-xl transition-colors">
-                กรอกใบสมัครใหม่
-            </button>
             <button onclick="switchTab('edit')" id="tab-edit" class="py-3 px-6 text-gray-500 hover:text-chula font-medium text-xl border-b-4 border-transparent transition-colors">
-                แก้ไข / แนบเอกสารเพิ่มเติม
-            </button>
+    อัปโหลดเอกสารเพิ่มเติม / แก้ไขเอกสาร
+</button>
         </div>
 
         <!-- Section: ค้นหาข้อมูลเดิม (ซ่อนเป็นค่าเริ่มต้น) -->
         <div id="section-edit" class="hidden bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8 max-w-3xl mx-auto">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">ค้นหาข้อมูลผู้สมัคร</h2>
-            <p class="text-gray-500 mb-4">กรอกรหัสผู้สมัครเพื่อดึงข้อมูลเดิมขึ้นมาแก้ไข หรืออัปโหลดเอกสารเพิ่มเติม</p>
-            <div class="flex flex-col md:flex-row gap-4">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">ค้นหาผู้สมัครเพื่ออัปโหลดเอกสาร</h2>
+<p class="text-gray-500 mb-4">กรอกรหัสผู้สมัคร หรือเลขบัตรประชาชน เพื่ออัปโหลดเอกสารเพิ่มเติมหรือแก้ไขเอกสารที่ส่งไปแล้ว</p>
                 <input type="text" id="searchId" placeholder="เช่น ENT70-01/2570" class="flex-1 border border-gray-300 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-xl">
                 <button onclick="searchData()" class="bg-chula hover:bg-pink-800 text-white font-bold px-8 py-3 rounded-lg transition-colors text-xl">ค้นหา</button>
             </div>
             <p id="searchStatus" class="mt-3 font-medium"></p>
         </div>
+        <form id="uploadForm" class="hidden bg-white p-6 md:p-12 rounded-xl shadow-md border border-gray-100 space-y-6" onsubmit="submitUpload(event)">
+    <div class="p-5 bg-yellow-50 border-2 border-yellow-300 rounded-xl text-base leading-relaxed">
+        <p class="font-bold text-yellow-800 mb-2">⚠ หมายเหตุ: กรุณาเลือกให้ถูกต้อง</p>
+        <ul class="list-disc pl-6 text-yellow-900 space-y-1">
+            <li><b>เพิ่มเติม</b> = ส่งเอกสารเพิ่ม โดยเก็บเอกสารเดิมไว้ทั้งหมด</li>
+            <li><b>แก้ไข</b> = ส่งเอกสารแทนฉบับเดิม <u>ทางภาควิชาจะยึดเอกสารที่ท่านอัปโหลดล่าสุดเป็นอันเสร็จสิ้น</u> (หากเลือกหลายไฟล์ในช่องเดียว ทุกไฟล์ที่เลือกจะถือเป็นชุดใหม่แทนชุดเดิม)</li>
+        </ul>
+        <p class="mt-2 text-yellow-900">เลือกไฟล์เฉพาะหัวข้อที่ต้องการส่งเท่านั้น หัวข้อที่ไม่เลือกไฟล์จะไม่ถูกเปลี่ยนแปลง</p>
+    </div>
+    <p id="uploadApplicant" class="font-bold text-chula text-xl"></p>
+    <div id="uploadItems" class="space-y-4"></div>
 
+    <div id="upProg" class="hidden max-w-3xl mx-auto">
+        <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+            <div id="upProgBar" class="bg-chula h-4 rounded-full transition-all duration-300" style="width:0%"></div>
+        </div>
+        <p id="upProgText" class="text-center text-gray-600 mt-2 text-base"></p>
+    </div>
+
+    <div class="pt-6 text-center border-t">
+        <button type="submit" id="upSubmitBtn" class="bg-chula hover:bg-[#a00c40] text-white font-bold text-2xl py-5 px-14 rounded-xl shadow-lg w-full md:w-auto">
+            ส่งเอกสาร
+        </button>
+    </div>
+</form>
         <!-- ======================= ฟอร์มรับสมัครหลัก ======================= -->
         <form id="applicationForm" class="bg-white p-6 md:p-12 rounded-xl shadow-md border border-gray-100 space-y-12" onsubmit="submitForm(event)">
             
