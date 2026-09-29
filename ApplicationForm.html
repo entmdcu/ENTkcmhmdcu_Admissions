@@ -442,87 +442,199 @@
         const IMAGE_MAX_DIMENSION = 1600;
         const IMAGE_QUALITY = 0.75;
 
-       function switchTab(tab) {
-            const form = document.getElementById('applicationForm');
-            const editSection = document.getElementById('section-edit');
-            const tNew = document.getElementById('tab-new');
-            const tEdit = document.getElementById('tab-edit');
-            const statusText = document.getElementById('searchStatus');
 
-            if(tab === 'new') {
-                editSection.classList.add('hidden');
-                form.classList.remove('hidden');
-                form.reset();
-                document.getElementById('appId').value = '';
-                
-                tNew.classList.add('text-chula', 'border-chula');
-                tNew.classList.remove('text-gray-500', 'border-transparent');
-                tEdit.classList.add('text-gray-500', 'border-transparent');
-                tEdit.classList.remove('text-chula', 'border-chula');
-                
-                document.getElementById('submitBtn').innerText = 'บันทึกข้อมูลและส่งใบสมัคร';
-                statusText.innerText = '';
+            // รายการเอกสาร (field ต้องตรงกับชื่อคอลัมน์/ตัวแปร {{field}} ใน template เดิม)
+const UPLOAD_DOCS = [
+    { field: 'filePhoto',      label: 'รูปถ่าย',                 title: 'รูปถ่ายหน้าตรงผู้สมัคร' },
+    { field: 'fileIdCard',     label: 'สำเนาบัตรประชาชน',        title: '1. สำเนาบัตรประจำตัวประชาชน' },
+    { field: 'fileNameChange', label: 'ใบเปลี่ยนชื่อสกุล-ทะเบียนสมรส', title: '2. สำเนาใบเปลี่ยนชื่อ-สกุล / ใบทะเบียนสมรส (ถ้ามี)' },
+    { field: 'fileLicense',    label: 'ใบประกอบวิชาชีพเวชกรรม',  title: '3. สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม / หนังสือรับรอง' },
+    { field: 'fileIntern',     label: 'ใบรับรองเพิ่มพูนทักษะ',    title: '4. สำเนาประกาศนียบัตร / ใบรับรองผ่านเพิ่มพูนทักษะ' },
+    { field: 'fileSponsor',    label: 'หนังสือจากต้นสังกัด',      title: '5. หนังสือจากต้นสังกัด (เฉพาะผู้มีต้นสังกัด)' },
+    { field: 'fileTranscript', label: 'Transcript',              title: '6. ใบแสดงผลการศึกษา (Transcript)' },
+    { field: 'fileNL',         label: 'ผลคะแนน ศรว',             title: '7. เอกสารผลคะแนน ศรว. (NL)' },
+    { field: 'fileCV',         label: 'CV',                      title: '8. ประวัติย่อ (CV) ไม่เกิน 2 หน้า' },
+    { field: 'filePortfolio',  label: 'Portfolio',               title: '9. Portfolio' },
+    { field: 'fileRecLetter',  label: 'หนังสือรับรอง',           title: '10. หนังสือรับรอง/แนะนำผู้สมัคร', multiple: true },
+    { field: 'fileMedical',    label: 'ใบรับรองแพทย์',           title: '11. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ', multiple: true }
+];
+let currentApplicant = null; // {appId, first, last}
+
+function switchTab(tab) {
+    const form = document.getElementById('applicationForm');
+    const uploadForm = document.getElementById('uploadForm');
+    const editSection = document.getElementById('section-edit');
+    const tNew = document.getElementById('tab-new');
+    const tEdit = document.getElementById('tab-edit');
+    document.getElementById('searchStatus').innerText = '';
+    uploadForm.classList.add('hidden');
+
+    if (tab === 'new') {
+        editSection.classList.add('hidden');
+        form.classList.remove('hidden');
+        form.reset();
+        document.getElementById('appId').value = '';
+        tNew.classList.add('text-chula', 'border-chula');
+        tNew.classList.remove('text-gray-500', 'border-transparent');
+        tEdit.classList.add('text-gray-500', 'border-transparent');
+        tEdit.classList.remove('text-chula', 'border-chula');
+    } else {
+        editSection.classList.remove('hidden');
+        form.classList.add('hidden');
+        tEdit.classList.add('text-chula', 'border-chula');
+        tEdit.classList.remove('text-gray-500', 'border-transparent');
+        tNew.classList.add('text-gray-500', 'border-transparent');
+        tNew.classList.remove('text-chula', 'border-chula');
+    }
+}
+
+function searchData() {
+    const searchId = document.getElementById('searchId').value.trim();
+    const statusText = document.getElementById('searchStatus');
+    const uploadForm = document.getElementById('uploadForm');
+
+    if (!searchId) {
+        statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
+        statusText.className = 'mt-3 font-medium text-red-500';
+        uploadForm.classList.add('hidden');
+        return;
+    }
+    statusText.innerText = 'กำลังค้นหาข้อมูล...';
+    statusText.className = 'mt-3 font-medium text-blue-500';
+
+    fetch(`${SCRIPT_URL}?action=search&searchId=${encodeURIComponent(searchId)}`)
+        .then(r => r.json())
+        .then(result => {
+            if (result.status === 'success') {
+                const d = result.data;
+                currentApplicant = { appId: d.appId, first: d.firstNameTh || '', last: d.lastNameTh || '' };
+                statusText.innerText = 'พบข้อมูลผู้สมัคร';
+                statusText.className = 'mt-3 font-bold text-green-600';
+                document.getElementById('uploadApplicant').innerText =
+                    `ผู้สมัคร: ${d.titleTh || ''}${currentApplicant.first} ${currentApplicant.last} (รหัส ${currentApplicant.appId})`;
+                buildUploadItems();
+                uploadForm.classList.remove('hidden');
             } else {
-                editSection.classList.remove('hidden');
-                form.classList.add('hidden');
-                form.reset();
-                
-                tEdit.classList.add('text-chula', 'border-chula');
-                tEdit.classList.remove('text-gray-500', 'border-transparent');
-                tNew.classList.add('text-gray-500', 'border-transparent');
-                tNew.classList.remove('text-chula', 'border-chula');
-                
-                document.getElementById('submitBtn').innerText = 'ส่งข้อมูลการอัปเดต';
-                statusText.innerText = '';
-            }
-        }
-
-        function searchData() {
-            const searchId = document.getElementById('searchId').value.trim();
-            const statusText = document.getElementById('searchStatus');
-            const form = document.getElementById('applicationForm');
-
-            if(!searchId) {
-                statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
+                statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
                 statusText.className = 'mt-3 font-medium text-red-500';
-                form.classList.add('hidden');
+                uploadForm.classList.add('hidden');
+            }
+        })
+        .catch(() => {
+            statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบ';
+            statusText.className = 'mt-3 font-medium text-red-500';
+        });
+}
+
+function buildUploadItems() {
+    const box = document.getElementById('uploadItems');
+    box.innerHTML = UPLOAD_DOCS.map(d => `
+        <div class="p-5 border border-gray-200 rounded-xl bg-gray-50">
+            <label class="block font-bold mb-3 text-gray-800">${d.title}${d.multiple ? ' <span class="text-gray-500 font-normal text-sm">(เลือกได้หลายไฟล์)</span>' : ''}</label>
+            <input type="file" id="up_${d.field}" ${d.multiple ? 'multiple' : ''} accept=".pdf,.jpg,.jpeg,.png"
+                class="block w-full text-base text-gray-500 mb-3 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
+            <div class="flex flex-wrap gap-6 text-base">
+                <label class="inline-flex items-center cursor-pointer"><input type="radio" name="mode_${d.field}" value="add" class="mr-2 w-5 h-5"> เพิ่มเติม</label>
+                <label class="inline-flex items-center cursor-pointer"><input type="radio" name="mode_${d.field}" value="replace" class="mr-2 w-5 h-5"> แก้ไข (แทนที่ฉบับเดิม)</label>
+            </div>
+        </div>`).join('');
+}
+
+function setUpProgress(percent, text) {
+    document.getElementById('upProg').classList.remove('hidden');
+    document.getElementById('upProgBar').style.width = percent + '%';
+    document.getElementById('upProgText').innerText = text;
+}
+
+async function submitUpload(event) {
+    event.preventDefault();
+    if (!currentApplicant) return;
+
+    // 1. รวบรวมไฟล์ + ตรวจว่าเลือก เพิ่มเติม/แก้ไข ครบทุกช่องที่มีไฟล์
+    const jobs = [];
+    for (const d of UPLOAD_DOCS) {
+        const files = Array.from(document.getElementById('up_' + d.field).files);
+        if (files.length === 0) continue;
+        const modeEl = document.querySelector(`input[name="mode_${d.field}"]:checked`);
+        if (!modeEl) {
+            alert(`กรุณาเลือก "เพิ่มเติม" หรือ "แก้ไข" ให้หัวข้อ:\n${d.title}`);
+            return;
+        }
+        for (const f of files) {
+            if (f.size > MAX_FILE_MB * 1024 * 1024) {
+                alert(`ไฟล์ "${f.name}" ใหญ่เกิน ${MAX_FILE_MB}MB กรุณาบีบอัดก่อนอัปโหลด`);
                 return;
             }
+        }
+        files.forEach((f, i) => jobs.push({ doc: d, file: f, mode: modeEl.value, idx: i, total: files.length }));
+    }
+    if (jobs.length === 0) { alert('กรุณาเลือกไฟล์อย่างน้อย 1 รายการ'); return; }
 
-            statusText.innerText = 'กำลังค้นหาข้อมูล...';
-            statusText.className = 'mt-3 font-medium text-blue-500';
+    const replaceTitles = [...new Set(jobs.filter(j => j.mode === 'replace').map(j => j.doc.label))];
+    if (replaceTitles.length &&
+        !confirm(`ท่านเลือก "แก้ไข" ในหัวข้อ: ${replaceTitles.join(', ')}\n\nทางภาควิชาจะยึดเอกสารที่อัปโหลดล่าสุดเป็นอันเสร็จสิ้น ยืนยันหรือไม่?`)) return;
 
-            fetch(`${SCRIPT_URL}?action=search&searchId=${encodeURIComponent(searchId)}`)
-            .then(response => response.json())
-            .then(result => {
-                if(result.status === 'success') {
-                    statusText.innerText = 'พบข้อมูล! แสดงฟอร์มด้านล่างเพื่อให้ท่านแก้ไข (ข้อมูลไฟล์เอกสารเดิมจะถูกจัดเก็บไว้แล้ว หากต้องการเพิ่มสามารถอัปโหลดไฟล์ใหม่ได้)';
-                    statusText.className = 'mt-3 font-bold text-green-600';
-                    populateForm(result.data);
-                    form.classList.remove('hidden'); 
-                } else {
-                    statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
-                    statusText.className = 'mt-3 font-medium text-red-500';
-                    form.classList.add('hidden');
-                }
-            })
-            .catch(error => {
-                statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบ';
-                statusText.className = 'mt-3 font-medium text-red-500';
+    const btn = document.getElementById('upSubmitBtn');
+    const original = btn.innerText;
+    btn.disabled = true;
+
+    try {
+        for (let i = 0; i < jobs.length; i++) {
+            const { doc, file, mode, idx, total } = jobs[i];
+            btn.innerText = `กำลังอัปโหลด ${i + 1}/${jobs.length}...`;
+            setUpProgress(5 + Math.round((i / jobs.length) * 85), `กำลังอัปโหลด ${i + 1}/${jobs.length}: ${file.name}`);
+
+            const toSend = await compressImageIfNeeded(file);
+            const base64 = await readFileAsBase64(toSend);
+
+            // ตั้งชื่อไฟล์: ชื่อ_นามสกุล_ชื่อเอกสาร_แก้ไข/เพิ่มเติม(_เลขลำดับถ้าหลายไฟล์).นามสกุล
+            let ext = (toSend.name.split('.').pop() || '').toLowerCase();
+            if (toSend.type === 'image/jpeg' && ext === 'png') ext = 'jpg';
+            const suffix = mode === 'replace' ? 'แก้ไข' : 'เพิ่มเติม';
+            const num = total > 1 ? `_${idx + 1}` : '';
+            const newName = `${currentApplicant.first}_${currentApplicant.last}_${doc.label}_${suffix}${num}.${ext}`
+                .replace(/[\\/:*?"<>|]/g, '-');
+
+            const res = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    action: 'uploadFile',
+                    appId: currentApplicant.appId,
+                    field: doc.field,
+                    // แก้ไข: ไฟล์แรกของช่องนั้นแทนที่ของเดิม ไฟล์ถัดไปต่อท้ายเป็นชุดใหม่
+                    mode: (mode === 'replace' && idx === 0) ? 'replace' : 'append',
+                    name: newName,
+                    mimeType: toSend.type,
+                    base64
+                })
             });
+            const result = await res.json();
+            if (result.status !== 'success') throw new Error(`อัปโหลด "${file.name}" ไม่สำเร็จ: ${result.message || ''}`);
         }
 
-        function populateForm(data) {
-            document.getElementById('appId').value = data.appId || '';
-            Object.keys(data).forEach(key => {
-                const field = document.querySelector(`[name="${key}"]`);
-                if(field && field.type !== 'file') {
-                    field.value = data[key];
-                }
-            });
-            toggleSponsor();
-        }
+        btn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
+        setUpProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
+        const fin = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'finalize', appId: currentApplicant.appId, isUpdate: true })
+        });
+        const finResult = await fin.json();
+        if (finResult.status !== 'success') throw new Error(finResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
 
+        setUpProgress(100, 'เสร็จสิ้น!');
+        alert('อัปโหลดเอกสารเรียบร้อยแล้ว ระบบส่งอีเมลยืนยันให้ท่านแล้ว');
+        buildUploadItems();
+    } catch (err) {
+        console.error(err);
+        alert('เกิดข้อผิดพลาด: ' + err.message);
+    } finally {
+        btn.innerText = original;
+        btn.disabled = false;
+        document.getElementById('upProg').classList.add('hidden');
+    }
+}
         // ฟังก์ชันอ่านไฟล์เป็น Base64
         function readFileAsBase64(file) {
             return new Promise((resolve, reject) => {
