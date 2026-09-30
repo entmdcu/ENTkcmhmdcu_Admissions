@@ -790,10 +790,7 @@
                 submitBtn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
                 setProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
                 const finalizeRes = await fetch(`${SCRIPT_URL}?action=finalize&appId=${encodeURIComponent(appId)}&isUpdate=${!isNewApplication}`);
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'finalize', appId, isUpdate: !isNewApplication }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+             
                 const finalizeResult = await finalizeRes.json();
                 if (finalizeResult.status !== 'success') {
                     throw new Error(finalizeResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
