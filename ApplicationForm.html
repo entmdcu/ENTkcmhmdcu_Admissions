@@ -481,34 +481,42 @@
         
         let currentApplicant = null;
 
-        function switchTab(tab) {
-            const form = document.getElementById('applicationForm');
-            const uploadForm = document.getElementById('uploadForm');
-            const editSection = document.getElementById('section-edit');
-            const tNew = document.getElementById('tab-new');
-            const tEdit = document.getElementById('tab-edit');
-            
-            document.getElementById('searchStatus').innerText = '';
-            uploadForm.classList.add('hidden');
+       <script>
+    // ... (ตัวแปร SCRIPT_URL และ UPLOAD_DOCS คงเดิม) ...
 
-            if (tab === 'new') {
-                editSection.classList.add('hidden');
-                form.classList.remove('hidden');
-                form.reset();
-                document.getElementById('appId').value = '';
-                
-                tNew.classList.add('text-chula', 'border-chula', 'font-bold');
-                tNew.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
-                tEdit.classList.add('text-gray-500', 'border-transparent', 'font-medium');
-                tEdit.classList.remove('text-chula', 'border-chula', 'font-bold');
-            } else {
-                editSection.classList.remove('hidden');
-                form.classList.add('hidden');
-                
-                tEdit.classList.add('text-chula', 'border-chula', 'font-bold');
-                tEdit.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
-                tNew.classList.add('text-gray-500', 'border-transparent', 'font-medium');
-                tNew.classList.remove('text-chula', 'border-chula', 'font-bold');
+    function switchTab(tab) {
+        const form = document.getElementById('applicationForm');
+        const uploadForm = document.getElementById('uploadForm');
+        const editSection = document.getElementById('section-edit');
+        const tNew = document.getElementById('tab-new');
+        const tEdit = document.getElementById('tab-edit'); // <-- เพิ่มบรรทัดนี้เข้ามาเพื่อให้อ่านปุ่มแก้ไขได้ถูกต้อง
+        
+        document.getElementById('searchStatus').innerText = '';
+        uploadForm.classList.add('hidden');
+
+        if (tab === 'new') {
+            editSection.classList.add('hidden');
+            form.classList.remove('hidden');
+            form.reset();
+            document.getElementById('appId').value = '';
+            
+            tNew.classList.add('text-chula', 'border-chula', 'font-bold');
+            tNew.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
+            tEdit.classList.add('text-gray-500', 'border-transparent', 'font-medium');
+            tEdit.classList.remove('text-chula', 'border-chula', 'font-bold');
+        } else {
+            editSection.classList.remove('hidden');
+            form.classList.add('hidden');
+            
+            tEdit.classList.add('text-chula', 'border-chula', 'font-bold');
+            tEdit.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
+            tNew.classList.add('text-gray-500', 'border-transparent', 'font-medium');
+            tNew.classList.remove('text-chula', 'border-chula', 'font-bold');
+        }
+    }
+
+    // ... (ฟังก์ชันอื่นๆ ที่เหลือคงเดิม) ...
+</script>
             }
         }
 
