@@ -636,7 +636,7 @@
 
                 btn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
                 setUpProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
-                const fin = await fetch(SCRIPT_URL, {
+               const fin = await fetch(`${SCRIPT_URL}?action=finalize&appId=${encodeURIComponent(currentApplicant.appId)}&isUpdate=true`);
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: 'finalize', appId: currentApplicant.appId, isUpdate: true })
@@ -789,7 +789,7 @@
 
                 submitBtn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
                 setProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
-                const finalizeRes = await fetch(SCRIPT_URL, {
+                const finalizeRes = await fetch(`${SCRIPT_URL}?action=finalize&appId=${encodeURIComponent(appId)}&isUpdate=${!isNewApplication}`);
                     method: 'POST',
                     body: JSON.stringify({ action: 'finalize', appId, isUpdate: !isNewApplication }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
