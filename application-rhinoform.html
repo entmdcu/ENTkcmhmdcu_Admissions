@@ -281,6 +281,12 @@
                                 <label class="block text-base font-bold text-brand-blue mb-2">ผลการทดสอบภาษาอังกฤษ CU-TEP <span class="text-red-500">*</span></label>
                                 <input type="file" name="fileCUTEP" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                             </div>
+
+                            <!-- เพิ่มช่องอัปโหลดเอกสารศูนย์เวชบัณฑิตศึกษาฯ -->
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                <label class="block text-base font-bold text-brand-blue mb-2">ใบสมัครศูนย์เวชบัณฑิตศึกษาแห่งประเทศ <span class="text-red-500">*</span></label>
+                                <input type="file" name="fileTCGME" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
+                            </div>
                         </div>
                     </section>
 
@@ -327,12 +333,14 @@
         const IMAGE_MAX_DIMENSION = 1600;
         const IMAGE_QUALITY = 0.75;
 
+        // เพิ่ม fileTCGME เข้าไปใน UPLOAD_DOCS
         const UPLOAD_DOCS = [
             { field: 'filePhoto',      label: 'รูปถ่าย',                 title: 'รูปถ่ายหน้าตรง' },
             { field: 'fileTranscript', label: 'Transcript',              title: 'สำเนาผลการศึกษา (Transcript)' },
             { field: 'fileBoard',      label: 'วุฒิบัตรหรืออนุมัติบัตร',   title: 'สำเนาวุฒิบัตรฯ หรือ หนังสืออนุมัติฯ' },
             { field: 'fileRecLetter',  label: 'Recommendation',          title: 'จดหมายแนะนำ (Recommendation Letter)' },
-            { field: 'fileCUTEP',      label: 'CU-TEP',                  title: 'ผลการทดสอบภาษาอังกฤษ CU-TEP' }
+            { field: 'fileCUTEP',      label: 'CU-TEP',                  title: 'ผลการทดสอบภาษาอังกฤษ CU-TEP' },
+            { field: 'fileTCGME',      label: 'ใบสมัครศูนย์เวชฯ',         title: 'ใบสมัครศูนย์เวชบัณฑิตศึกษาแห่งประเทศ' }
         ];
 
         let currentApplicant = null;
