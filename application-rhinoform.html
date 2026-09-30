@@ -33,7 +33,7 @@
         .form-section-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background-color: #3b82f6; border-radius: 2px; }
     </style>
 </head>
-<body class="text-gray-800 antialiased font-sans">
+<body class="text-gray-800 antialiased font-sans pb-16">
 
     <!-- Header ขนาดเล็ก -->
     <header class="bg-brand-blue text-white shadow-md sticky top-0 z-50">
@@ -47,15 +47,14 @@
         </div>
     </header>
 
-    <!-- พื้นที่ฟอร์มหลัก -->
+    <!-- พื้นที่หลัก -->
     <main class="py-10">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <form action="#" method="POST" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 
                 <!-- หัวฟอร์ม และ ระบบ Tabs -->
                 <div class="bg-white pt-10 px-8 md:px-10 text-center">
-                    
                     <h1 class="text-2xl md:text-3xl font-bold text-chula-dark-pink mb-3">
                         ใบสมัครแพทย์ประจำบ้านต่อยอด ประจำปีการศึกษา 2570
                     </h1>
@@ -66,19 +65,59 @@
 
                     <!-- ระบบ Tabs Navigation -->
                     <div class="flex justify-center border-b border-gray-200 flex-wrap">
-                        <!-- แท็บที่ 1: กรอกใหม่ (Active) -->
-                        <a href="application-form.html" class="px-6 md:px-10 py-4 text-base md:text-lg font-bold text-chula-dark-pink border-b-4 border-chula-dark-pink">
+                        <button onclick="switchTab('new')" id="tab-new" type="button" class="px-6 md:px-10 py-4 text-base md:text-lg font-bold text-chula-dark-pink border-b-4 border-chula-dark-pink transition">
                             กรอกใบสมัครใหม่
-                        </a>
-                        
-                        <!-- แท็บที่ 2: แก้ไข (Inactive) -->
-                        <a href="edit-application.html" class="px-6 md:px-10 py-4 text-base md:text-lg font-medium text-gray-500 hover:text-chula-dark-pink hover:border-gray-300 border-b-4 border-transparent transition">
+                        </button>
+                        <button onclick="switchTab('edit')" id="tab-edit" type="button" class="px-6 md:px-10 py-4 text-base md:text-lg font-medium text-gray-500 hover:text-chula-dark-pink hover:border-gray-300 border-b-4 border-transparent transition">
                             แก้ไข / แนบเอกสารเพิ่มเติม
-                        </a>
+                        </button>
                     </div>
                 </div>
 
-                <div class="p-8 md:p-10 space-y-12">
+                <!-- ======================= โหมดแก้ไข / อัปโหลดเพิ่มเติม ======================= -->
+                <div id="section-edit" class="hidden p-8 md:p-10">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">ค้นหาผู้สมัครเพื่ออัปโหลดเอกสาร</h2>
+                        <p class="text-gray-500 mb-6">กรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน เพื่อแก้ไขหรืออัปโหลดเอกสารเพิ่มเติม</p>
+                        <div class="flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
+                            <input type="text" id="searchId" placeholder="เช่น รหัสผู้สมัคร / บัตรประชาชน" class="flex-1 border border-gray-300 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+                            <button onclick="searchData()" class="bg-brand-blue hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg transition-colors text-lg">ค้นหา</button>
+                        </div>
+                        <p id="searchStatus" class="mt-4 font-medium"></p>
+                    </div>
+
+                    <form id="uploadForm" class="hidden space-y-6 max-w-3xl mx-auto" onsubmit="submitUpload(event)">
+                        <div class="p-5 bg-yellow-50 border border-yellow-200 rounded-xl text-base leading-relaxed">
+                            <p class="font-bold text-yellow-800 mb-2">⚠ หมายเหตุ: การเลือกรูปแบบเอกสาร</p>
+                            <ul class="list-disc pl-6 text-yellow-900 space-y-1">
+                                <li><b>เพิ่มเติม</b> = ส่งเอกสารเพิ่ม (เก็บไฟล์เดิมไว้)</li>
+                                <li><b>แก้ไข</b> = ส่งเอกสารแทนฉบับเดิม (ลบของเก่าทิ้ง)</li>
+                            </ul>
+                        </div>
+                        
+                        <p id="uploadApplicant" class="font-bold text-chula-dark-pink text-xl text-center mb-6"></p>
+                        
+                        <div id="uploadItems" class="space-y-4"></div>
+
+                        <div id="upProg" class="hidden mt-6">
+                            <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                                <div id="upProgBar" class="bg-blue-600 h-4 rounded-full transition-all duration-300" style="width:0%"></div>
+                            </div>
+                            <p id="upProgText" class="text-center text-gray-600 mt-2 text-base"></p>
+                        </div>
+
+                        <div class="pt-6 text-center border-t border-gray-200 mt-8">
+                            <button type="submit" id="upSubmitBtn" class="bg-brand-blue hover:bg-blue-800 text-white font-bold text-xl py-4 px-12 rounded-xl shadow-lg w-full md:w-auto transition transform hover:-translate-y-0.5">
+                                ส่งเอกสาร
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ======================= ฟอร์มหลัก (กรอกใหม่) ======================= -->
+                <form id="applicationForm" method="POST" enctype="multipart/form-data" class="p-8 md:p-10 space-y-12" onsubmit="submitForm(event)">
+                    
+                    <input type="hidden" name="appId" id="appId" value="">
 
                     <!-- ส่วนที่ 1: ข้อมูลส่วนบุคคล -->
                     <section>
@@ -93,52 +132,56 @@
                                 </div>
                                 <div class="w-full">
                                     <label class="block text-base font-medium text-gray-800 mb-2">อัปโหลดรูปถ่าย <span class="text-red-500">*</span></label>
-                                    <input type="file" accept="image/jpeg, image/png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" required>
+                                    <input type="file" name="filePhoto" accept="image/jpeg, image/png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                                     <p class="text-sm text-gray-500 mt-2">ไฟล์ .jpg หรือ .png ขนาดไม่เกิน 2MB</p>
                                 </div>
                             </div>
 
                             <div class="md:col-span-3">
                                 <label class="block text-base font-medium text-gray-800 mb-2">คำนำหน้า <span class="text-red-500">*</span></label>
-                                <select class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                                <select name="title" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                                     <option value="">- เลือก -</option>
                                     <option value="นพ.">นพ.</option>
                                     <option value="พญ.">พญ.</option>
                                 </select>
                             </div>
-                            <div class="md:col-span-6">
-                                <label class="block text-base font-medium text-gray-800 mb-2">ชื่อ-นามสกุลผู้สมัคร <span class="text-red-500">*</span></label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                            <div class="md:col-span-4">
+                                <label class="block text-base font-medium text-gray-800 mb-2">ชื่อ <span class="text-red-500">*</span></label>
+                                <input type="text" name="firstName" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div class="md:col-span-3">
+                                <label class="block text-base font-medium text-gray-800 mb-2">นามสกุล <span class="text-red-500">*</span></label>
+                                <input type="text" name="lastName" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                            </div>
+                            <div class="md:col-span-2">
                                 <label class="block text-base font-medium text-gray-800 mb-2">อายุ (ปี)</label>
-                                <input type="number" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
+                                <input type="number" name="age" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="md:col-span-2">
                                 <label class="block text-base font-medium text-gray-800 mb-2">สถานที่ติดต่อ <span class="text-red-500">*</span></label>
-                                <textarea rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required></textarea>
+                                <textarea name="contactAddress" rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-base font-medium text-gray-800 mb-2">หมายเลขโทรศัพท์ <span class="text-red-500">*</span></label>
-                                <input type="tel" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                                <input type="tel" name="phone" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div>
                                 <label class="block text-base font-medium text-gray-800 mb-2">E-Mail <span class="text-red-500">*</span></label>
-                                <input type="email" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                                <input type="email" name="email" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-base font-medium text-gray-800 mb-2">อาชีพบิดา</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
+                                <input type="text" name="fatherJob" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                             <div>
                                 <label class="block text-base font-medium text-gray-800 mb-2">อาชีพมารดา</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
+                                <input type="text" name="motherJob" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
                     </section>
@@ -150,15 +193,15 @@
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
                             <div class="md:col-span-6">
                                 <label class="block text-base font-medium text-gray-800 mb-2">จบการศึกษา พ.บ. จากสถาบัน <span class="text-red-500">*</span></label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
+                                <input type="text" name="medSchool" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" required>
                             </div>
                             <div class="md:col-span-3">
                                 <label class="block text-base font-medium text-gray-800 mb-2">ปี พ.ศ.</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
+                                <input type="text" name="medYear" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                             <div class="md:col-span-3">
                                 <label class="block text-base font-medium text-gray-800 mb-2">เกรดเฉลี่ย</label>
-                                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
+                                <input type="text" name="gpa" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base">
                             </div>
                         </div>
 
@@ -167,28 +210,28 @@
                             <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
                                 <div class="md:col-span-4 flex gap-5">
                                     <label class="inline-flex items-center cursor-pointer">
-                                        <input type="radio" name="board_type" value="หนังสืออนุมัติ" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer">
+                                        <input type="radio" name="boardType" value="หนังสืออนุมัติ" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer" checked>
                                         <span class="ml-2 text-base text-gray-800">หนังสืออนุมัติ</span>
                                     </label>
                                     <label class="inline-flex items-center cursor-pointer">
-                                        <input type="radio" name="board_type" value="วุฒิบัตร" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer">
+                                        <input type="radio" name="boardType" value="วุฒิบัตร" class="text-blue-600 w-5 h-5 focus:ring-blue-500 cursor-pointer">
                                         <span class="ml-2 text-base text-gray-800">วุฒิบัตร</span>
                                     </label>
                                 </div>
                                 <div class="md:col-span-3 flex items-center gap-3">
                                     <label class="text-base font-medium text-gray-800 whitespace-nowrap">ปี พ.ศ.</label>
-                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
+                                    <input type="text" name="boardYear" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
                                 </div>
                                 <div class="md:col-span-5 flex items-center gap-3">
                                     <label class="text-base font-medium text-gray-800 whitespace-nowrap">จากสถาบัน</label>
-                                    <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
+                                    <input type="text" name="boardInstitute" class="w-full border-gray-300 rounded-lg shadow-sm p-3 border text-base">
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-6">
                             <label class="block text-base font-medium text-gray-800 mb-2">สถานที่ทำงานปัจจุบัน <span class="text-red-500">*</span></label>
-                            <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" placeholder="ระบุชื่อสถานที่ทำงาน" required>
+                            <input type="text" name="currentWorkplace" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border text-base" placeholder="ระบุชื่อสถานที่ทำงาน" required>
                         </div>
                     </section>
 
@@ -200,14 +243,14 @@
                             <label class="block text-lg font-bold text-gray-800 mb-4">ท่านมีสถาบันต้นสังกัดหรือไม่?</label>
                             <div class="flex flex-col gap-4">
                                 <label class="inline-flex items-center cursor-pointer">
-                                    <input type="radio" name="affiliation" value="ไม่มี" class="text-blue-600 w-5 h-5" checked>
+                                    <input type="radio" name="hasSponsor" value="ไม่มี" onchange="toggleSponsor()" class="text-blue-600 w-5 h-5" checked>
                                     <span class="ml-3 text-base text-gray-800">ไม่มีต้นสังกัด</span>
                                 </label>
                                 <label class="inline-flex items-center cursor-pointer">
-                                    <input type="radio" name="affiliation" value="มี" class="text-blue-600 w-5 h-5">
+                                    <input type="radio" name="hasSponsor" value="มี" onchange="toggleSponsor()" class="text-blue-600 w-5 h-5">
                                     <span class="ml-3 text-base text-gray-800">มีต้นสังกัด (โปรดระบุสถาบันด้านล่าง)</span>
                                 </label>
-                                <input type="text" placeholder="ระบุชื่อสถาบันต้นสังกัด..." class="mt-2 w-full md:w-1/2 border-gray-300 rounded-lg shadow-sm p-3 border text-base">
+                                <input type="text" name="sponsorName" id="sponsorName" disabled placeholder="ระบุชื่อสถาบันต้นสังกัด..." class="mt-2 w-full md:w-1/2 border-gray-300 bg-gray-100 rounded-lg shadow-sm p-3 border text-base">
                             </div>
                         </div>
                     </section>
@@ -215,27 +258,28 @@
                     <!-- ส่วนที่ 4: อัปโหลดเอกสารประกอบการสมัคร -->
                     <section>
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 form-section-title">4. อัปโหลดเอกสารประกอบการสมัคร</h3>
+                        <p class="text-gray-500 mb-4">รองรับไฟล์ .pdf, .jpg, .png ขนาดไม่เกิน 15MB ต่อไฟล์</p>
                         
                         <div class="space-y-5">
                             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                                 <label class="block text-base font-bold text-brand-blue mb-2">สำเนาผลการศึกษา (Transcript) <span class="text-red-500">*</span></label>
-                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                                <input type="file" name="fileTranscript" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                             </div>
                             
                             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                                 <label class="block text-base font-bold text-brand-blue mb-1">สำเนาวุฒิบัตรฯ หรือ หนังสืออนุมัติฯ <span class="text-red-500">*</span></label>
                                 <p class="text-sm text-gray-500 mb-3">(หากเป็นแพทย์ประจำบ้าน/ใช้ทุน ให้ใช้ใบรับรองจากสถาบันที่ศึกษาอยู่)</p>
-                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" required>
+                                <input type="file" name="fileBoard" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                             </div>
 
                             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                                 <label class="block text-base font-bold text-brand-blue mb-2">จดหมายแนะนำ (Recommendation Letter) <span class="text-red-500">*</span></label>
-                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                                <input type="file" name="fileRecLetter" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                             </div>
 
                             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                                 <label class="block text-base font-bold text-brand-blue mb-2">ผลการทดสอบภาษาอังกฤษ CU-TEP <span class="text-red-500">*</span></label>
-                                <input type="file" accept=".pdf,.jpg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition mt-3" required>
+                                <input type="file" name="fileCUTEP" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer" required>
                             </div>
                         </div>
                     </section>
@@ -251,21 +295,393 @@
                         </div>
                     </section>
 
-                </div>
+                    <!-- แถบแสดงความคืบหน้า -->
+                    <div id="uploadProgress" class="hidden mt-6">
+                        <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                            <div id="uploadProgressBar" class="bg-blue-600 h-4 rounded-full transition-all duration-300" style="width:0%"></div>
+                        </div>
+                        <p id="uploadProgressText" class="text-center text-gray-600 mt-2 text-base"></p>
+                    </div>
 
-                <!-- ปุ่ม Submit -->
-                <div class="bg-gray-50 p-8 md:px-10 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-4">
-                    <button type="reset" class="w-full sm:w-auto px-8 py-3.5 border border-gray-300 text-gray-700 text-lg font-medium rounded-xl hover:bg-gray-100 transition">
-                        ล้างข้อมูล
-                    </button>
-                    <button type="submit" class="w-full sm:w-auto px-10 py-3.5 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> ส่งใบสมัครออนไลน์
-                    </button>
-                </div>
-            </form>
+                    <!-- ปุ่ม Submit -->
+                    <div class="bg-gray-50 p-8 md:px-10 border-t border-gray-200 flex flex-col sm:flex-row justify-end gap-4 -mx-8 md:-mx-10 mt-10 mb-[-2.5rem]">
+                        <button type="reset" class="w-full sm:w-auto px-8 py-3.5 border border-gray-300 text-gray-700 text-lg font-medium rounded-xl hover:bg-gray-100 transition cursor-pointer">
+                            ล้างข้อมูล
+                        </button>
+                        <button type="submit" id="submitBtn" class="w-full sm:w-auto px-10 py-3.5 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-paper-plane"></i> ส่งใบสมัครออนไลน์
+                        </button>
+                    </div>
+                </form>
 
+            </div>
         </div>
     </main>
 
+    <!-- Javascript โลจิกของแบบฟอร์ม -->
+    <script>
+        // ------------------ ใส่ URL Web App ของคุณตรงนี้ ------------------
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfy.../exec'; 
+
+        const MAX_FILE_MB = 15;
+        const IMAGE_MAX_DIMENSION = 1600;
+        const IMAGE_QUALITY = 0.75;
+
+        const UPLOAD_DOCS = [
+            { field: 'filePhoto',      label: 'รูปถ่าย',                 title: 'รูปถ่ายหน้าตรง' },
+            { field: 'fileTranscript', label: 'Transcript',              title: 'สำเนาผลการศึกษา (Transcript)' },
+            { field: 'fileBoard',      label: 'วุฒิบัตรหรืออนุมัติบัตร',   title: 'สำเนาวุฒิบัตรฯ หรือ หนังสืออนุมัติฯ' },
+            { field: 'fileRecLetter',  label: 'Recommendation',          title: 'จดหมายแนะนำ (Recommendation Letter)' },
+            { field: 'fileCUTEP',      label: 'CU-TEP',                  title: 'ผลการทดสอบภาษาอังกฤษ CU-TEP' }
+        ];
+
+        let currentApplicant = null;
+
+        // สลับแท็บ กรอกใหม่ vs แก้ไข
+        function switchTab(tab) {
+            const form = document.getElementById('applicationForm');
+            const editSection = document.getElementById('section-edit');
+            const tNew = document.getElementById('tab-new');
+            const tEdit = document.getElementById('tab-edit');
+            
+            document.getElementById('searchStatus').innerText = '';
+
+            if (tab === 'new') {
+                editSection.classList.add('hidden');
+                form.classList.remove('hidden');
+                form.reset();
+                document.getElementById('appId').value = '';
+                toggleSponsor(); // รีเซ็ตการตั้งค่าต้นสังกัด
+                
+                tNew.classList.add('text-chula-dark-pink', 'border-chula-dark-pink', 'font-bold');
+                tNew.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
+                tEdit.classList.add('text-gray-500', 'border-transparent', 'font-medium');
+                tEdit.classList.remove('text-chula-dark-pink', 'border-chula-dark-pink', 'font-bold');
+            } else {
+                editSection.classList.remove('hidden');
+                form.classList.add('hidden');
+                
+                tEdit.classList.add('text-chula-dark-pink', 'border-chula-dark-pink', 'font-bold');
+                tEdit.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
+                tNew.classList.add('text-gray-500', 'border-transparent', 'font-medium');
+                tNew.classList.remove('text-chula-dark-pink', 'border-chula-dark-pink', 'font-bold');
+            }
+        }
+
+        // ค้นหาข้อมูลสำหรับอัปโหลดเพิ่ม
+        function searchData() {
+            const searchId = document.getElementById('searchId').value.trim();
+            const statusText = document.getElementById('searchStatus');
+            const uploadForm = document.getElementById('uploadForm');
+
+            if (!searchId) {
+                statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
+                statusText.className = 'mt-3 font-medium text-red-500';
+                uploadForm.classList.add('hidden');
+                return;
+            }
+            statusText.innerText = 'กำลังค้นหาข้อมูล...';
+            statusText.className = 'mt-3 font-medium text-blue-500';
+
+            fetch(`${SCRIPT_URL}?action=search&searchId=${encodeURIComponent(searchId)}`)
+                .then(r => r.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        const d = result.data;
+                        currentApplicant = { appId: d.appId, first: d.firstName || '', last: d.lastName || '' };
+                        statusText.innerText = 'พบข้อมูลผู้สมัคร';
+                        statusText.className = 'mt-3 font-bold text-green-600';
+                        document.getElementById('uploadApplicant').innerText =
+                            `ผู้สมัคร: ${d.title || ''}${currentApplicant.first} ${currentApplicant.last} (รหัส ${currentApplicant.appId})`;
+                        buildUploadItems();
+                        uploadForm.classList.remove('hidden');
+                    } else {
+                        statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
+                        statusText.className = 'mt-3 font-medium text-red-500';
+                        uploadForm.classList.add('hidden');
+                    }
+                })
+                .catch(() => {
+                    statusText.innerText = 'เกิดข้อผิดพลาดในการเชื่อมต่อระบบ';
+                    statusText.className = 'mt-3 font-medium text-red-500';
+                });
+        }
+
+        // สร้างฟอร์มอัปโหลดตอนแก้ไข
+        function buildUploadItems() {
+            const box = document.getElementById('uploadItems');
+            box.innerHTML = UPLOAD_DOCS.map(d => `
+                <div class="p-5 border border-gray-200 rounded-xl bg-gray-50 shadow-sm">
+                    <label class="block font-bold mb-3 text-brand-blue">${d.title}</label>
+                    <input type="file" id="up_${d.field}" accept=".pdf,.jpg,.jpeg,.png"
+                        class="block w-full text-base text-gray-500 mb-3 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                    <div class="flex flex-wrap gap-6 text-base mt-4 pt-4 border-t border-gray-200">
+                        <label class="inline-flex items-center cursor-pointer"><input type="radio" name="mode_${d.field}" value="add" class="mr-2 w-5 h-5 text-blue-600 focus:ring-blue-500"> เพิ่มเติม</label>
+                        <label class="inline-flex items-center cursor-pointer"><input type="radio" name="mode_${d.field}" value="replace" class="mr-2 w-5 h-5 text-blue-600 focus:ring-blue-500"> แก้ไข (แทนที่ฉบับเดิม)</label>
+                    </div>
+                </div>`).join('');
+        }
+
+        // ปิดเปิดช่องกรอกต้นสังกัด
+        function toggleSponsor() {
+            const hasSponsorRadios = document.getElementsByName('hasSponsor');
+            const input = document.getElementById('sponsorName');
+            let isSponsor = false;
+            
+            for (let i = 0; i < hasSponsorRadios.length; i++) {
+                if (hasSponsorRadios[i].checked && hasSponsorRadios[i].value === 'มี') {
+                    isSponsor = true;
+                    break;
+                }
+            }
+
+            if (isSponsor) {
+                input.disabled = false;
+                input.classList.remove('bg-gray-100');
+                input.classList.add('bg-white');
+                input.focus();
+            } else {
+                input.value = '';
+                input.disabled = true;
+                input.classList.add('bg-gray-100');
+                input.classList.remove('bg-white');
+            }
+        }
+
+        function setProgress(percent, text, isUpdate = false) {
+            const wrapId = isUpdate ? 'upProg' : 'uploadProgress';
+            const barId = isUpdate ? 'upProgBar' : 'uploadProgressBar';
+            const textId = isUpdate ? 'upProgText' : 'uploadProgressText';
+            
+            document.getElementById(wrapId).classList.remove('hidden');
+            document.getElementById(barId).style.width = percent + '%';
+            document.getElementById(textId).innerText = text;
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function compressImageIfNeeded(file) {
+            return new Promise((resolve) => {
+                if (!file.type || !file.type.startsWith('image/')) {
+                    resolve(file);
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > IMAGE_MAX_DIMENSION || height > IMAGE_MAX_DIMENSION) {
+                            const scale = IMAGE_MAX_DIMENSION / Math.max(width, height);
+                            width = Math.round(width * scale);
+                            height = Math.round(height * scale);
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        canvas.toBlob((blob) => {
+                            if (!blob || blob.size >= file.size) {
+                                resolve(file);
+                            } else {
+                                resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                            }
+                        }, 'image/jpeg', IMAGE_QUALITY);
+                    };
+                    img.onerror = () => resolve(file);
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ฟังก์ชัน Submit หลัก (กรอกใหม่)
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            const form = document.getElementById('applicationForm');
+            const formData = new FormData(form);
+
+            const textData = {};
+            const fileEntries = [];
+            for (const [key, value] of formData.entries()) {
+                if (value instanceof File && value.name !== "") {
+                    if (value.size > MAX_FILE_MB * 1024 * 1024) {
+                        alert(`ไฟล์ "${value.name}" เกิน ${MAX_FILE_MB}MB กรุณาบีบอัดไฟล์และลองอีกครั้ง`);
+                        return;
+                    }
+                    fileEntries.push({ field: key, file: value });
+                } else if (!(value instanceof File)) {
+                    textData[key] = value;
+                }
+            }
+
+            submitBtn.disabled = true;
+
+            try {
+                submitBtn.innerText = 'กำลังบันทึกข้อมูลฟอร์ม...';
+                setProgress(5, 'กำลังบันทึกข้อมูลส่วนตัว...', false);
+                const saveRes = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'saveData', ...textData }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                const saveResult = await saveRes.json();
+                if (saveResult.status !== 'success') {
+                    throw new Error(saveResult.message || 'บันทึกข้อมูลฟอร์มไม่สำเร็จ');
+                }
+
+                const appId = saveResult.id;
+                document.getElementById('appId').value = appId;
+
+                for (let i = 0; i < fileEntries.length; i++) {
+                    const { field, file } = fileEntries[i];
+                    const percent = 10 + Math.round((i / Math.max(fileEntries.length, 1)) * 85);
+                    submitBtn.innerText = `อัปโหลด ${i + 1}/${fileEntries.length}...`;
+                    setProgress(percent, `กำลังอัปโหลดไฟล์ ${i + 1}/${fileEntries.length}: ${file.name}`, false);
+
+                    const fileToSend = await compressImageIfNeeded(file);
+                    const base64 = await readFileAsBase64(fileToSend);
+
+                    const res = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'uploadFile',
+                            appId,
+                            field,
+                            name: fileToSend.name,
+                            mimeType: fileToSend.type,
+                            base64
+                        }),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    });
+                    const result = await res.json();
+                    if (result.status !== 'success') {
+                        throw new Error(`อัปโหลดไฟล์ "${file.name}" ไม่สำเร็จ: ${result.message || ''}`);
+                    }
+                }
+
+                submitBtn.innerText = 'กำลังแปลงเอกสาร PDF...';
+                setProgress(97, 'กำลังสร้างเอกสารใบสมัครเป็น PDF และส่งอีเมลยืนยัน...', false);
+                const finalizeRes = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'finalize', appId, isUpdate: false }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                const finalizeResult = await finalizeRes.json();
+                if (finalizeResult.status !== 'success') {
+                    throw new Error(finalizeResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
+                }
+
+                setProgress(100, 'เสร็จสมบูรณ์!', false);
+                alert('ส่งใบสมัครสำเร็จ! รหัสของคุณคือ: ' + appId + '\nตรวจสอบอีเมลของท่านสำหรับการยืนยัน');
+                form.reset();
+                toggleSponsor();
+            } catch (error) {
+                console.error(error);
+                alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + error.message);
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                document.getElementById('uploadProgress').classList.add('hidden');
+            }
+        }
+
+        // ฟังก์ชันอัปโหลดเพิ่มเติม (โหมดแก้ไข)
+        async function submitUpload(event) {
+            event.preventDefault();
+            if (!currentApplicant) return;
+
+            const jobs = [];
+            for (const d of UPLOAD_DOCS) {
+                const fileInput = document.getElementById('up_' + d.field);
+                if (!fileInput || !fileInput.files.length) continue;
+                const file = fileInput.files[0];
+                
+                const modeEl = document.querySelector(`input[name="mode_${d.field}"]:checked`);
+                if (!modeEl) {
+                    alert(`กรุณาเลือก "เพิ่มเติม" หรือ "แก้ไข" ให้หัวข้อ:\n${d.title}`);
+                    return;
+                }
+                
+                if (file.size > MAX_FILE_MB * 1024 * 1024) {
+                    alert(`ไฟล์ "${file.name}" มีขนาดใหญ่เกิน ${MAX_FILE_MB}MB`);
+                    return;
+                }
+                jobs.push({ doc: d, file: file, mode: modeEl.value });
+            }
+            if (jobs.length === 0) { alert('กรุณาเลือกไฟล์อย่างน้อย 1 รายการ'); return; }
+
+            const replaceTitles = jobs.filter(j => j.mode === 'replace').map(j => j.doc.label);
+            if (replaceTitles.length && !confirm(`ท่านเลือก "แก้ไข" ในหัวข้อ: ${replaceTitles.join(', ')}\nระบบจะลบไฟล์เก่าของหัวข้อนี้ทิ้ง ยืนยันหรือไม่?`)) return;
+
+            const btn = document.getElementById('upSubmitBtn');
+            const original = btn.innerText;
+            btn.disabled = true;
+
+            try {
+                for (let i = 0; i < jobs.length; i++) {
+                    const { doc, file, mode } = jobs[i];
+                    btn.innerText = `กำลังอัปโหลด ${i + 1}/${jobs.length}...`;
+                    setProgress(5 + Math.round((i / jobs.length) * 85), `กำลังอัปโหลด ${i + 1}/${jobs.length}: ${file.name}`, true);
+
+                    const toSend = await compressImageIfNeeded(file);
+                    const base64 = await readFileAsBase64(toSend);
+
+                    let ext = (toSend.name.split('.').pop() || '').toLowerCase();
+                    if (toSend.type === 'image/jpeg' && ext === 'png') ext = 'jpg';
+                    const suffix = mode === 'replace' ? 'แก้ไข' : 'เพิ่มเติม';
+                    const newName = `${currentApplicant.first}_${currentApplicant.last}_${doc.label}_${suffix}.${ext}`.replace(/[\\/:*?"<>|]/g, '-');
+
+                    const res = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'uploadFile',
+                            appId: currentApplicant.appId,
+                            field: doc.field,
+                            mode: mode,
+                            name: newName,
+                            mimeType: toSend.type,
+                            base64
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.status !== 'success') throw new Error(`อัปโหลด "${file.name}" ไม่สำเร็จ: ${result.message || ''}`);
+                }
+
+                btn.innerText = 'กำลังสร้างเอกสาร PDF ใหม่อีกครั้ง...';
+                setProgress(97, 'กำลังอัปเดตเอกสาร PDF และแจ้งเตือน...', true);
+                const fin = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'finalize', appId: currentApplicant.appId, isUpdate: true })
+                });
+                const finResult = await fin.json();
+                if (finResult.status !== 'success') throw new Error(finResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
+
+                setProgress(100, 'อัปโหลดสำเร็จ!', true);
+                alert('ส่งเอกสารเพิ่มเติม/แก้ไขเรียบร้อยแล้ว ระบบได้ส่งอีเมลยืนยันฉบับใหม่ไปให้ท่านแล้ว');
+                buildUploadItems(); // ล้างฟอร์ม
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาด: ' + err.message);
+            } finally {
+                btn.innerText = original;
+                btn.disabled = false;
+                document.getElementById('upProg').classList.add('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
