@@ -36,7 +36,7 @@
         <!-- ======================= Section: ค้นหาข้อมูลเดิม (ซ่อนเป็นค่าเริ่มต้น) ======================= -->
         <div id="section-edit" class="hidden bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8 max-w-3xl mx-auto text-center">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">ค้นหาผู้สมัครเพื่ออัปโหลดเอกสาร</h2>
-            <p class="text-gray-500 mb-6">กรอกรหัสผู้สมัคร  เพื่ออัปโหลดเอกสารเพิ่มเติมหรือแก้ไขเอกสารที่ส่งไปแล้ว</p>
+            <p class="text-gray-500 mb-6">กรอกรหัสผู้สมัคร เพื่ออัปโหลดเอกสารเพิ่มเติมหรือแก้ไขเอกสารที่ส่งไปแล้ว</p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <input type="text" id="searchId" placeholder="เช่น ENT70-01/2570" class="flex-1 border border-gray-300 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-xl">
                 <button onclick="searchData()" class="bg-chula hover:bg-pink-800 text-white font-bold px-8 py-3 rounded-lg transition-colors text-xl">ค้นหา</button>
@@ -462,7 +462,7 @@
         const IMAGE_MAX_DIMENSION = 1600;
         const IMAGE_QUALITY = 0.75;
 
-        // รายการเอกสาร (field ต้องตรงกับชื่อคอลัมน์/ตัวแปร {{field}} ใน template เดิม)
+        // รายการเอกสาร
         const UPLOAD_DOCS = [
             { field: 'filePhoto',      label: 'รูปถ่าย',                 title: 'รูปถ่ายหน้าตรงผู้สมัคร' },
             { field: 'fileTcgme',      label: 'ใบสมัครแพทยสภา',          title: '1. ใบสมัครศูนย์เวชบัณฑิตศึกษาแห่งประเทศ' },
@@ -479,7 +479,7 @@
             { field: 'fileMedical',    label: 'ใบรับรองแพทย์',           title: '12. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ', multiple: true }
         ];
         
-        let currentApplicant = null; // {appId, first, last}
+        let currentApplicant = null;
 
         function switchTab(tab) {
             const form = document.getElementById('applicationForm');
@@ -636,7 +636,9 @@
 
                 btn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
                 setUpProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
-               const fin = await fetch(`${SCRIPT_URL}?action=finalize&appId=${encodeURIComponent(currentApplicant.appId)}&isUpdate=true`);
+                
+                // แก้ไขให้ส่งแบบ POST ไปยัง doPost เหมือนฟังก์ชันหลัก
+                const fin = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: 'finalize', appId: currentApplicant.appId, isUpdate: true })
@@ -645,10 +647,7 @@
                 if (finResult.status !== 'success') throw new Error(finResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
 
                 setUpProgress(100, 'เสร็จสิ้น!');
-                
-                // แจ้งเตือนเสร็จสิ้น (Popup)
                 alert('อัปโหลดเอกสารเรียบร้อยแล้ว ระบบส่งอีเมลยืนยันให้ท่านแล้ว');
-                
                 buildUploadItems();
             } catch (err) {
                 console.error(err);
@@ -789,8 +788,14 @@
 
                 submitBtn.innerText = 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...';
                 setProgress(97, 'กำลังสร้างเอกสาร PDF และส่งอีเมลยืนยัน...');
-                const finalizeRes = await fetch(`${SCRIPT_URL}?action=finalize&appId=${encodeURIComponent(appId)}&isUpdate=${!isNewApplication}`);
-             
+                
+                // แก้ไขการเรียก finalize ให้ส่งเป็น POST JSON เพื่อไม่ให้เกิดปัญหา action ไม่รู้จัก
+                const finalizeRes = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'finalize', appId: appId, isUpdate: !isNewApplication }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                
                 const finalizeResult = await finalizeRes.json();
                 if (finalizeResult.status !== 'success') {
                     throw new Error(finalizeResult.message || 'สร้างเอกสาร PDF ไม่สำเร็จ');
@@ -798,7 +803,6 @@
 
                 setProgress(100, 'เสร็จสิ้น!');
                 
-                // แจ้งเตือนเสร็จสิ้น (Popup ยืนยัน)
                 alert(isNewApplication ? 'ส่งใบสมัครสำเร็จ! รหัสผู้สมัครของคุณคือ: ' + appId + '\nกรุณาตรวจสอบอีเมลตอบกลับเพื่อยืนยัน' : 'อัปเดตข้อมูลและไฟล์เรียบร้อยแล้ว!');
                 
                 if (isNewApplication) {
