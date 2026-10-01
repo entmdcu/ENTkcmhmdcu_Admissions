@@ -110,7 +110,7 @@
                 </div>
             </section>
 
-            <!-- 3. สถานที่ทำงานและต้นสังกัด -->
+           <!-- 3. สถานที่ทำงานและต้นสังกัด -->
             <section class="bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-gray-100">
                 <div class="flex items-center gap-3 border-b-2 border-green-100 pb-3 mb-6">
                     <div class="bg-green-100 p-2 rounded-lg text-green-700">
@@ -126,13 +126,18 @@
                     </div>
                     <div>
                         <label class="block font-semibold mb-2 text-gray-700">ท่านมีต้นสังกัดหรือไม่?</label>
-                        <select name="hasSponsor" required class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50">
+                        <select name="hasSponsor" id="hasSponsor" required onchange="toggleSponsor()" class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50">
                             <option value="">- เลือก -</option>
-                            <option value="มี">มีต้นสังกัด</option>
-                            <option value="ไม่มี">ไม่มีต้นสังกัด</option>
+                            <option value="มี">มีต้นสังกัด (โปรดระบุชื่อด้านขวา)</option>
+                            <option value="ไม่มี">ไม่มีต้นสังกัด (อิสระ)</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block font-semibold mb-2 text-gray-400 transition-colors" id="sponsorLabel">ชื่อต้นสังกัด <span id="sponsorAsterisk" class="hidden text-red-500">*</span></label>
+                        <input type="text" name="sponsorName" id="sponsorName" disabled class="w-full border border-gray-200 bg-gray-50 p-3 rounded-xl focus:ring-2 focus:ring-green-500 transition-colors">
+                    </div>
                 </div>
+            </section>
             </section>
 
             <!-- 4. อัปโหลดเอกสาร -->
