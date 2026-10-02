@@ -44,8 +44,8 @@
     <!-- Header Section -->
     <header class="bg-blue-900 text-white py-12 px-4 shadow-md text-center">
         <div class="max-w-3xl mx-auto">
-            <h1 class="text-2xl md:text-4xl font-bold mb-4">ใบสมัครแพทย์ประจำบ้าน ประจำปีการศึกษา 2570</h1>
-            <h2 class="text-xl md:text-2xl font-light text-blue-200 mb-2">อนุสาขาโสต ศอ นาสิกวิทยาการนอนหลับ</h2>
+            <h1 class="text-2xl md:text-4xl font-bold mb-4">ใบสมัครเข้าฝึกอบรม ประจำปีการศึกษา 2570</h1>
+            <h2 class="text-xl md:text-2xl font-light text-blue-200 mb-2">สาขาเวชศาสตร์การนอนหลับ / อนุสาขาโสต ศอ นาสิกวิทยาการนอนหลับ</h2>
             <p class="text-lg">ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
         </div>
     </header>
@@ -58,13 +58,31 @@
                 <svg class="w-6 h-6 text-yellow-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <div>
                     <h4 class="font-bold text-yellow-800">คำแนะนำการกรอกแบบฟอร์ม</h4>
-                    <p class="text-yellow-700 mt-1">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้องก่อนกดส่งใบสมัคร ไฟล์เอกสารที่อัปโหลดควรเป็นรูปแบบ PDF หรือ JPG ขนาดไม่เกิน 5MB ต่อไฟล์</p>
+                    <p class="text-yellow-700 mt-1">กรุณากรอกข้อมูลให้ครบถ้วน ไฟล์เอกสารที่อัปโหลดควรเป็นรูปแบบ PDF หรือ JPG ขนาดไม่เกิน 5MB ต่อไฟล์ (สามารถส่งใบสมัครก่อนและอัปโหลดเอกสารภายหลังได้หากยังไม่พร้อม)</p>
                 </div>
             </div>
         </div>
 
         <form action="#" method="POST" enctype="multipart/form-data" class="space-y-8">
             
+            <!-- ส่วนเลือกหลักสูตร -->
+            <section class="bg-white p-6 md:p-8 rounded-2xl shadow-md border-t-4 border-yellow-500">
+                <h3 class="text-xl font-bold text-blue-900 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    หลักสูตรที่ต้องการสมัคร *
+                </h3>
+                <div class="space-y-3 pl-2">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="programType" value="1year" id="program1" class="form-radio text-blue-600 h-5 w-5" onchange="toggleUploadFields()" required>
+                        <span class="ml-3 text-lg font-medium text-gray-800">หลักสูตรเพื่อประกาศนียบัตร สาขาเวชศาสตร์การนอนหลับ (หลักสูตร 1 ปี)</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="programType" value="2year" id="program2" class="form-radio text-blue-600 h-5 w-5" onchange="toggleUploadFields()">
+                        <span class="ml-3 text-lg font-medium text-gray-800">หลักสูตรเพื่อวุฒิบัตรอนุสาขา โสต ศอ นาสิกวิทยาการนอนหลับ (หลักสูตร 2 ปี)</span>
+                    </label>
+                </div>
+            </section>
+
             <!-- ส่วนที่ 1: ข้อมูลส่วนบุคคล -->
             <section class="bg-white p-6 md:p-8 rounded-2xl shadow-md border-t-4 border-blue-500">
                 <h3 class="text-xl font-bold text-blue-900 mb-6 flex items-center border-b pb-2">
@@ -180,41 +198,52 @@
                     ส่วนที่ 4: อัปโหลดเอกสารประกอบการสมัคร
                 </h3>
                 
-                <p class="text-sm text-gray-600 mb-6 bg-gray-50 p-3 rounded border">รองรับไฟล์ .PDF, .JPG หรือ .PNG (ขนาดไม่เกิน 5MB/ไฟล์)</p>
+                <p class="text-sm text-gray-600 mb-6 bg-gray-50 p-3 rounded border text-red-600 font-semibold">
+                    * ช่องอัปโหลดเอกสารเป็นทางเลือก ท่านสามารถอัปโหลดข้อมูลทีหลังได้ (รองรับไฟล์ .PDF, .JPG หรือ .PNG ขนาดไม่เกิน 5MB)
+                </p>
 
                 <div class="space-y-5">
-                    <!-- รายการเอกสารตามที่แจ้งก่อนหน้านี้ -->
+                    
+                    <!-- โชว์เฉพาะหลักสูตร 1 ปี -->
+                    <div id="photoUploadDiv" class="hidden bg-sky-50 p-4 rounded-lg border border-sky-100">
+                        <label class="block text-sky-800 font-medium mb-1">รูปถ่ายหน้าตรง (สำหรับผู้สมัครหลักสูตร 1 ปี)</label>
+                        <input type="file" name="doc_photo" accept=".jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1 bg-white">
+                    </div>
+
+                    <!-- โชว์เฉพาะหลักสูตร 2 ปี -->
+                    <div id="formAUploadDiv">
+                        <label class="block text-gray-700 font-medium mb-1">1. ใบสมัครแพทย์ประจำบ้าน (แผน ก.) จากศูนย์เวชบัณฑิตศึกษาฯ</label>
+                        <input type="file" name="doc_appForm" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                    </div>
+
+                    <!-- เอกสารทั่วไปของทั้งสองหลักสูตร -->
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">1. ใบสมัครแพทย์ประจำบ้าน (แผน ก.) จากศูนย์เวชบัณฑิตศึกษาฯ *</label>
-                        <input type="file" name="doc_appForm" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">2. สำเนาบัตรประชาชน (และสำเนาใบเปลี่ยนชื่อ-สกุล/ทะเบียนสมรส ถ้ามี)</label>
+                        <input type="file" name="doc_idCard" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">2. สำเนาบัตรประชาชน (และสำเนาใบเปลี่ยนชื่อ-สกุล/ทะเบียนสมรส ถ้ามี) *</label>
-                        <input type="file" name="doc_idCard" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">3. สำเนาระเบียนแสดงผลการศึกษา (Transcript)</label>
+                        <input type="file" name="doc_transcript" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">3. สำเนาระเบียนแสดงผลการศึกษา (Transcript) *</label>
-                        <input type="file" name="doc_transcript" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">4. สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม</label>
+                        <input type="file" name="doc_license" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">4. สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม *</label>
-                        <input type="file" name="doc_license" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-1">5. สำเนาหนังสืออนุมัติ/วุฒิบัตรฯ หรือ หนังสือรับรองการปฏิบัติงานเพื่อสอบวุฒิบัตรฯ ชั้นปีสุดท้าย *</label>
-                        <input type="file" name="doc_board" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">5. สำเนาหนังสืออนุมัติ/วุฒิบัตรฯ หรือ หนังสือรับรองการปฏิบัติงานเพื่อสอบวุฒิบัตรฯ ชั้นปีสุดท้าย</label>
+                        <input type="file" name="doc_board" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">6. หนังสือรับรองจากต้นสังกัด (ยกเว้นผู้รับต้นสังกัด สธ.)</label>
                         <input type="file" name="doc_affiliation" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">7. หนังสือรับรอง/แนะนำผู้สมัคร (Recommendation) จำนวน 2 ฉบับ *</label>
-                        <input type="file" name="doc_rec" accept=".pdf,.jpg,.png" multiple required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">7. หนังสือรับรอง/แนะนำผู้สมัคร (Recommendation) จำนวน 2 ฉบับ</label>
+                        <input type="file" name="doc_rec" accept=".pdf,.jpg,.png" multiple class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">8. ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า *</label>
-                        <input type="file" name="doc_cv" accept=".pdf,.jpg,.png" required class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
+                        <label class="block text-gray-700 font-medium mb-1">8. ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า</label>
+                        <input type="file" name="doc_cv" accept=".pdf,.jpg,.png" class="w-full text-gray-600 border border-gray-200 rounded-lg p-1">
                     </div>
                 </div>
             </section>
@@ -234,5 +263,26 @@
         </form>
     </main>
 
+    <!-- Script ควบคุมการแสดงผลตามหลักสูตร -->
+    <script>
+        function toggleUploadFields() {
+            const is1YearProgram = document.getElementById('program1').checked;
+            const photoUploadDiv = document.getElementById('photoUploadDiv');
+            const formAUploadDiv = document.getElementById('formAUploadDiv');
+
+            if (is1YearProgram) {
+                // ถ้าเลือก 1 ปี ให้แสดงช่องอัปโหลดรูป และ ซ่อนช่องอัปโหลดใบสมัครแผน ก.
+                photoUploadDiv.classList.remove('hidden');
+                formAUploadDiv.classList.add('hidden');
+            } else {
+                // ถ้าเลือก 2 ปี หรือยังไม่เลือก ให้ซ่อนช่องอัปโหลดรูป และ แสดงช่องอัปโหลดใบสมัครแผน ก.
+                photoUploadDiv.classList.add('hidden');
+                formAUploadDiv.classList.remove('hidden');
+            }
+        }
+        
+        // เรียกฟังก์ชันตอนโหลดหน้าเว็บ เผื่อมีการจำค่าการกด radio button
+        document.addEventListener('DOMContentLoaded', toggleUploadFields);
+    </script>
 </body>
 </html>
