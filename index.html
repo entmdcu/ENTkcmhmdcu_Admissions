@@ -47,13 +47,13 @@
                     <img src="LOGO.png" alt="โลโก้" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/100x100/ED1C24/FFFFFF?text=Logo'">
                     <div>
                         <h1 class="text-xl font-bold text-gray-900 leading-tight">ระบบรับสมัครแพทย์</h1>
-                        <p class="text-sm text-chula-dark-pink font-medium">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
+                        <p class="text-base text-chula-dark-pink font-medium">เข้าศึกษาต่อแพทย์ประจำบ้าน และแพทย์ต่อยอด</p>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หน้าแรก</a>
-                    <a href="#announcements" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">หลักสูตรที่เปิดเรียน</a>
-                    <a href="#contact" class="text-gray-600 hover:text-chula-dark-pink font-medium transition">ติดต่อสอบถาม</a>
+                    <a href="#" class="text-gray-600 hover:text-chula-dark-pink font-medium transition text-lg">หน้าแรก</a>
+                    <a href="#announcements" class="text-gray-600 hover:text-chula-dark-pink font-medium transition text-lg">หลักสูตรที่เปิดเรียน</a>
+                    <a href="#contact" class="text-gray-600 hover:text-chula-dark-pink font-medium transition text-lg">ติดต่อสอบถาม</a>
                 </div>
             </div>
         </div>
@@ -76,136 +76,207 @@
         </section>
 
         <!-- ข่าวประกาศรับสมัครล่าสุด -->
-        <section id="announcements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+        <section id="announcements" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-[#203a55] mb-4">หลักสูตรที่เปิดรับสมัคร</h2>
-                <div class="w-20 h-1.5 bg-chula-dark-pink mx-auto"></div>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#203a55] mb-4">หลักสูตรที่เปิดรับสมัคร</h2>
+                <div class="w-24 h-1.5 bg-chula-dark-pink mx-auto"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- ปรับเป็นกรอบคู่ lg:grid-cols-2 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
                 <!-- Card 1: แพทย์ประจำบ้าน (Resident) -->
-                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[6px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[12px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> 2 ต.ค. - 2 พ.ย. 2569
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">สาขาโสต ศอ นาสิกวิทยา</h3>
-                        <p class="text-sm font-semibold text-chula-dark-pink mb-4">แพทย์ประจำบ้าน (แผน ก)</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">สาขาโสต ศอ นาสิกวิทยา</h3>
+                        <p class="text-base font-semibold text-chula-dark-pink mb-5">แพทย์ประจำบ้าน (แผน ก)</p>
                         
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100 flex-grow">
-                            <div class="flex items-start text-[13px] text-gray-700 mb-2 gap-2">
-                                <i class="fa-solid fa-calendar-check text-gray-400 w-4 mt-0.5 text-center"></i>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-800 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> 8 คน</span>
+                            </div>
+                            <div class="flex items-start text-base text-gray-800 gap-3">
+                                <i class="fa-solid fa-calendar-check text-gray-400 w-5 mt-1 text-center"></i>
                                 <span><b>วันคัดเลือก:</b><br>รอบ 1.1: 12 พ.ย. 2569<br>รอบ 1.2: 26 พ.ย. 2569</span>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pb-6 mt-auto">
-                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Resident.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm text-sm">
+                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Resident.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm text-base">
                             สมัคร / อ่านรายละเอียด
                         </a>
                     </div>
                 </div>
 
                 <!-- Card 2: นาสิกวิทยา -->
-                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[6px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[12px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> 2 ต.ค. - 2 พ.ย. 2569
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">อนุสาขานาสิกวิทยา โรคภูมิแพ้ และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า</h3>
-                        <p class="text-sm font-semibold text-chula-dark-pink mb-4">แพทย์ประจำบ้าน (Fellowship)</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">อนุสาขานาสิกวิทยา โรคภูมิแพ้ และการผ่าตัดฐานกะโหลกศีรษะส่วนหน้า</h3>
+                        <p class="text-base font-semibold text-chula-dark-pink mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
                         
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100 flex-grow">
-                            <div class="flex items-start text-[13px] text-gray-700 mb-2 gap-2">
-                                <i class="fa-solid fa-calendar-check text-gray-400 w-4 mt-0.5 text-center"></i>
-                                <span><b>วันคัดเลือก:</b><br>13 พ.ย. 2569</span>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-800 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> 1 คน</span>
+                            </div>
+                            <div class="flex items-start text-base text-gray-800 gap-3">
+                                <i class="fa-solid fa-calendar-check text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>วันคัดเลือก:</b> 13 พ.ย. 2569</span>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pb-6 mt-auto">
-                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/rhinology.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm text-sm">
+                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/rhinology.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm text-base">
                             สมัคร / อ่านรายละเอียด
                         </a>
                     </div>
                 </div>
 
                 <!-- Card 3: มะเร็งศีรษะและคอ -->
-                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[6px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[12px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> 2 ต.ค. - 2 พ.ย. 2569
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">อนุสาขาศัลยศาสตร์มะเร็งศีรษะและคอ</h3>
-                        <p class="text-sm font-semibold text-chula-dark-pink mb-4">แพทย์ประจำบ้าน (Fellowship)</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">อนุสาขาศัลยศาสตร์มะเร็งศีรษะและคอ</h3>
+                        <p class="text-base font-semibold text-chula-dark-pink mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
                         
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100 flex-grow">
-                            <div class="flex items-start text-[13px] text-gray-700 mb-2 gap-2">
-                                <i class="fa-solid fa-calendar-check text-gray-400 w-4 mt-0.5 text-center"></i>
-                                <span><b>วันคัดเลือก:</b><br>16 พ.ย. 2569</span>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-800 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> 1-2 คน</span>
+                            </div>
+                            <div class="flex items-start text-base text-gray-800 gap-3">
+                                <i class="fa-solid fa-calendar-check text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>วันคัดเลือก:</b> 16 พ.ย. 2569</span>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pb-6 mt-auto">
-                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Headneck.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm text-sm">
+                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Headneck.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm text-base">
                             สมัคร / อ่านรายละเอียด
                         </a>
                     </div>
                 </div>
 
                 <!-- Card 4: ตกแต่งและเสริมสร้างใบหน้า -->
-                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[6px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[12px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> 2 ต.ค. - 2 พ.ย. 2569
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">อนุสาขาศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า</h3>
-                        <p class="text-sm font-semibold text-chula-dark-pink mb-4">แพทย์ประจำบ้าน (Fellowship)</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">อนุสาขาศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า</h3>
+                        <p class="text-base font-semibold text-chula-dark-pink mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
                         
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100 flex-grow">
-                            <div class="flex items-start text-[13px] text-gray-700 mb-2 gap-2">
-                                <i class="fa-solid fa-calendar-check text-gray-400 w-4 mt-0.5 text-center"></i>
-                                <span><b>วันคัดเลือก:</b><br>11 พ.ย. 2569</span>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-800 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> 3 คน</span>
+                            </div>
+                            <div class="flex items-start text-base text-gray-800 gap-3">
+                                <i class="fa-solid fa-calendar-check text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>วันคัดเลือก:</b> 11 พ.ย. 2569</span>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pb-6 mt-auto">
-                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Facial.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm text-sm">
+                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Facial.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm text-base">
                             สมัคร / อ่านรายละเอียด
                         </a>
                     </div>
                 </div>
 
                 <!-- Card 5: การนอนหลับ (Sleep) -->
-                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[5px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
+                <div class="bg-white rounded-xl hover-card-shadow overflow-hidden border-t-[6px] border-t-chula-dark-pink flex flex-col h-full relative ring-1 ring-pink-100">
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="mb-4 inline-block">
-                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-[12px] font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
+                            <span class="bg-[#e6f4ea] text-[#1e8e3e] text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-[#bce9cb]">
                                 <i class="fa-solid fa-clock mr-1"></i> 2 ต.ค. - 2 พ.ย. 2569
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">อนุสาขาโสต ศอ นาสิกวิทยาการนอนหลับ</h3>
-                        <p class="text-sm font-semibold text-chula-dark-pink mb-4">แพทย์ประจำบ้าน (Fellowship)</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">อนุสาขาโสต ศอ นาสิกวิทยาการนอนหลับ</h3>
+                        <p class="text-base font-semibold text-chula-dark-pink mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
                         
-                        <div class="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100 flex-grow">
-                            <div class="flex items-start text-[13px] text-gray-700 mb-2 gap-2">
-                                <i class="fa-solid fa-calendar-check text-gray-400 w-4 mt-0.5 text-center"></i>
-                                <span><b>วันคัดเลือก:</b><br>รอประกาศจากภาควิชาฯ</span>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-800 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-chula-pink w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> 1 คน</span>
+                            </div>
+                            <div class="flex items-start text-base text-gray-800 gap-3">
+                                <i class="fa-solid fa-calendar-check text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>วันคัดเลือก:</b> รอประกาศจากภาควิชาฯ</span>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pb-6 mt-auto">
-                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Sleep.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-sm text-sm">
+                        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Sleep.html" target="_blank" class="block text-center w-full bg-chula-dark-pink hover:bg-[#b01355] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-sm text-base">
                             สมัคร / อ่านรายละเอียด
                         </a>
+                    </div>
+                </div>
+
+                <!-- Card 6: โสตวิทยา (ปิดรับ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[6px] border-t-gray-300 flex flex-col h-full relative opacity-75">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <span class="bg-gray-100 text-gray-600 text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
+                            </span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">โสตวิทยาและโสตประสาทวิทยา</h3>
+                        <p class="text-base font-semibold text-gray-500 mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-500 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> รอระบุจำนวน</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-gray-100 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed text-base">
+                            สมัคร / อ่านรายละเอียด
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 7: กล่องเสียงและหลอดลม (ปิดรับ) -->
+                <div class="bg-white rounded-xl card-shadow overflow-hidden border-t-[6px] border-t-gray-300 flex flex-col h-full relative opacity-75">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-4 inline-block">
+                            <span class="bg-gray-100 text-gray-600 text-sm font-bold px-3 py-1.5 rounded-full shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-lock mr-1"></i> ยังไม่เปิดรับ
+                            </span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">ศัลยศาสตร์กล่องเสียงและหลอดลม</h3>
+                        <p class="text-base font-semibold text-gray-500 mb-5">แพทย์ประจำบ้าน (Fellowship)</p>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100 flex-grow">
+                            <div class="flex items-start text-base text-gray-500 mb-3 gap-3">
+                                <i class="fa-solid fa-user-doctor text-gray-400 w-5 mt-1 text-center"></i>
+                                <span><b>จำนวนรับ:</b> รอระบุจำนวน</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 mt-auto">
+                        <button class="w-full bg-gray-100 text-gray-400 font-medium py-3 px-4 rounded-lg cursor-not-allowed text-base">
+                            สมัคร / อ่านรายละเอียด
+                        </button>
                     </div>
                 </div>
 
@@ -216,30 +287,30 @@
 
     <!-- Footer & Contact -->
     <footer id="contact" class="bg-white border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <!-- Contact Info -->
                 <div class="text-center md:text-left">
-                    <h4 class="text-lg font-bold text-gray-900 mb-2">ช่องทางการติดต่อสอบถาม</h4>
-                    <div class="flex flex-col gap-2 text-gray-600 text-sm">
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">ช่องทางการติดต่อสอบถาม</h4>
+                    <div class="flex flex-col gap-3 text-gray-700 text-base">
                         <p><i class="fa-solid fa-phone text-chula-pink mr-2"></i> 02-256-4000 ต่อ 61724 (เดียร์ / เกศแก้ว)</p>
                         <p><i class="fa-solid fa-phone text-chula-pink mr-2"></i> 02-256-4000 ต่อ 61721 (ก้อง / สุธี)</p>
                     </div>
                 </div>
                 <!-- LINE Button -->
                 <div>
-                    <a href="https://line.me/R/ti/p/@421xwdnm?oat_content=url&ts=10141428" target="_blank" class="inline-flex items-center justify-center bg-[#00B900] hover:bg-[#009900] text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md">
-                        <i class="fa-brands fa-line text-2xl mr-2"></i>
+                    <a href="https://line.me/R/ti/p/@421xwdnm?oat_content=url&ts=10141428" target="_blank" class="inline-flex items-center justify-center bg-[#00B900] hover:bg-[#009900] text-white font-bold py-4 px-8 rounded-lg transition duration-200 shadow-md text-lg">
+                        <i class="fa-brands fa-line text-3xl mr-3"></i>
                         ติดต่อผ่าน LINE Official
                     </a>
                 </div>
             </div>
             
-            <div class="border-t border-gray-100 mt-8 pt-8 text-center flex flex-col items-center">
-                <div class="w-10 h-10 bg-red-cross text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-sm mb-4">
+            <div class="border-t border-gray-100 mt-10 pt-8 text-center flex flex-col items-center">
+                <div class="w-12 h-12 bg-red-cross text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-sm mb-4">
                     <i class="fa-solid fa-plus"></i>
                 </div>
-                <p class="text-gray-400 text-sm">© 2570 ภาควิชาโสต ศอ นาสิกวิทยา ระบบรับสมัครแพทย์ประจำบ้านและแพทย์ต่อยอด</p>
+                <p class="text-gray-500 text-base">© 2570 ภาควิชาโสต ศอ นาสิกวิทยา ระบบรับสมัครแพทย์ประจำบ้านและแพทย์ต่อยอด</p>
             </div>
         </div>
     </footer>
