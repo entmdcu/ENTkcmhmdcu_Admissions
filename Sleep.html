@@ -15,10 +15,10 @@
 </head>
 <body class="text-gray-800 antialiased">
 
-    <!-- Navigation Bar (ปุ่มหน้าหลักอยู่ด้านบน) -->
+    <!-- Navigation Bar -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="font-bold text-2xl text-blue-900 tracking-wide">ENT MDCU</div>
+            <div></div> <!-- นำคำว่า ENT MDCU ออกตามคำขอ -->
             <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/" class="flex items-center text-blue-700 hover:text-blue-900 font-semibold text-lg transition duration-300 bg-blue-50 px-5 py-2 rounded-full border border-blue-200 hover:bg-blue-100">
                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 กลับหน้าหลัก
@@ -72,11 +72,11 @@
                             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             เอกสารประกอบการสมัคร
                         </h4>
-                        <p class="text-gray-700 mb-4 text-lg bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                            <strong>วิธีส่งเอกสาร:</strong> ให้อัปโหลดไฟล์เอกสารผ่านแบบฟอร์มรับสมัครออนไลน์เท่านั้น <span class="text-red-600">(ไม่ต้องส่งเอกสารตัวจริงมาที่ภาควิชา)</span>
-                        </p>
-                        <ul class="list-disc list-outside text-gray-700 space-y-2 text-lg ml-6 mb-6">
-                            <li>ใบสมัครเข้าฝึกอบรมแพทย์ประจำบ้านต่อยอด อนุสาขาเวชศาสตร์การนอนหลับ</li>
+                        <div class="mb-6 text-lg bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <p class="text-gray-700 mb-2"><strong>วิธีส่งเอกสาร:</strong> ให้อัปโหลดไฟล์เอกสารผ่านหน้าเว็บไซต์รับสมัคร <span class="text-red-600 font-semibold">(ไม่ต้องส่งเอกสารตัวจริงมาที่ภาควิชา)</span></p>
+                            <p class="text-blue-700 font-bold bg-blue-100 p-2 rounded inline-block w-full text-center mt-2">📌 กรุณาตรวจสอบอีเมลทุกครั้งหลังจากที่ท่านสมัคร</p>
+                        </div>
+                        <ul class="list-disc list-outside text-gray-700 space-y-2 text-lg ml-6 mb-8">
                             <li>สําเนาบัตรประชาชน และ สําเนาปริญญาบัตร</li>
                             <li>สําเนาทะเบียนประกอบวิชาชีพเวชกรรม</li>
                             <li>สําเนาวุฒิบัตรฯ (วว.) หรือหนังสืออนุมัติบัตร</li>
@@ -85,13 +85,10 @@
                             <li>ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า</li>
                         </ul>
                     </div>
-                    
-                    <!-- ปุ่มสมัครหลักสูตร 1 ปี -->
-                    <a href="#" target="_blank" class="mt-auto block w-full text-center bg-green-600 text-white font-bold px-4 py-3 rounded-lg shadow-md hover:bg-green-700 transition text-lg">
-                        <div class="flex justify-center items-center">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            ส่งเอกสารสมัครเข้าภาควิชาฯ
-                        </div>
+
+                    <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/application-Sleep.html" class="mt-auto block w-full text-center bg-blue-600 text-white font-bold px-4 py-4 rounded-lg shadow-md hover:bg-blue-700 transition text-xl">
+                        อัปโหลดเอกสารสมัคร
+                        <svg class="w-5 h-5 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                 </div>
             </section>
@@ -120,11 +117,12 @@
                         </div>
 
                         <div class="relative pl-6 border-l-4 border-sky-500 flex flex-col h-full">
-                            <h4 class="text-xl font-bold text-blue-800 mb-3">ขั้นตอนที่ 2 : ลงทะเบียนกับภาควิชาฯ</h4>
-                            <p class="text-gray-700 mb-4 text-lg bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                                หลังจากสมัครผ่านแพทยสภาเรียบร้อยแล้ว ให้อัปโหลดไฟล์เอกสารด้านล่างนี้ผ่านฟอร์มออนไลน์ของภาควิชา <span class="text-red-600">(ไม่ต้องส่งเอกสารตัวจริง)</span>
-                            </p>
-                            <ul class="list-disc list-outside text-gray-700 space-y-2 text-lg ml-6 mb-6">
+                            <h4 class="text-xl font-bold text-blue-800 mb-3">ขั้นตอนที่ 2 : ยื่นเอกสารเพิ่มเติม</h4>
+                            <div class="mb-6 text-lg bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                <p class="text-gray-700 mb-2">หลังจากสมัครผ่านแพทยสภาเรียบร้อยแล้ว ให้อัปโหลดไฟล์เอกสารด้านล่างนี้ผ่านหน้าเว็บไซต์รับสมัคร <span class="text-red-600 font-semibold">(ไม่ต้องส่งเอกสารตัวจริง)</span></p>
+                                <p class="text-blue-700 font-bold bg-blue-100 p-2 rounded inline-block w-full text-center mt-2">📌 กรุณาตรวจสอบอีเมลทุกครั้งหลังจากที่ท่านสมัคร</p>
+                            </div>
+                            <ul class="list-disc list-outside text-gray-700 space-y-2 text-lg ml-6 mb-8">
                                 <li>ใบสมัครแพทย์ประจำบ้าน (แผน ก.) จากศูนย์เวชบัณฑิตศึกษาฯ</li>
                                 <li>สำเนาบัตรประชาชน และ สำเนาใบเปลี่ยนชื่อ-สกุล/ทะเบียนสมรส (ถ้ามี)</li>
                                 <li>สำเนาระเบียนแสดงผลการศึกษาตลอดหลักสูตรแพทยศาสตรบัณฑิต</li>
@@ -135,12 +133,9 @@
                                 <li>ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า</li>
                             </ul>
                             
-                            <!-- ปุ่มสมัครหลักสูตร 2 ปี -->
-                            <a href="#" target="_blank" class="mt-auto block w-full text-center bg-green-600 text-white font-bold px-4 py-3 rounded-lg shadow-md hover:bg-green-700 transition text-lg">
-                                <div class="flex justify-center items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                    ส่งเอกสารสมัครเข้าภาควิชาฯ
-                                </div>
+                            <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/application-Sleep.html" class="mt-auto block w-full text-center bg-blue-600 text-white font-bold px-4 py-4 rounded-lg shadow-md hover:bg-blue-700 transition text-xl">
+                                อัปโหลดเอกสารสมัคร
+                                <svg class="w-5 h-5 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
                         </div>
                     </div>
@@ -197,7 +192,7 @@
         <!-- Contact Section -->
         <section class="text-center py-8">
             <h3 class="text-2xl font-bold text-blue-900 mb-4">ติดต่อสอบถามเพิ่มเติม</h3>
-            <div class="inline-flex flex-col md:flex-row items-center justify-center gap-6 text-xl bg-white px-8 py-6 rounded-2xl shadow-md border border-blue-100">
+            <div class="inline-flex flex-col md:flex-row items-center justify-center gap-6 text-xl bg-white px-8 py-6 rounded-2xl shadow-md border border-blue-100 mb-6">
                 <div class="flex items-center text-gray-700">
                     <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     <strong>โทร. 02-256-4000</strong>
@@ -210,6 +205,16 @@
                 <div class="text-gray-600">
                     ต่อ 61721 <span class="text-gray-500">(ก้อง / สุธี)</span>
                 </div>
+            </div>
+            
+            <!-- LINE Contact Button -->
+            <div>
+                <a href="https://line.me/R/ti/p/@421xwdnm?oat_content=url&ts=10141428" target="_blank" class="inline-flex items-center justify-center bg-[#00B900] text-white font-bold px-8 py-3 rounded-full shadow-md hover:bg-[#009900] transition text-xl">
+                    <svg class="w-7 h-7 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 3.552 8.845 8.365 9.566.326.071.77.228.879.526.098.271.064.685.031.954-.032.268-.204 1.23-.249 1.488-.06.331-.295 1.442 1.266.786 1.562-.655 8.423-4.962 11.234-8.082 1.583-1.758 2.474-3.524 2.474-5.235z"/>
+                    </svg>
+                    ติดต่อผ่าน LINE Official
+                </a>
             </div>
         </section>
 
