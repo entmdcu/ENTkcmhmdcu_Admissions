@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f0fdf4; } /* bg-green-50 */
-        .text-theme { color: #15803d; } /* text-green-700 */
+        body { font-family: 'Sarabun', sans-serif; background-color: #f0fdf4; }
+        .text-theme { color: #15803d; }
         .bg-theme { background-color: #15803d; }
         .bg-theme:hover { background-color: #166534; }
         .border-theme { border-color: #15803d; }
@@ -16,22 +16,39 @@
 </head>
 <body class="text-gray-800 antialiased pb-20">
 
+    <!-- Navbar / Home Button -->
+    <nav class="bg-theme text-white py-3 px-4 md:px-8">
+        <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/" class="inline-flex items-center gap-2 hover:text-green-200 transition-colors font-medium">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            กลับหน้าหลัก
+        </a>
+    </nav>
+
     <!-- Hero Section -->
-    <header class="bg-theme text-white py-12 md:py-16 shadow-lg rounded-b-3xl mb-10">
-        <div class="container mx-auto px-4 text-center max-w-4xl">
-            <div class="inline-block bg-white text-green-800 font-bold px-4 py-1 rounded-full mb-4 text-sm md:text-base">
+    <header class="bg-theme text-white pb-12 pt-6 md:pb-16 shadow-lg rounded-b-3xl mb-10">
+        <div class="container mx-auto px-4 text-center max-w-5xl">
+            <div class="inline-block bg-white text-green-800 font-bold px-4 py-1 rounded-full mb-6 text-sm md:text-base shadow-sm">
                 ประจำปีการฝึกอบรม 2570 (รอบที่ 1)
             </div>
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                ประกาศรับสมัครแพทย์ประจำบ้าน<br>
-                <span class="text-green-200">อนุสาขาศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า</span>
+            
+            <!-- ปรับขนาดฟอนต์และการตัดคำให้สมดุล ไม่ซ้อนทับกัน -->
+            <h1 class="font-bold mb-4 leading-tight">
+                <span class="text-3xl md:text-4xl lg:text-5xl block mb-2">ประกาศรับสมัครแพทย์ประจำบ้าน</span>
+                <span class="text-green-200 text-2xl md:text-3xl lg:text-4xl block px-2">อนุสาขาศัลยศาสตร์ตกแต่งและเสริมสร้างใบหน้า</span>
             </h1>
-            <p class="text-lg md:text-xl font-medium opacity-90">
+            
+            <p class="text-lg md:text-xl font-medium opacity-90 mt-6">
                 ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
             </p>
-            <p class="mt-4 text-green-100 font-semibold bg-green-900 bg-opacity-40 inline-block px-6 py-2 rounded-lg">
-                🗓 ระยะเวลารับสมัคร: 2 ตุลาคม – 2 พฤศจิกายน 2569
-            </p>
+            
+            <div class="mt-6 flex flex-col md:flex-row justify-center items-center gap-3">
+                <p class="text-green-100 font-semibold bg-green-900 bg-opacity-40 px-6 py-2 rounded-lg">
+                    🗓 ระยะเวลารับสมัคร: 2 ตุลาคม – 2 พฤศจิกายน 2569
+                </p>
+                <p class="text-white font-bold bg-pink-600 px-6 py-2 rounded-lg shadow-md">
+                    รับจำนวน 3 คน
+                </p>
+            </div>
         </div>
     </header>
 
@@ -39,12 +56,12 @@
 
         <!-- ขั้นตอนที่ 1 -->
         <section class="bg-white rounded-2xl shadow-sm border-t-4 border-theme p-6 md:p-10 relative overflow-hidden">
-            <div class="absolute top-0 right-0 bg-green-100 text-green-800 font-bold px-4 py-2 rounded-bl-2xl">
+            <div class="absolute top-0 right-0 bg-green-100 text-green-800 font-bold px-4 py-2 rounded-bl-2xl shadow-sm">
                 ขั้นตอนที่ 1
             </div>
             <h2 class="text-2xl font-bold text-theme mb-4 flex items-center gap-2">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                ลงทะเบียนผ่านระบบส่วนกลาง (แพทยสภา)
+                สมัครผ่านเว็บไซต์แพทยสภา
             </h2>
             <p class="text-gray-600 mb-6">กรอกใบสมัครและชำระค่าธรรมเนียมผ่านศูนย์เวชบัณฑิตศึกษาแห่งประเทศ</p>
             
@@ -61,53 +78,86 @@
 
         <!-- ขั้นตอนที่ 2 -->
         <section class="bg-white rounded-2xl shadow-sm border-t-4 border-theme p-6 md:p-10 relative overflow-hidden">
-            <div class="absolute top-0 right-0 bg-green-100 text-green-800 font-bold px-4 py-2 rounded-bl-2xl">
+            <div class="absolute top-0 right-0 bg-green-100 text-green-800 font-bold px-4 py-2 rounded-bl-2xl shadow-sm">
                 ขั้นตอนที่ 2
             </div>
             <h2 class="text-2xl font-bold text-theme mb-4 flex items-center gap-2">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                ส่งเอกสารหลักฐานให้ภาควิชาฯ
+                สมัครผ่านระบบของภาควิชาฯ
             </h2>
-            <p class="text-gray-600 mb-6">ผู้สมัครต้องจัดเตรียมและอัปโหลดเอกสารหลักฐานส่งมายังระบบรับสมัครออนไลน์ของภาควิชาฯ โดยไม่ต้องส่งเอกสารไปที่ราชวิทยาลัยฯ</p>
+            <p class="text-gray-600 mb-6">ผู้สมัครต้องกรอกข้อมูลและอัปโหลดเอกสารหลักฐานให้เรียบร้อยผ่านระบบรับสมัครออนไลน์ของภาควิชาฯ โดยไม่ต้องส่งเอกสารไปที่ราชวิทยาลัยฯ</p>
             
-            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-8">
-                <h3 class="font-bold text-gray-800 mb-3">รายการเอกสารที่ต้องเตรียม (สแกนเป็น PDF, JPG หรือ PNG)</h3>
+            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6">
+                <h3 class="font-bold text-gray-800 mb-3">รายการเอกสารที่ต้องอัปโหลด</h3>
                 <ol class="list-decimal pl-5 space-y-2 text-gray-700 text-base">
                     <li>ใบสมัครแพทย์ประจำบ้าน (แผน ก.) สาขา/อนุสาขา สศ301</li>
                     <li>สำเนาบัตรประจำตัวประชาชน</li>
-                    <li>สำเนาใบเปลี่ยนชื่อ–สกุล / ใบทะเบียนสมรส <span class="text-gray-500">(เฉพาะกรณีที่มีการเปลี่ยนชื่อหรือสมรส)</span></li>
-                    <li>สำเนาระเบียนแสดงผลการศึกษาตลอดหลักสูตรแพทยศาสตรบัณฑิต (Transcript)</li>
+                    <li>สำเนาใบเปลี่ยนชื่อ–สกุล / ใบทะเบียนสมรส <span class="text-gray-500">(ถ้ามี)</span></li>
+                    <li>สำเนาระเบียนแสดงผลการศึกษา (Transcript)</li>
                     <li>สำเนาใบอนุญาตประกอบวิชาชีพเวชกรรม</li>
-                    <li>สำเนาหนังสืออนุมัติ/วุฒิบัตร (สาขาโสต ศอ นาสิกวิทยา, ศัลยศาสตร์ หรือ ศัลยศาสตร์ช่องปากฯ) <b>หรือ</b> หนังสือรับรองปฏิบัติงานชั้นปีสุดท้าย</li>
-                    <li>หนังสือจากต้นสังกัด อนุมัติให้เข้าฝึกอบรมและรับรองว่าจะทำสัญญา <span class="text-gray-500">(เฉพาะผู้มีต้นสังกัด ยกเว้น สธ.)</span></li>
-                    <li>ประวัติย่อ (Curriculum Vitae: CV) ความยาวไม่เกิน 2 หน้า</li>
+                    <li>สำเนาหนังสืออนุมัติ/วุฒิบัตร (โสต ศอ นาสิกวิทยา, ศัลยศาสตร์ หรือ ศัลยศาสตร์ช่องปากฯ) <b>หรือ</b> หนังสือรับรองปฏิบัติงานชั้นปีสุดท้าย</li>
+                    <li>หนังสือจากต้นสังกัด <span class="text-gray-500">(เฉพาะผู้มีต้นสังกัด ยกเว้น สธ.)</span></li>
+                    <li>ประวัติย่อ (CV) ความยาวไม่เกิน 2 หน้า</li>
                     <li>Statement of purpose</li>
                     <li>หนังสือรับรอง / แนะนำผู้สมัคร</li>
                 </ol>
             </div>
 
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 rounded-r-xl">
+                <p class="text-yellow-800 font-bold flex items-center gap-2 mb-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    ข้อควรระวังเกี่ยวกับการตรวจสอบอีเมล
+                </p>
+                <p class="text-yellow-700 text-sm md:text-base">
+                    ระบบเปิดให้ท่านสามารถ <b>แก้ไขหรือเพิ่มเติมเอกสาร</b> ได้ภายหลังการสมัคร<br>
+                    <span class="font-bold underline">ขอให้ท่านตรวจสอบอีเมลตอบกลับทุกครั้ง</span> ในการลงทะเบียน สมัคร หรือแก้ไขข้อมูล ว่าได้รับอีเมลยืนยันจากระบบหรือไม่
+                </p>
+            </div>
+
             <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/application-facial.html" class="block w-full bg-theme hover:bg-[#166534] text-white font-bold text-xl py-4 px-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 text-center">
-                👉 คลิกที่นี่ เพื่อเข้าสู่ระบบอัปโหลดเอกสารของภาควิชา
+                👉 เข้าสู่ระบบกรอกข้อมูลและอัปโหลดเอกสาร
             </a>
         </section>
 
-        <!-- กำหนดการสำคัญ -->
-        <section class="bg-green-50 rounded-2xl p-6 md:p-8 border border-green-200 flex items-start gap-4">
-            <div class="bg-green-200 p-3 rounded-full text-green-800">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <!-- ขั้นตอนที่ 3 -->
+        <section class="bg-white rounded-2xl shadow-sm border-t-4 border-theme p-6 md:p-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-green-100 text-green-800 font-bold px-4 py-2 rounded-bl-2xl shadow-sm">
+                ขั้นตอนที่ 3
             </div>
-            <div>
-                <h3 class="text-xl font-bold text-green-900 mb-1">กำหนดการสอบคัดเลือก</h3>
-                <p class="text-green-800 font-medium">วันคัดเลือกแพทย์เข้าฝึกอบรมพร้อมกันทุกสถาบัน: <b>วันที่ 11 พฤศจิกายน 2569</b></p>
+            <h2 class="text-2xl font-bold text-theme mb-4 flex items-center gap-2">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                สอบข้อเขียนและสัมภาษณ์
+            </h2>
+            
+            <div class="space-y-4 text-gray-700">
+                <p>
+                    ช่วงประมาณ <b>ต้นเดือนพฤศจิกายน</b> ทางภาควิชาจะส่งอีเมลเพื่อชี้แจงรายละเอียดการสอบ สถานที่สอบ และกำหนดการต่างๆ
+                </p>
+                <div class="bg-green-50 border border-green-200 p-4 rounded-xl">
+                    <ul class="list-disc pl-5 space-y-2 font-medium text-green-900">
+                        <li>จะมีการสอบข้อเขียน และสัมภาษณ์ <span class="underline">ในวันเดียวกัน</span></li>
+                        <li><b>โปรดอ่านอีเมลอย่างละเอียดและทำการตอบกลับเพื่อ "ยืนยันการมาสัมภาษณ์"</b></li>
+                        <li>กำหนดการสอบคัดเลือกพร้อมกันทุกสถาบัน: <b>11 พฤศจิกายน 2569</b></li>
+                    </ul>
+                </div>
             </div>
         </section>
+
+        <!-- ช่องทางติดต่อ -->
+        <div class="bg-green-100 border border-green-300 rounded-2xl p-6 text-center shadow-sm">
+            <h3 class="text-green-900 font-bold text-lg mb-2">📞 มีข้อสงสัยหรือพบปัญหาในการสมัคร</h3>
+            <p class="text-green-800 mb-4">ติดต่อเจ้าหน้าที่ธุรการภาควิชาฯ ได้โดยตรงผ่าน LINE Official</p>
+            <a href="https://line.me/R/ti/p/@421xwdnm?oat_content=url&ts=10141428" target="_blank" class="inline-flex items-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-4.149 2.572-6.002z"/></svg>
+                คลิกเพื่อติดต่อเจ้าหน้าที่
+            </a>
+        </div>
 
     </main>
 
     <!-- Footer -->
     <footer class="mt-16 text-center text-gray-500 text-sm">
         <p>ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
-        <p>หากมีข้อสงสัยเกี่ยวกับการส่งเอกสาร ติดต่อธุรการภาควิชาฯ</p>
     </footer>
 
 </body>
