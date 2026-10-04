@@ -36,7 +36,7 @@
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-4 py-4 flex justify-end items-center">
             <!-- ซ่อน/ลบ คำว่า ENT MDCU ออก และให้ปุ่มย้อนกลับชิดขวา -->
-            <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/application-Sleep.html" class="flex items-center text-blue-700 hover:text-blue-900 font-semibold transition duration-300">
+            <a href="https://entmdcu.github.io/ENTkcmhmdcu_Admissions/Sleep.html" class="flex items-center text-blue-700 hover:text-blue-900 font-semibold transition duration-300">
                 <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 กลับหน้ารายละเอียด
             </a>
@@ -153,7 +153,6 @@
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <!-- แก้ไขคำตามที่ขอ: เปลี่ยนเป็น "ที่อยู่ที่ติดต่อได้ *" -->
                             <label class="block text-gray-700 font-medium mb-2" for="address">ที่อยู่ที่ติดต่อได้ *</label>
                             <textarea id="address" name="address" rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-gray-50 focus:bg-white transition"></textarea>
                         </div>
@@ -196,14 +195,12 @@
                         <div class="md:col-span-2 mt-4">
                             <label class="block text-gray-700 font-medium mb-2">ต้นสังกัดในการเข้าฝึกอบรม *</label>
                             <div class="space-y-2">
-                                <!-- เพิ่ม onchange เรียกใช้ฟังก์ชันบล็อคช่อง -->
                                 <label class="flex items-center"><input type="radio" name="affiliationType" value="ไม่มีต้นสังกัด" class="form-radio text-blue-600" onchange="toggleAffiliationField()" required> <span class="ml-2">ไม่มีต้นสังกัด (อิสระ)</span></label>
                                 <label class="flex items-center"><input type="radio" name="affiliationType" value="มีต้นสังกัด" class="form-radio text-blue-600" onchange="toggleAffiliationField()"> <span class="ml-2">มีต้นสังกัด</span></label>
                             </div>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-gray-700 font-medium mb-2" for="affiliationDetail">กรณีมีต้นสังกัด โปรดระบุชื่อหน่วยงาน/โรงพยาบาล</label>
-                            <!-- ตั้งค่าเริ่มต้นให้กรอกไม่ได้ (disabled) จนกว่าจะเลือก มีต้นสังกัด -->
                             <input type="text" id="affiliationDetail" name="affiliationDetail" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed transition" disabled placeholder="ระบุเฉพาะกรณีมีต้นสังกัด">
                         </div>
                     </div>
@@ -283,7 +280,7 @@
                     
                     <!-- ข้อความแจ้งเตือนสีแดงก่อนกดส่ง -->
                     <p class="text-red-600 font-bold mb-4 bg-red-50 p-3 rounded-lg max-w-2xl mx-auto border border-red-200 shadow-sm">
-                        ⚠️ กรุณารอจนกว่าจะมีป๊อปอัปแจ้งเตือนเสร็จสิ้น (ห้ามปิดหน้าจอ) <br class="hidden md:block">และโปรดตรวจสอบอีเมลของท่านว่ามีสำเนาการตอบกลับหรือไม่
+                        ⚠️️ กรุณารอจนกว่าจะมีป๊อปอัปแจ้งเตือนเสร็จสิ้น (ห้ามปิดหน้าจอ) <br class="hidden md:block">และโปรดตรวจสอบอีเมลของท่านว่ามีสำเนาการตอบกลับหรือไม่
                     </p>
                     
                     <button type="submit" id="submitBtn" class="block w-full md:w-auto md:inline-block bg-green-600 text-white font-bold px-12 py-4 rounded-xl shadow-lg hover:bg-green-700 transition text-2xl cursor-pointer">
