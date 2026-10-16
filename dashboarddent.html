@@ -130,7 +130,7 @@
         // ===============================================
         // 1. ใส่ URL เว็บแอป Google Apps Script ของคุณที่นี่
         // ===============================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyr-v-pEtEbT5r8zD8JZPE_xDZ7EWfYsHyYtVLTVK7BZFdC0JY_AkIvzGDzF44lIGb/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZCbE0C3KVb8O4UmrE1MaUijszWWlQgQryHJOJey-2eRR-Ql8xmfl5PwVC51uGidEj/exec'; 
 
         // เริ่มดึงข้อมูลทันทีที่เปิดหน้าเว็บ
         window.onload = async () => {
@@ -248,8 +248,8 @@
                 { key: 'fileMedical', name: 'ใบรับรองแพทย์' }
             ];
 
-            recentData.forEach(row => {
-                // จัดการรูปแบบวันที่
+           recentData.forEach(row => {
+                // 1. จัดการรูปแบบวันที่
                 let dateStr = '-';
                 if(row.timestamp) {
                     const d = new Date(row.timestamp);
@@ -257,11 +257,10 @@
                               ` <span class="text-gray-400 text-sm"><br>${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')} น.</span>`;
                 }
 
-                // ตรวจสอบเอกสารขาด/ครบ
+                // 2. ตรวจสอบเอกสารขาด/ครบ
                 let missingDocs = [];
                 let currentRequired = [...requiredDocs];
                 
-                // ถ้ามีต้นสังกัด ต้องบังคับแนบหนังสือต้นสังกัดด้วย
                 if (row.hasSponsor === 'มี') {
                     currentRequired.push({ key: 'fileSponsor', name: 'หนังสือต้นสังกัด' });
                 }
@@ -271,6 +270,49 @@
                         missingDocs.push(doc.name);
                     }
                 });
+
+                let statusHtml = '';
+                if (missingDocs.length === 0) {
+                    statusHtml = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-circle-check"></i> ครบถ้วน</span>`;
+                } else {
+                    statusHtml = `
+                        <div class="text-sm font-medium text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-100 shadow-sm leading-relaxed">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> <b>ขาด:</b> ${missingDocs.join(', ')}
+                        </div>`;
+                }
+
+                // 3. ปุ่มลิงก์ตรงไปยัง Google Drive โฟลเดอร์ของผู้สมัคร
+                let driveButtonHtml = '';
+                if (row.folderUrl) {
+                    driveButtonHtml = `
+                        <a href="${row.folderUrl}" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg font-medium text-sm transition shadow-sm">
+                            <i class="fa-brands fa-google-drive text-blue-600 text-base"></i>
+                            เปิดโฟลเดอร์ Drive
+                        </a>`;
+                } else {
+                    driveButtonHtml = `<span class="text-sm text-gray-400">ไม่มีโฟลเดอร์</span>`;
+                }
+
+                // 4. การแสดงผลต้นสังกัด
+                let sponsorHtml = row.hasSponsor === 'มี' 
+                    ? `<span class="font-bold text-chula">${row.sponsorName || 'ไม่ระบุชื่อสถาบัน'}</span>` 
+                    : `<span class="text-gray-400 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 text-sm">ไม่มีต้นสังกัด</span>`;
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-100 hover:bg-pink-50/50 transition duration-150";
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-gray-800">${row.appId || '-'}</td>
+                    <td class="p-4 text-sm">${dateStr}</td>
+                    <td class="p-4 font-medium text-gray-800">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
+                    <td class="p-4 text-sm">${sponsorHtml}</td>
+                    <td class="p-4">${statusHtml}</td>
+                    <td class="p-4 text-center">
+                        ${driveButtonHtml}
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
 
                 let statusHtml = '';
                 if (missingDocs.length === 0) {
