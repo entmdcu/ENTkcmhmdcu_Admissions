@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard รับสมัครแพทย์ประจำบ้าน 2570</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js สำหรับสร้างกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style> 
+        body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
+        .bg-chula { background-color: #ce1255; }
+        .text-chula { color: #ce1255; }
+    </style>
+</head>
+<body class="text-gray-800 pb-10">
+
+    <!-- Header -->
+    <header class="bg-chula text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <span class="font-bold text-xl"><i class="fa-solid fa-chart-pie mr-2"></i> ระบบสรุปผลรับสมัคร (Dashboard)</span>
+                <a href="index.html" class="hover:text-pink-200 transition text-sm md:text-base font-medium">
+                    <i class="fa-solid fa-house"></i> กลับหน้าฟอร์ม
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- แถบแจ้งเตือนสถานะโหลดข้อมูล -->
+        <div id="loadingMsg" class="flex flex-col items-center justify-center py-20">
+            <i class="fa-solid fa-circle-notch fa-spin text-5xl text-chula mb-4"></i>
+            <h2 class="text-xl font-bold text-gray-600">กำลังดึงข้อมูลจากระบบ...</h2>
+        </div>
+
+        <div id="dashboardContent" class="hidden space-y-6">
+            
+            <!-- ส่วนที่ 1: ตัวเลขสรุปผล (Scorecards) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
+                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
+                        <i class="fa-solid fa-users text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">ผู้สมัครทั้งหมด (คน)</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="stat-total">0</h3>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-green-500 flex items-center">
+                    <div class="p-4 rounded-full bg-green-50 text-green-500 mr-4">
+                        <i class="fa-solid fa-building-user text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">มีต้นสังกัด (คน)</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="stat-sponsor">0</h3>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500 flex items-center">
+                    <div class="p-4 rounded-full bg-blue-50 text-blue-500 mr-4">
+                        <i class="fa-solid fa-mars-and-venus text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">สัดส่วน ชาย / หญิง</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="stat-gender">0 / 0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ส่วนที่ 2: กราฟข้อมูล -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- กราฟวงกลม: สถานะต้นสังกัด -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">ผู้สมัครที่มีต้นสังกัด vs อิสระ</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="sponsorChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- กราฟแท่ง: สถาบันที่จบการศึกษา -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">สถาบันที่สำเร็จการศึกษา (พ.บ.)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="medSchoolChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ส่วนที่ 3: ตารางรายชื่อผู้สมัครล่าสุด -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mt-8">
+                <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-gray-800">รายชื่อผู้สมัคร</h3>
+                    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครงล่าสุด</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
+                                <th class="p-4 font-semibold">รหัสผู้สมัคร</th>
+                                <th class="p-4 font-semibold">วันที่สมัคร</th>
+                                <th class="p-4 font-semibold">ชื่อ-นามสกุล</th>
+                                <th class="p-4 font-semibold">ต้นสังกัด</th>
+                                <th class="p-4 font-semibold">เบอร์โทรศัพท์</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="text-gray-700 text-base">
+                            <!-- แถวข้อมูลจะถูกเติมด้วย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <script>
+        // ===============================================
+        // 1. ใส่ URL เว็บแอป Google Apps Script ของคุณที่นี่
+        // ===============================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUD5dQ8Q6RFreU7gDRMY4MViLpR5dffNuR4JeKTh51CNENVzkvLyRZVqNcEjJK2qqx/exec'; 
+
+        // เริ่มดึงข้อมูลทันทีที่เปิดหน้าเว็บ
+        window.onload = async () => {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getAllData`);
+                const result = await response.json();
+                
+                if(result.status === 'success') {
+                    document.getElementById('loadingMsg').style.display = 'none';
+                    document.getElementById('dashboardContent').style.display = 'block';
+                    renderDashboard(result.data);
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                }
+            } catch(e) {
+                alert('ไม่สามารถเชื่อมต่อระบบฐานข้อมูลได้');
+                console.error(e);
+            }
+        };
+
+        // ฟังก์ชันคำนวณและวาดกราฟ
+        function renderDashboard(data) {
+            // ถอดข้อมูล Array มาคำนวณ
+            const total = data.length;
+            let sponsorCount = 0;
+            let maleCount = 0;
+            let femaleCount = 0;
+            const medSchoolsCount = {};
+
+            data.forEach(row => {
+                // คำนวณต้นสังกัด
+                if(row.hasSponsor === 'มี') sponsorCount++;
+                
+                // คำนวณเพศ
+                if(row.gender === 'ชาย') maleCount++;
+                else if (row.gender === 'หญิง') femaleCount++;
+
+                // นับจำนวนสถาบันที่จบ
+                const school = row.medSchool || 'ไม่ระบุ';
+                if(medSchoolsCount[school]) {
+                    medSchoolsCount[school]++;
+                } else {
+                    medSchoolsCount[school] = 1;
+                }
+            });
+
+            // 1. อัปเดตตัวเลข Scorecards
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-sponsor').innerText = sponsorCount;
+            document.getElementById('stat-gender').innerText = `${maleCount} / ${femaleCount}`;
+
+            // 2. สร้างกราฟวงกลม (Sponsor)
+            const ctxSponsor = document.getElementById('sponsorChart').getContext('2d');
+            new Chart(ctxSponsor, {
+                type: 'doughnut',
+                data: {
+                    labels: ['มีต้นสังกัด', 'ไม่มีต้นสังกัด (อิสระ)'],
+                    datasets: [{
+                        data: [sponsorCount, total - sponsorCount],
+                        backgroundColor: ['#ce1255', '#e5e7eb'], // สีชมพู และ สีเทา
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 3. สร้างกราฟแท่ง (Med School)
+            // จัดเรียงสถาบันที่คนจบมากสุดไปน้อยสุด และแสดงแค่ 5 อันดับแรก
+            const sortedSchools = Object.entries(medSchoolsCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            const schoolLabels = sortedSchools.map(item => item[0]);
+            const schoolData = sortedSchools.map(item => item[1]);
+
+            const ctxSchool = document.getElementById('medSchoolChart').getContext('2d');
+            new Chart(ctxSchool, {
+                type: 'bar',
+                data: {
+                    labels: schoolLabels,
+                    datasets: [{
+                        label: 'จำนวนผู้สมัคร (คน)',
+                        data: schoolData,
+                        backgroundColor: '#1a365d', // สีน้ำเงินเข้ม
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 4. เติมข้อมูลลงตาราง (เอาข้อมูลล่าสุดขึ้นก่อน - Reverse Array)
+            const tableBody = document.getElementById('tableBody');
+            const recentData = [...data].reverse(); 
+            
+            recentData.forEach(row => {
+                // แปลง Format วันที่ให้อ่านง่าย
+                let dateStr = '-';
+                if(row.timestamp) {
+                    const d = new Date(row.timestamp);
+                    dateStr = d.toLocaleDateString('th-TH', { year:'numeric', month:'short', day:'numeric' });
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-100 hover:bg-pink-50 transition";
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-chula">${row.appId || '-'}</td>
+                    <td class="p-4">${dateStr}</td>
+                    <td class="p-4">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
+                    <td class="p-4">${row.hasSponsor === 'มี' ? (row.sponsorName || 'มีต้นสังกัด') : '<span class="text-gray-400">ไม่มี</span>'}</td>
+                    <td class="p-4">${row.mobile || '-'}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
