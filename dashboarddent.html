@@ -16,6 +16,9 @@
         body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
         .bg-chula { background-color: #ce1255; }
         .text-chula { color: #ce1255; }
+        /* สไตล์เสริมสำหรับ Dropdown ไฟล์แนบ */
+        details[open] summary ~ * { animation: sweep .15s ease-in-out; }
+        @keyframes sweep { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-gray-800 pb-10">
@@ -95,20 +98,21 @@
             </div>
 
             <!-- ส่วนที่ 3: ตารางรายชื่อผู้สมัครล่าสุด -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mt-8">
-                <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-gray-800">รายชื่อผู้สมัคร</h3>
-                    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครงล่าสุด</span>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible mt-8">
+                <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center rounded-t-xl">
+                    <h3 class="text-lg font-bold text-gray-800">รายละเอียดผู้สมัครและการตรวจสอบเอกสาร</h3>
+                    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครล่าสุด</span>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <div class="overflow-x-auto min-h-[300px]">
+                    <table class="w-full text-left border-collapse min-w-[1000px]">
                         <thead>
                             <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
-                                <th class="p-4 font-semibold">รหัสผู้สมัคร</th>
-                                <th class="p-4 font-semibold">วันที่สมัคร</th>
-                                <th class="p-4 font-semibold">ชื่อ-นามสกุล</th>
-                                <th class="p-4 font-semibold">ต้นสังกัด</th>
-                                <th class="p-4 font-semibold">เบอร์โทรศัพท์</th>
+                                <th class="p-4 font-semibold w-1/12">รหัสผู้สมัคร</th>
+                                <th class="p-4 font-semibold w-2/12">วันที่สมัคร</th>
+                                <th class="p-4 font-semibold w-2/12">ชื่อ-นามสกุล</th>
+                                <th class="p-4 font-semibold w-2/12">ต้นสังกัด</th>
+                                <th class="p-4 font-semibold w-3/12">สถานะเอกสาร</th>
+                                <th class="p-4 font-semibold w-2/12 text-center">ไฟล์แนบ</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody" class="text-gray-700 text-base">
@@ -121,11 +125,12 @@
         </div>
     </main>
 
+    <!-- ส่วนที่โหลดข้อมูลและการสร้าง Dashboard -->
     <script>
         // ===============================================
         // 1. ใส่ URL เว็บแอป Google Apps Script ของคุณที่นี่
         // ===============================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUD5dQ8Q6RFreU7gDRMY4MViLpR5dffNuR4JeKTh51CNENVzkvLyRZVqNcEjJK2qqx/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfyc.../exec'; 
 
         // เริ่มดึงข้อมูลทันทีที่เปิดหน้าเว็บ
         window.onload = async () => {
@@ -146,7 +151,7 @@
             }
         };
 
-        // ฟังก์ชันคำนวณและวาดกราฟ
+        // ฟังก์ชันคำนวณและวาดกราฟ รวมถึงสร้างตารางรายชื่อ
         function renderDashboard(data) {
             // ถอดข้อมูล Array มาคำนวณ
             const total = data.length;
@@ -185,15 +190,14 @@
                     labels: ['มีต้นสังกัด', 'ไม่มีต้นสังกัด (อิสระ)'],
                     datasets: [{
                         data: [sponsorCount, total - sponsorCount],
-                        backgroundColor: ['#ce1255', '#e5e7eb'], // สีชมพู และ สีเทา
+                        backgroundColor: ['#ce1255', '#e5e7eb'],
                         borderWidth: 0
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // 3. สร้างกราฟแท่ง (Med School)
-            // จัดเรียงสถาบันที่คนจบมากสุดไปน้อยสุด และแสดงแค่ 5 อันดับแรก
+            // 3. สร้างกราฟแท่ง (Med School) - จัดเรียงและแสดง 5 อันดับแรก
             const sortedSchools = Object.entries(medSchoolsCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
             const schoolLabels = sortedSchools.map(item => item[0]);
             const schoolData = sortedSchools.map(item => item[1]);
@@ -206,7 +210,7 @@
                     datasets: [{
                         label: 'จำนวนผู้สมัคร (คน)',
                         data: schoolData,
-                        backgroundColor: '#1a365d', // สีน้ำเงินเข้ม
+                        backgroundColor: '#1a365d',
                         borderRadius: 6
                     }]
                 },
@@ -218,26 +222,110 @@
                 }
             });
 
-            // 4. เติมข้อมูลลงตาราง (เอาข้อมูลล่าสุดขึ้นก่อน - Reverse Array)
+            // 4. เติมข้อมูลลงตาราง
             const tableBody = document.getElementById('tableBody');
             const recentData = [...data].reverse(); 
             
+            // ลิสต์รายการเอกสารที่จำเป็นต้องมี
+            const requiredDocs = [
+                { key: 'filePhoto', name: 'รูปถ่าย' },
+                { key: 'fileTcgme', name: 'ใบสมัครแพทยสภา' },
+                { key: 'fileIdCard', name: 'บัตรประชาชน' },
+                { key: 'fileLicense', name: 'ใบประกอบวิชาชีพ' },
+                { key: 'fileIntern', name: 'ใบเพิ่มพูนทักษะ' },
+                { key: 'fileTranscript', name: 'Transcript' },
+                { key: 'fileNL', name: 'คะแนน ศรว.' },
+                { key: 'fileCV', name: 'CV' }
+            ];
+
+            // ลิสต์เอกสารทั้งหมดสำหรับสร้างเมนูลดลง (Dropdown)
+            const allDocs = [
+                ...requiredDocs,
+                { key: 'fileSponsor', name: 'หนังสือต้นสังกัด' },
+                { key: 'fileNameChange', name: 'ใบเปลี่ยนชื่อ/สมรส' },
+                { key: 'filePortfolio', name: 'Portfolio' },
+                { key: 'fileRecLetter', name: 'หนังสือรับรอง' },
+                { key: 'fileMedical', name: 'ใบรับรองแพทย์' }
+            ];
+
             recentData.forEach(row => {
-                // แปลง Format วันที่ให้อ่านง่าย
+                // จัดการรูปแบบวันที่
                 let dateStr = '-';
                 if(row.timestamp) {
                     const d = new Date(row.timestamp);
-                    dateStr = d.toLocaleDateString('th-TH', { year:'numeric', month:'short', day:'numeric' });
+                    dateStr = d.toLocaleDateString('th-TH', { year:'numeric', month:'short', day:'numeric' }) + 
+                              ` <span class="text-gray-400 text-sm"><br>${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')} น.</span>`;
                 }
 
+                // ตรวจสอบเอกสารขาด/ครบ
+                let missingDocs = [];
+                let currentRequired = [...requiredDocs];
+                
+                // ถ้ามีต้นสังกัด ต้องบังคับแนบหนังสือต้นสังกัดด้วย
+                if (row.hasSponsor === 'มี') {
+                    currentRequired.push({ key: 'fileSponsor', name: 'หนังสือต้นสังกัด' });
+                }
+
+                currentRequired.forEach(doc => {
+                    if (!row[doc.key] || row[doc.key].toString().trim() === '') {
+                        missingDocs.push(doc.name);
+                    }
+                });
+
+                let statusHtml = '';
+                if (missingDocs.length === 0) {
+                    statusHtml = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-circle-check"></i> ครบถ้วน</span>`;
+                } else {
+                    statusHtml = `
+                        <div class="text-sm font-medium text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-100 shadow-sm leading-relaxed">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> <b>ขาด:</b> ${missingDocs.join(', ')}
+                        </div>`;
+                }
+
+                // สร้างลิงก์รวมไฟล์แนบ (Dropdown)
+                let filesHtml = '';
+                if (row.pdfUrl) {
+                    filesHtml += `<a href="${row.pdfUrl}" target="_blank" class="block w-full text-left px-4 py-2.5 text-sm text-chula font-bold hover:bg-pink-50 border-b border-gray-100"><i class="fa-solid fa-file-pdf mr-2"></i> PDF สรุปใบสมัคร</a>`;
+                }
+                
+                allDocs.forEach(doc => {
+                    if (row[doc.key] && row[doc.key].toString().trim() !== '') {
+                        // รองรับกรณีอัปโหลดหลายไฟล์ในช่องเดียว (แยกด้วย \n หรือ URL)
+                        const urls = row[doc.key].split('\n').filter(u => u.includes('http'));
+                        urls.forEach((url, index) => {
+                            const suffix = urls.length > 1 ? ` (${index + 1})` : '';
+                            filesHtml += `<a href="${url}" target="_blank" class="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-chula transition"><i class="fa-solid fa-paperclip mr-2 text-gray-400"></i> ${doc.name}${suffix}</a>`;
+                        });
+                    }
+                });
+
+                if (filesHtml === '') {
+                    filesHtml = `<span class="block px-4 py-3 text-sm text-center text-gray-400">ไม่มีไฟล์แนบ</span>`;
+                }
+
+                // การแสดงผลต้นสังกัด
+                let sponsorHtml = row.hasSponsor === 'มี' 
+                    ? `<span class="font-bold text-chula">${row.sponsorName || 'ไม่ระบุชื่อสถาบัน'}</span>` 
+                    : `<span class="text-gray-400 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 text-sm">ไม่มีต้นสังกัด</span>`;
+
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-gray-100 hover:bg-pink-50 transition";
+                tr.className = "border-b border-gray-100 hover:bg-pink-50/50 transition duration-150";
                 tr.innerHTML = `
-                    <td class="p-4 font-bold text-chula">${row.appId || '-'}</td>
-                    <td class="p-4">${dateStr}</td>
-                    <td class="p-4">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
-                    <td class="p-4">${row.hasSponsor === 'มี' ? (row.sponsorName || 'มีต้นสังกัด') : '<span class="text-gray-400">ไม่มี</span>'}</td>
-                    <td class="p-4">${row.mobile || '-'}</td>
+                    <td class="p-4 font-bold text-gray-800">${row.appId || '-'}</td>
+                    <td class="p-4 text-sm">${dateStr}</td>
+                    <td class="p-4 font-medium text-gray-800">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
+                    <td class="p-4 text-sm">${sponsorHtml}</td>
+                    <td class="p-4">${statusHtml}</td>
+                    <td class="p-4 text-center">
+                        <details class="relative inline-block text-left group">
+                            <summary class="cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-semibold text-gray-700 hover:bg-pink-50 hover:border-pink-300 hover:text-chula transition shadow-sm list-none outline-none">
+                                <i class="fa-solid fa-folder-open"></i> ดูไฟล์ <i class="fa-solid fa-chevron-down text-xs ml-1 opacity-70"></i>
+                            </summary>
+                            <div class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-xl z-[100] overflow-hidden max-h-60 overflow-y-auto">
+                                ${filesHtml}
+                            </div>
+                        </details>
+                    </td>
                 `;
                 tableBody.appendChild(tr);
             });
