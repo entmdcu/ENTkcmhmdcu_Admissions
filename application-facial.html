@@ -37,7 +37,7 @@
         <!-- ======================= Section: ค้นหาข้อมูลเดิม (ซ่อนเป็นค่าเริ่มต้น) ======================= -->
         <div id="section-edit" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-gray-200 mb-8 max-w-3xl mx-auto text-center">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">ค้นหาผู้สมัครเพื่ออัปโหลดเอกสาร</h2>
-            <p class="text-gray-500 mb-6">กรอกรหัสผู้สมัคร (เช่น FC70-01/2570) หรือเลขบัตรประชาชน</p>
+            <p class="text-gray-500 mb-6">กรอกรหัสผู้สมัคร (เช่น FC70-01/2570) </p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <input type="text" id="searchId" placeholder="เลขบัตร ปชช. / รหัสผู้สมัคร" class="flex-1 border border-gray-300 p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-xl">
                 <button onclick="searchData()" class="bg-theme text-white font-bold px-8 py-3 rounded-xl transition-colors text-xl">ค้นหา</button>
@@ -291,7 +291,7 @@
             const uploadForm = document.getElementById('uploadForm');
 
             if (!searchId) {
-                statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร หรือ เลขบัตรประชาชน';
+                statusText.innerText = 'กรุณากรอกรหัสผู้สมัคร ';
                 statusText.className = 'mt-3 font-medium text-red-500'; uploadForm.classList.add('hidden'); return;
             }
             statusText.innerText = 'กำลังค้นหาข้อมูล...'; statusText.className = 'mt-3 font-medium text-blue-500';
