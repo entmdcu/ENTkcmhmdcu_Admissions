@@ -105,16 +105,17 @@
                 </div>
                 <div class="overflow-x-auto min-h-[300px]">
                     <table class="w-full text-left border-collapse min-w-[1000px]">
-                        <thead>
-                            <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
-                                <th class="p-4 font-semibold w-1/12">รหัสผู้สมัคร</th>
-                                <th class="p-4 font-semibold w-2/12">วันที่สมัคร</th>
-                                <th class="p-4 font-semibold w-2/12">ชื่อ-นามสกุล</th>
-                                <th class="p-4 font-semibold w-2/12">ต้นสังกัด</th>
-                                <th class="p-4 font-semibold w-3/12">สถานะเอกสาร</th>
-                                <th class="p-4 font-semibold w-2/12 text-center">ไฟล์แนบ</th>
-                            </tr>
-                        </thead>
+                          <thead>
+    <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
+        <th class="p-4 font-semibold">รหัสผู้สมัคร</th>
+        <th class="p-4 font-semibold">วันที่สมัคร</th>
+        <th class="p-4 font-semibold">ชื่อ-นามสกุล</th>
+        <th class="p-4 font-semibold">สถาบันอันดับ 1</th>
+        <th class="p-4 font-semibold">ต้นสังกัด</th>
+        <th class="p-4 font-semibold">สถานะเอกสาร</th>
+        <th class="p-4 font-semibold text-center">ไฟล์แนบ</th>
+    </tr>
+</thead>
                         <tbody id="tableBody" class="text-gray-700 text-base">
                             <!-- แถวข้อมูลจะถูกเติมด้วย JavaScript -->
                         </tbody>
@@ -290,7 +291,12 @@
                 if (filesHtml === '') {
                     filesHtml = `<span class="block px-4 py-3 text-sm text-center text-gray-400">ไม่มีไฟล์แนบ</span>`;
                 }
-
+                // สถาบันอันดับ 1 (ตัดเลขนำหน้า "1. " ออก)
+                const choice1Text = String(row.choice1 || '').replace(/^\d+\.\s*/, '').trim();
+                const choice1Html = choice1Text
+                    ? `<span class="inline-block px-3 py-1 rounded-lg bg-pink-50 text-chula font-semibold text-sm border border-pink-200">${choice1Text}</span>`
+                    : `<span class="text-gray-400 text-sm">ไม่ได้เลือก</span>`;
+                
                 // ต้นสังกัด
                 const sponsorHtml = row.hasSponsor === 'มี'
                     ? `<span class="font-bold text-chula">${row.sponsorName || 'ไม่ระบุชื่อสถาบัน'}</span>`
@@ -302,6 +308,7 @@
                     <td class="p-4 font-bold text-gray-800">${row.appId || '-'}</td>
                     <td class="p-4 text-sm">${dateStr}</td>
                     <td class="p-4 font-medium text-gray-800">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
+                    <td class="p-4">${choice1Html}</td>
                     <td class="p-4 text-sm">${sponsorHtml}</td>
                     <td class="p-4">${statusHtml}</td>
                     <td class="p-4 text-center">
