@@ -6,21 +6,37 @@
     <title>ใบสมัครแพทย์ประจำบ้าน 2570 - ENT MDCU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style> 
-        body { font-family: 'Sarabun', sans-serif; background-color: #f9fafb; }
-        .bg-chula { background-color: #ce1255; }
-        .text-chula { color: #ce1255; }
-        .border-chula { border-color: #ce1255; }
-    </style>
+<style>
+    body {
+        font-family: 'Sarabun', sans-serif;
+        background: linear-gradient(180deg, #fdf2f6 0%, #f9fafb 320px);
+        min-height: 100vh;
+    }
+    .bg-chula { background-color: #ce1255; }
+    .text-chula { color: #ce1255; }
+    .border-chula { border-color: #ce1255; }
+    input:focus, select:focus {
+        outline: none;
+        border-color: #ce1255 !important;
+        box-shadow: 0 0 0 3px rgba(206, 18, 85, 0.15);
+    }
+    section > div:first-child h2 { position: relative; padding-left: 16px; }
+    section > div:first-child h2::before {
+        content: ''; position: absolute; left: 0; top: 10%; height: 80%;
+        width: 6px; border-radius: 4px; background: #ce1255;
+    }
+</style>
 </head>
 <body class="text-gray-800 text-lg pb-16">
+<div class="h-2 bg-chula"></div>
+<div class="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12">
 
         
-        <!-- Header -->
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold text-chula mb-3">ใบสมัครแพทย์ประจำบ้าน ประจำปีการศึกษา 2570</h1>
-            <p class="text-xl text-gray-600 font-medium">ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
-        </div>
+       <!-- Header -->
+<div class="text-center mb-10 bg-white rounded-2xl shadow-sm border border-pink-100 px-6 py-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-chula mb-3 leading-snug">ใบสมัครแพทย์ประจำบ้าน<br class="md:hidden"> ประจำปีการศึกษา 2570</h1>
+    <p class="text-lg md:text-xl text-gray-600 font-medium">ภาควิชาโสต ศอ นาสิกวิทยา คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
+</div>
 
         <!-- ระบบนำทาง Tabs -->
         <div class="flex border-b mb-8 justify-center gap-2 md:gap-4 flex-wrap">
@@ -781,8 +797,6 @@ function askConfirm() {
             }
         if (!(await askConfirm())) return;   // รอให้ผู้สมัครกดยืนยันก่อนส่งจริง
 
-            let appId = document.getElementById('appId').value;
-            const isNewApplication = !appId;
             let appId = document.getElementById('appId').value;
             const isNewApplication = !appId;
             
