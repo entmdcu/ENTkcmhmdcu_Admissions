@@ -46,7 +46,7 @@
         <div id="dashboardContent" class="hidden space-y-6">
             
             <!-- ส่วนที่ 1: ตัวเลขสรุปผล (Scorecards) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
                     <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
                         <i class="fa-solid fa-users text-3xl"></i>
@@ -81,6 +81,11 @@
                     <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
                         <i class="fa-solid fa-star text-3xl"></i>
                     </div>
+                     <!-- การ์ดจุฬาฯ -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
+                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
+                        <i class="fa-solid fa-star text-3xl"></i>
+                    </div>
                     <div>
                         <p class="text-gray-500 text-sm font-medium">เลือกจุฬาฯ เป็นอันดับ 1 (คน)</p>
                         <h3 class="text-3xl font-bold text-gray-800">
@@ -89,6 +94,7 @@
                         </h3>
                     </div>
                 </div>
+            </div>   <!-- ปิดบล็อก Scorecards (ย้ายมาไว้ตรงนี้) -->
 
             <!-- ส่วนที่ 2: กราฟข้อมูล -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -182,9 +188,9 @@
             const total = data.length;
             let sponsorCount = 0;
             let maleCount = 0;
+            let femaleCount = 0;
             let chulaCount = 0;
             const isChula = (row) => String(row.choice1 || '').includes('จุฬาลงกรณ์');
-            const medSchoolsCount = {};
 
             data.forEach(row => {
                 // คำนวณต้นสังกัด
