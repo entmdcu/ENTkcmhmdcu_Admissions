@@ -452,7 +452,27 @@
             </div>
         </form>
     </div>
-
+    <!-- Modal ยืนยันการส่งใบสมัคร -->
+<div id="confirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 text-center">
+        <h3 class="text-2xl font-bold text-chula mb-4">ยืนยันการส่งใบสมัคร</h3>
+        <p class="text-gray-700 text-lg leading-relaxed mb-3">
+            กรุณากรอกข้อมูลให้เรียบร้อย เพราะ<b>จะไม่สามารถแก้ไขในส่วนการเติมข้อมูลได้อีก</b>หลังจากส่งแล้ว
+        </p>
+        <p class="text-pink-600 font-medium text-base mb-6">
+            หากมีปัญหากรุณาติดต่อเจ้าหน้าที่ผ่านไลน์
+            <a href="https://lin.ee/Qiwc4wm" target="_blank" class="underline hover:text-pink-800 font-bold">https://lin.ee/Qiwc4wm</a>
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button type="button" id="confirmCancel" class="px-8 py-3 rounded-lg border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 text-lg">
+                กลับไปตรวจสอบ
+            </button>
+            <button type="button" id="confirmOk" class="px-8 py-3 rounded-lg bg-chula hover:bg-[#a00c40] text-white font-bold text-lg">
+                ยืนยันส่งข้อมูล
+            </button>
+        </div>
+    </div>
+</div>
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhvXhGUzOHaNRbLZPtW0r_HdermeqEKbC6go8TP4mwDVSuGaXWWfR1lESa_ROWnexU/exec';
@@ -479,7 +499,32 @@
         ];
         
         let currentApplicant = null;
+        // ป้องกันการกด Enter แล้วฟอร์มส่งเอง
+['applicationForm', 'uploadForm'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
+            e.preventDefault();
+        }
+    });
+});
 
+// หน้าต่างยืนยันก่อนส่ง (คืนค่า true เมื่อกดยืนยัน)
+function askConfirm() {
+    return new Promise(resolve => {
+        const modal = document.getElementById('confirmModal');
+        const ok = document.getElementById('confirmOk');
+        const cancel = document.getElementById('confirmCancel');
+        modal.classList.remove('hidden');
+        const close = (result) => {
+            modal.classList.add('hidden');
+            ok.onclick = null;
+            cancel.onclick = null;
+            resolve(result);
+        };
+        ok.onclick = () => close(true);
+        cancel.onclick = () => close(false);
+    });
+}
  function switchTab(tab) {
             const form = document.getElementById('applicationForm');
             const uploadForm = document.getElementById('uploadForm');
@@ -734,7 +779,10 @@
                     textData[key] = value;
                 }
             }
+        if (!(await askConfirm())) return;   // รอให้ผู้สมัครกดยืนยันก่อนส่งจริง
 
+            let appId = document.getElementById('appId').value;
+            const isNewApplication = !appId;
             let appId = document.getElementById('appId').value;
             const isNewApplication = !appId;
             
