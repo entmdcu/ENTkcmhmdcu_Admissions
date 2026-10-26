@@ -77,6 +77,18 @@
                     </div>
                 </div>
             </div>
+                            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
+                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
+                        <i class="fa-solid fa-star text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">เลือกจุฬาฯ เป็นอันดับ 1 (คน)</p>
+                        <h3 class="text-3xl font-bold text-gray-800">
+                            <span id="stat-chula">0</span>
+                            <span class="text-base font-medium text-gray-400" id="stat-chula-pct"></span>
+                        </h3>
+                    </div>
+                </div>
 
             <!-- ส่วนที่ 2: กราฟข้อมูล -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -101,7 +113,12 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible mt-8">
                 <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center rounded-t-xl">
                     <h3 class="text-lg font-bold text-gray-800">รายละเอียดผู้สมัครและการตรวจสอบเอกสาร</h3>
-                    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครล่าสุด</span>
+                    <div class="flex flex-wrap items-center gap-3">
+    <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-pink-50 border border-pink-200 px-3 py-2 rounded-lg cursor-pointer">
+        <input type="checkbox" id="filterChula" class="w-4 h-4"> แสดงเฉพาะผู้ที่เลือกจุฬาฯ เป็นอันดับ 1
+    </label>
+    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครล่าสุด</span>
+</div>
                 </div>
                 <div class="overflow-x-auto min-h-[300px]">
                     <table class="w-full text-left border-collapse min-w-[1000px]">
@@ -142,7 +159,14 @@
                 if(result.status === 'success') {
                     document.getElementById('loadingMsg').style.display = 'none';
                     document.getElementById('dashboardContent').style.display = 'block';
+                    window.allRows = result.data;
+                     if (location.hash === '#chula') document.getElementById('filterChula').checked = true;
                     renderDashboard(result.data);
+                    document.getElementById('filterChula').addEventListener('change', () => {
+                        location.hash = document.getElementById('filterChula').checked ? 'chula' : '';
+                        location.reload();
+                    });
+                   
                 } else {
                     alert('เกิดข้อผิดพลาด: ' + result.message);
                 }
@@ -158,13 +182,14 @@
             const total = data.length;
             let sponsorCount = 0;
             let maleCount = 0;
-            let femaleCount = 0;
+            let chulaCount = 0;
+            const isChula = (row) => String(row.choice1 || '').includes('จุฬาลงกรณ์');
             const medSchoolsCount = {};
 
             data.forEach(row => {
                 // คำนวณต้นสังกัด
                 if(row.hasSponsor === 'มี') sponsorCount++;
-                
+                if (isChula(row)) chulaCount++;
                 // คำนวณเพศ
                 if(row.gender === 'ชาย') maleCount++;
                 else if (row.gender === 'หญิง') femaleCount++;
@@ -182,6 +207,8 @@
             document.getElementById('stat-total').innerText = total;
             document.getElementById('stat-sponsor').innerText = sponsorCount;
             document.getElementById('stat-gender').innerText = `${maleCount} / ${femaleCount}`;
+            document.getElementById('stat-chula').innerText = chulaCount;
+            document.getElementById('stat-chula-pct').innerText = total ? ` (${Math.round(chulaCount / total * 100)}%)` : '';
 
             // 2. สร้างกราฟวงกลม (Sponsor)
             const ctxSponsor = document.getElementById('sponsorChart').getContext('2d');
@@ -226,7 +253,8 @@
                      // 4. เติมข้อมูลลงตาราง
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
-            const recentData = [...data].reverse();
+            const onlyChula = document.getElementById('filterChula').checked;
+            const recentData = [...data].reverse().filter(row => !onlyChula || isChula(row));
 
             const requiredDocs = [
                 { key: 'filePhoto', name: 'รูปถ่าย' },
