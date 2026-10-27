@@ -266,7 +266,7 @@
             <section id="engSection">
                 <div class="border-b-2 border-pink-100 pb-2 mb-6">
                     <h2 class="text-3xl font-bold text-chula">5.1 คะแนนภาษาอังกฤษ</h2>
-                    <p class="text-gray-600 mt-2">ผู้สมัครต้องมีคะแนน <b>อย่างใดอย่างหนึ่ง</b> ผ่านเกณฑ์ขั้นต่ำด้านล่าง และต้อง <b>แนบหลักฐานคะแนน</b> ในหัวข้อที่ 8 (ข้อ 13)</p>
+                    <p class="text-gray-600 mt-2">กรอกคะแนนภาษาอังกฤษ <b>(ไม่บังคับ)</b> โดยระบบจะแจ้งว่าผ่านเกณฑ์ขั้นต่ำหรือไม่ เกณฑ์คือผ่านอย่างใดอย่างหนึ่ง และหากมีคะแนนสามารถแนบหลักฐานได้ในหัวข้อที่ 8 (ข้อ 13)</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -496,7 +496,7 @@
                     </div>
                         <!-- 13. หลักฐานคะแนนภาษาอังกฤษ (MULTIPLE) -->
                     <div class="p-5 border-2 border-pink-200 rounded-xl bg-pink-50 hover:bg-white hover:shadow-md transition-all duration-200">
-                        <label class="block font-bold mb-3 text-gray-800">13. หลักฐานคะแนนภาษาอังกฤษ (CU-TEP / TOEFL iBT / TOEFL ITP / IELTS) <span class="text-red-600 font-semibold text-sm">(บังคับ)</span></label>
+                        <label class="block font-bold mb-3 text-gray-800">13. หลักฐานคะแนนภาษาอังกฤษ (CU-TEP / TOEFL iBT / TOEFL ITP / IELTS) 
                         <input type="file" name="fileEnglish" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-pink-200 file:text-pink-800 hover:file:bg-pink-300 file:cursor-pointer cursor-pointer">
                     </div>
                 </div>
@@ -546,7 +546,7 @@
 </div>
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQoh9fo7jn3GuuP-ypjOiO_FEUyn16r06ua3ImtkLuV2-48aAw0q6r2HfDV5LFfC7H/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfXTY7edAYuvOPi1xRz6NfyQQ6b2Z3Jp5k-sb8ZA4nXvXD0iNoO6_DjD7s_QXk_pM/exec';
 
         const MAX_FILE_MB = 15;
         const IMAGE_MAX_DIMENSION = 1600;
@@ -615,8 +615,12 @@
             if (passed.length > 0) {
                 status.innerText = '✓ ผ่านเกณฑ์ภาษาอังกฤษด้วย: ' + passed.map(r => r.name).join(', ');
                 status.className = 'mt-5 font-semibold text-lg text-green-600';
-            } else {
-                status.innerText = 'ยังไม่มีคะแนนที่ผ่านเกณฑ์ (ต้องผ่านอย่างน้อย 1 รายการ)';
+                      } else {
+                const anyFilled = ENGLISH_RULES.some(r => {
+                    const el = document.querySelector(`input[name="${r.key}"]`);
+                    return el && el.value !== '';
+                });
+                status.innerText = anyFilled ? 'คะแนนที่กรอกยังไม่ถึงเกณฑ์ขั้นต่ำ' : '';
                 status.className = 'mt-5 font-semibold text-lg text-red-500';
             }
         }
@@ -793,8 +797,8 @@ function askConfirm() {
             if (engType) {
                 const rule = ENGLISH_RULES.find(r => r.key === engType);
                 const v = parseFloat(engScoreRaw);
-                if (isNaN(v) || v < rule.min) {
-                    alert(`คะแนน ${rule.name} ต้องกรอกและถึงเกณฑ์ ${rule.min} ขึ้นไป`);
+                                       if (isNaN(v)) {
+                    alert(`กรุณากรอกคะแนน ${rule.name}`);
                     return;
                 }
                 engEdit = { field: engType, score: v, name: rule.name };
@@ -961,16 +965,7 @@ function askConfirm() {
                     textData[key] = value;
                 }
             }
-            // ตรวจคะแนนภาษาอังกฤษและหลักฐานก่อนส่ง
-            if (englishPassedList().length === 0) {
-                alert('กรุณากรอกคะแนนภาษาอังกฤษอย่างน้อย 1 รายการ ให้ถึงเกณฑ์ขั้นต่ำ\n\nCU-TEP ≥ 67 | TOEFL iBT ≥ 71 | TOEFL ITP ≥ 527 | IELTS ≥ 5.5');
-                document.getElementById('engSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            if (!fileEntries.some(f => f.field === 'fileEnglish')) {
-                alert('กรุณาแนบหลักฐานคะแนนภาษาอังกฤษ (หัวข้อ 8 ข้อ 13)');
-                return;
-            }
+      
         if (!(await askConfirm())) return;   // รอให้ผู้สมัครกดยืนยันก่อนส่งจริง
 
             let appId = document.getElementById('appId').value;
