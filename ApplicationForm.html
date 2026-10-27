@@ -699,6 +699,7 @@ function askConfirm() {
                         document.getElementById('uploadApplicant').innerText =
                             `ผู้สมัคร: ${d.titleTh || ''}${currentApplicant.first} ${currentApplicant.last} (รหัส ${currentApplicant.appId})`;
                         buildUploadItems();
+                        resetEngEdit(d);
                         uploadForm.classList.remove('hidden');
                     } else {
                         statusText.innerText = 'ไม่พบข้อมูลผู้สมัครนี้ กรุณาตรวจสอบรหัสอีกครั้ง';
@@ -874,7 +875,7 @@ function askConfirm() {
                     document.getElementById('engEditType').value = '';
                     checkEngEdit();
                 }
-                resetEngEdit(d);
+              
             } catch (err) {
                 console.error(err);
                 alert('เกิดข้อผิดพลาด: ' + err.message);
