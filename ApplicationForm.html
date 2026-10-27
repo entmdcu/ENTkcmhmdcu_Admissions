@@ -71,6 +71,23 @@
             </div>
             
             <p id="uploadApplicant" class="font-bold text-chula text-xl text-center"></p>
+                        <!-- แก้ไขคะแนนภาษาอังกฤษ (แก้ได้ครั้งละ 1 รายการ) -->
+            <div class="p-5 border-2 border-pink-200 rounded-xl bg-pink-50">
+                <label class="block font-bold mb-1 text-gray-800">แก้ไขคะแนนภาษาอังกฤษ <span class="text-gray-500 font-normal text-sm">(แก้ได้ครั้งละ 1 รายการ)</span></label>
+                <p id="engCurrent" class="text-sm text-gray-600 mb-3"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <select id="engEditType" onchange="checkEngEdit()" class="w-full border border-gray-300 p-3 rounded-lg bg-white">
+                        <option value="">- ไม่แก้ไขคะแนน -</option>
+                        <option value="engCutep">CU-TEP (ต้อง 67 ขึ้นไป)</option>
+                        <option value="engToeflIbt">TOEFL iBT (ต้อง 71 ขึ้นไป)</option>
+                        <option value="engToeflItp">TOEFL ITP (ต้อง 527 ขึ้นไป)</option>
+                        <option value="engIelts">IELTS (ต้อง 5.5 ขึ้นไป)</option>
+                    </select>
+                    <input type="number" step="any" min="0" id="engEditScore" oninput="checkEngEdit()" disabled placeholder="กรอกคะแนนใหม่" class="w-full border border-gray-300 p-3 rounded-lg bg-gray-100">
+                </div>
+                <p id="engEditBadge" class="mt-2 text-sm font-semibold min-h-[1.25rem]"></p>
+                <p class="text-sm text-gray-500 mt-1">หากแก้คะแนน กรุณาแนบหลักฐานใหม่ในข้อ 13 ด้านล่างด้วย</p>
+            </div>
             <div id="uploadItems" class="space-y-4"></div>
 
             <div id="upProg" class="hidden">
@@ -245,7 +262,41 @@
                     </div>
                 </div>
             </section>
+                        <!-- 5.1 คะแนนภาษาอังกฤษ -->
+            <section id="engSection">
+                <div class="border-b-2 border-pink-100 pb-2 mb-6">
+                    <h2 class="text-3xl font-bold text-chula">5.1 คะแนนภาษาอังกฤษ</h2>
+                    <p class="text-gray-600 mt-2">ผู้สมัครต้องมีคะแนน <b>อย่างใดอย่างหนึ่ง</b> ผ่านเกณฑ์ขั้นต่ำด้านล่าง และต้อง <b>แนบหลักฐานคะแนน</b> ในหัวข้อที่ 8 (ข้อ 13)</p>
+                </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50">
+                        <label class="block font-bold mb-1">CU-TEP</label>
+                        <p class="text-sm text-gray-500 mb-3">ต้องได้ 67 คะแนนขึ้นไป</p>
+                        <input type="number" step="any" min="0" name="engCutep" oninput="checkEnglish()" class="w-full border border-gray-300 p-3 rounded-lg" placeholder="กรอกคะแนน">
+                        <p id="badge_engCutep" class="mt-2 text-sm font-semibold min-h-[1.25rem]"></p>
+                    </div>
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50">
+                        <label class="block font-bold mb-1">TOEFL iBT</label>
+                        <p class="text-sm text-gray-500 mb-3">ต้องได้ 71 คะแนนขึ้นไป</p>
+                        <input type="number" step="any" min="0" name="engToeflIbt" oninput="checkEnglish()" class="w-full border border-gray-300 p-3 rounded-lg" placeholder="กรอกคะแนน">
+                        <p id="badge_engToeflIbt" class="mt-2 text-sm font-semibold min-h-[1.25rem]"></p>
+                    </div>
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50">
+                        <label class="block font-bold mb-1">TOEFL ITP</label>
+                        <p class="text-sm text-gray-500 mb-3">ต้องได้ 527 คะแนนขึ้นไป</p>
+                        <input type="number" step="any" min="0" name="engToeflItp" oninput="checkEnglish()" class="w-full border border-gray-300 p-3 rounded-lg" placeholder="กรอกคะแนน">
+                        <p id="badge_engToeflItp" class="mt-2 text-sm font-semibold min-h-[1.25rem]"></p>
+                    </div>
+                    <div class="p-5 border border-gray-200 rounded-xl bg-gray-50">
+                        <label class="block font-bold mb-1">IELTS</label>
+                        <p class="text-sm text-gray-500 mb-3">ต้องได้ 5.5 คะแนนขึ้นไป</p>
+                        <input type="number" step="any" min="0" name="engIelts" oninput="checkEnglish()" class="w-full border border-gray-300 p-3 rounded-lg" placeholder="กรอกคะแนน">
+                        <p id="badge_engIelts" class="mt-2 text-sm font-semibold min-h-[1.25rem]"></p>
+                    </div>
+                </div>
+                <p id="engStatus" class="mt-5 font-semibold text-lg"></p>
+            </section>
             <!-- 6. คุณสมบัติ / ประวัติปฏิบัติงาน -->
             <section>
                 <div class="border-b-2 border-pink-100 pb-2 mb-6">
@@ -443,7 +494,11 @@
                         <label class="block font-bold mb-3 text-gray-800">12. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ</label>
                         <input type="file" name="fileMedical" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                     </div>
-                        
+                        <!-- 13. หลักฐานคะแนนภาษาอังกฤษ (MULTIPLE) -->
+                    <div class="p-5 border-2 border-pink-200 rounded-xl bg-pink-50 hover:bg-white hover:shadow-md transition-all duration-200">
+                        <label class="block font-bold mb-3 text-gray-800">13. หลักฐานคะแนนภาษาอังกฤษ (CU-TEP / TOEFL iBT / TOEFL ITP / IELTS) <span class="text-red-600 font-semibold text-sm">(บังคับ)</span></label>
+                        <input type="file" name="fileEnglish" multiple accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-base text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-pink-200 file:text-pink-800 hover:file:bg-pink-300 file:cursor-pointer cursor-pointer">
+                    </div>
                 </div>
             </section>
             
@@ -491,7 +546,7 @@
 </div>
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhvXhGUzOHaNRbLZPtW0r_HdermeqEKbC6go8TP4mwDVSuGaXWWfR1lESa_ROWnexU/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQoh9fo7jn3GuuP-ypjOiO_FEUyn16r06ua3ImtkLuV2-48aAw0q6r2HfDV5LFfC7H/exec';
 
         const MAX_FILE_MB = 15;
         const IMAGE_MAX_DIMENSION = 1600;
@@ -511,7 +566,8 @@
             { field: 'fileCV',         label: 'CV',                      title: '9. ประวัติย่อ (CV) ไม่เกิน 2 หน้า' },
             { field: 'filePortfolio',  label: 'Portfolio',               title: '10. แฟ้มสะสมผลงาน (Portfolio) (ไม่บังคับ)' },
             { field: 'fileRecLetter',  label: 'หนังสือรับรอง',           title: '11. หนังสือรับรอง/แนะนำผู้สมัคร (ถ้ามี)', multiple: true },
-            { field: 'fileMedical',    label: 'ใบรับรองแพทย์',           title: '12. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ', multiple: true }
+            { field: 'fileMedical',    label: 'ใบรับรองแพทย์',           title: '12. ใบรับรองแพทย์ และเอกสารตรวจตาสามมิติ', multiple: true },
+            { field: 'fileEnglish',    label: 'คะแนนภาษาอังกฤษ',         title: '13. หลักฐานคะแนนภาษาอังกฤษ', multiple: true }
         ];
         
         let currentApplicant = null;
@@ -523,6 +579,51 @@
         }
     });
 });
+              // ===== เกณฑ์คะแนนภาษาอังกฤษ (ผ่านอย่างใดอย่างหนึ่ง) =====
+        const ENGLISH_RULES = [
+            { key: 'engCutep',    name: 'CU-TEP',    min: 67 },
+            { key: 'engToeflIbt', name: 'TOEFL iBT', min: 71 },
+            { key: 'engToeflItp', name: 'TOEFL ITP', min: 527 },
+            { key: 'engIelts',    name: 'IELTS',     min: 5.5 }
+        ];
+
+        function englishPassedList() {
+            return ENGLISH_RULES.filter(r => {
+                const el = document.querySelector(`input[name="${r.key}"]`);
+                const v = parseFloat(el ? el.value : '');
+                return !isNaN(v) && v >= r.min;
+            });
+        }
+
+        function checkEnglish() {
+            ENGLISH_RULES.forEach(r => {
+                const el = document.querySelector(`input[name="${r.key}"]`);
+                const badge = document.getElementById('badge_' + r.key);
+                const v = parseFloat(el.value);
+                if (el.value === '' || isNaN(v)) {
+                    badge.innerText = '';
+                } else if (v >= r.min) {
+                    badge.innerText = '✓ ผ่านเกณฑ์';
+                    badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-green-600';
+                } else {
+                    badge.innerText = `ยังไม่ถึงเกณฑ์ (ต้อง ${r.min} ขึ้นไป)`;
+                    badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-red-500';
+                }
+            });
+            const passed = englishPassedList();
+            const status = document.getElementById('engStatus');
+            if (passed.length > 0) {
+                status.innerText = '✓ ผ่านเกณฑ์ภาษาอังกฤษด้วย: ' + passed.map(r => r.name).join(', ');
+                status.className = 'mt-5 font-semibold text-lg text-green-600';
+            } else {
+                status.innerText = 'ยังไม่มีคะแนนที่ผ่านเกณฑ์ (ต้องผ่านอย่างน้อย 1 รายการ)';
+                status.className = 'mt-5 font-semibold text-lg text-red-500';
+            }
+        }
+
+        // รีเซ็ตฟอร์มแล้วให้สถานะคะแนนเคลียร์ตาม
+        document.getElementById('applicationForm').addEventListener('reset', () => setTimeout(checkEnglish, 0));
+        checkEnglish();
 
 // หน้าต่างยืนยันก่อนส่ง (คืนค่า true เมื่อกดยืนยัน)
 function askConfirm() {
@@ -610,7 +711,7 @@ function askConfirm() {
                     statusText.className = 'mt-3 font-medium text-red-500';
                 });
         }
-
+            
         function buildUploadItems() {
             const box = document.getElementById('uploadItems');
             box.innerHTML = UPLOAD_DOCS.map(d => `
@@ -624,7 +725,39 @@ function askConfirm() {
                     </div>
                 </div>`).join('');
         }
+        // ===== แก้ไขคะแนนภาษาอังกฤษในแท็บแก้ไข =====
+        function resetEngEdit(d) {
+            const parts = ENGLISH_RULES
+                .filter(r => d && d[r.key] !== undefined && String(d[r.key]).trim() !== '')
+                .map(r => `${r.name} ${d[r.key]}`);
+            document.getElementById('engCurrent').innerText = 'คะแนนปัจจุบัน: ' + (parts.length ? parts.join(', ') : 'ยังไม่มีข้อมูล');
+            document.getElementById('engEditType').value = '';
+            const sc = document.getElementById('engEditScore');
+            sc.value = ''; sc.disabled = true; sc.classList.add('bg-gray-100');
+            document.getElementById('engEditBadge').innerText = '';
+        }
 
+        function checkEngEdit() {
+            const type = document.getElementById('engEditType').value;
+            const sc = document.getElementById('engEditScore');
+            const badge = document.getElementById('engEditBadge');
+            if (!type) {
+                sc.value = ''; sc.disabled = true; sc.classList.add('bg-gray-100');
+                badge.innerText = '';
+                return;
+            }
+            sc.disabled = false; sc.classList.remove('bg-gray-100');
+            const rule = ENGLISH_RULES.find(r => r.key === type);
+            const v = parseFloat(sc.value);
+            if (sc.value === '' || isNaN(v)) { badge.innerText = ''; return; }
+            if (v >= rule.min) {
+                badge.innerText = '✓ ผ่านเกณฑ์';
+                badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-green-600';
+            } else {
+                badge.innerText = `ยังไม่ถึงเกณฑ์ (ต้อง ${rule.min} ขึ้นไป)`;
+                badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-red-500';
+            }
+        }
         function setUpProgress(percent, text) {
             document.getElementById('upProg').classList.remove('hidden');
             document.getElementById('upProgBar').style.width = percent + '%';
@@ -652,7 +785,20 @@ function askConfirm() {
                 }
                 files.forEach((f, i) => jobs.push({ doc: d, file: f, mode: modeEl.value, idx: i, total: files.length }));
             }
-            if (jobs.length === 0) { alert('กรุณาเลือกไฟล์อย่างน้อย 1 รายการ'); return; }
+                        // ตรวจคะแนนที่ขอแก้ไข (ถ้ามี)
+            const engType = document.getElementById('engEditType').value;
+            const engScoreRaw = document.getElementById('engEditScore').value;
+            let engEdit = null;
+            if (engType) {
+                const rule = ENGLISH_RULES.find(r => r.key === engType);
+                const v = parseFloat(engScoreRaw);
+                if (isNaN(v) || v < rule.min) {
+                    alert(`คะแนน ${rule.name} ต้องกรอกและถึงเกณฑ์ ${rule.min} ขึ้นไป`);
+                    return;
+                }
+                engEdit = { field: engType, score: v, name: rule.name };
+            }
+            if (jobs.length === 0 && !engEdit) { alert('กรุณาเลือกไฟล์ หรือกรอกคะแนนที่ต้องการแก้ไขอย่างน้อย 1 รายการ'); return; }
 
             const replaceTitles = [...new Set(jobs.filter(j => j.mode === 'replace').map(j => j.doc.label))];
             if (replaceTitles.length &&
@@ -663,6 +809,17 @@ function askConfirm() {
             btn.disabled = true;
 
             try {
+                    if (engEdit) {
+                    btn.innerText = 'กำลังบันทึกคะแนนภาษาอังกฤษ...';
+                    setUpProgress(3, 'กำลังบันทึกคะแนนภาษาอังกฤษ...');
+                    const engRes = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ action: 'updateEnglish', appId: currentApplicant.appId, field: engEdit.field, score: engEdit.score })
+                    });
+                    const engResult = await engRes.json();
+                    if (engResult.status !== 'success') throw new Error(engResult.message || 'บันทึกคะแนนภาษาอังกฤษไม่สำเร็จ');
+                }
                 for (let i = 0; i < jobs.length; i++) {
                     const { doc, file, mode, idx, total } = jobs[i];
                     btn.innerText = `กำลังอัปโหลด ${i + 1}/${jobs.length}...`;
@@ -710,6 +867,14 @@ function askConfirm() {
                 setUpProgress(100, 'เสร็จสิ้น!');
                 alert('อัปโหลดเอกสารเรียบร้อยแล้ว ระบบส่งอีเมลยืนยันให้ท่านแล้ว');
                 buildUploadItems();
+                    if (engEdit) {
+                    currentApplicant.eng = currentApplicant.eng || {};
+                    const cur = document.getElementById('engCurrent').innerText.replace('คะแนนปัจจุบัน: ', '');
+                    document.getElementById('engCurrent').innerText = 'คะแนนปัจจุบัน: ' + (cur === 'ยังไม่มีข้อมูล' ? '' : cur + ', ') + `${engEdit.name} ${engEdit.score} (เพิ่งแก้ไข)`;
+                    document.getElementById('engEditType').value = '';
+                    checkEngEdit();
+                }
+                resetEngEdit(d);
             } catch (err) {
                 console.error(err);
                 alert('เกิดข้อผิดพลาด: ' + err.message);
@@ -794,6 +959,16 @@ function askConfirm() {
                 } else if (!(value instanceof File)) {
                     textData[key] = value;
                 }
+            }
+            // ตรวจคะแนนภาษาอังกฤษและหลักฐานก่อนส่ง
+            if (englishPassedList().length === 0) {
+                alert('กรุณากรอกคะแนนภาษาอังกฤษอย่างน้อย 1 รายการ ให้ถึงเกณฑ์ขั้นต่ำ\n\nCU-TEP ≥ 67 | TOEFL iBT ≥ 71 | TOEFL ITP ≥ 527 | IELTS ≥ 5.5');
+                document.getElementById('engSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            if (!fileEntries.some(f => f.field === 'fileEnglish')) {
+                alert('กรุณาแนบหลักฐานคะแนนภาษาอังกฤษ (หัวข้อ 8 ข้อ 13)');
+                return;
             }
         if (!(await askConfirm())) return;   // รอให้ผู้สมัครกดยืนยันก่อนส่งจริง
 
