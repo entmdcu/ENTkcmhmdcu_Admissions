@@ -546,7 +546,7 @@
 </div>
     <!-- Javascript โลจิกของแบบฟอร์ม -->
   <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfXTY7edAYuvOPi1xRz6NfyQQ6b2Z3Jp5k-sb8ZA4nXvXD0iNoO6_DjD7s_QXk_pM/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKX3BqA5TtZIrPubZa1E2saYTPZLmzOWb2ap6dF2PGRH3lHT1235lQjlrUmq_FYso/exec';
 
         const MAX_FILE_MB = 15;
         const IMAGE_MAX_DIMENSION = 1600;
@@ -759,8 +759,8 @@ function askConfirm() {
                 badge.innerText = '✓ ผ่านเกณฑ์';
                 badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-green-600';
             } else {
-                badge.innerText = `ยังไม่ถึงเกณฑ์ (ต้อง ${rule.min} ขึ้นไป)`;
-                badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-red-500';
+                badge.innerText = `ไม่ถึงเกณฑ์ (เกณฑ์ ${rule.min} ขึ้นไป) แต่สามารถบันทึกได้`;
+                badge.className = 'mt-2 text-sm font-semibold min-h-[1.25rem] text-orange-500';
             }
         }
         function setUpProgress(percent, text) {
@@ -875,7 +875,7 @@ function askConfirm() {
                     if (engEdit) {
                     currentApplicant.eng = currentApplicant.eng || {};
                     const cur = document.getElementById('engCurrent').innerText.replace('คะแนนปัจจุบัน: ', '');
-                    document.getElementById('engCurrent').innerText = 'คะแนนปัจจุบัน: ' + (cur === 'ยังไม่มีข้อมูล' ? '' : cur + ', ') + `${engEdit.name} ${engEdit.score} (เพิ่งแก้ไข)`;
+                    document.getElementById('engCurrent').innerText = 'คะแนนปัจจุบัน: ' + (cur === 'ยังไม่มีข้อมูล' ? '' : cur + ', ') + `${engEdit.name} ${engEdit.score} (${engEdit.passed ? 'ผ่านเกณฑ์' : 'ไม่ถึงเกณฑ์'} - เพิ่งแก้ไข)`;
                     document.getElementById('engEditType').value = '';
                     checkEngEdit();
                 }
