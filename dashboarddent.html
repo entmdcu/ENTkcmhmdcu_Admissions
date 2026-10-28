@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard รับสมัครแพทย์ประจำบ้าน 2570</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js สำหรับสร้างกราฟ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style> 
+    <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
         .bg-chula { background-color: #ce1255; }
         .text-chula { color: #ce1255; }
-        /* สไตล์เสริมสำหรับ Dropdown ไฟล์แนบ */
+        .border-l-chula { border-left-color: #ce1255; }
         details[open] summary ~ * { animation: sweep .15s ease-in-out; }
         @keyframes sweep { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-gray-800 pb-10">
 
-    <!-- Header -->
     <header class="bg-chula text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -36,235 +31,240 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- แถบแจ้งเตือนสถานะโหลดข้อมูล -->
+
         <div id="loadingMsg" class="flex flex-col items-center justify-center py-20">
             <i class="fa-solid fa-circle-notch fa-spin text-5xl text-chula mb-4"></i>
             <h2 class="text-xl font-bold text-gray-600">กำลังดึงข้อมูลจากระบบ...</h2>
         </div>
 
+        <div id="errorMsg" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-6 text-center font-medium"></div>
+
         <div id="dashboardContent" class="hidden space-y-6">
-            
-            <!-- ส่วนที่ 1: ตัวเลขสรุปผล (Scorecards) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
-                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
-                        <i class="fa-solid fa-users text-3xl"></i>
-                    </div>
+
+            <!-- Scorecards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
+                    <div class="p-3 rounded-full bg-pink-50 text-chula mr-4"><i class="fa-solid fa-users text-2xl"></i></div>
                     <div>
                         <p class="text-gray-500 text-sm font-medium">ผู้สมัครทั้งหมด (คน)</p>
                         <h3 class="text-3xl font-bold text-gray-800" id="stat-total">0</h3>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-green-500 flex items-center">
-                    <div class="p-4 rounded-full bg-green-50 text-green-500 mr-4">
-                        <i class="fa-solid fa-building-user text-3xl"></i>
-                    </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-green-500 flex items-center">
+                    <div class="p-3 rounded-full bg-green-50 text-green-500 mr-4"><i class="fa-solid fa-building-user text-2xl"></i></div>
                     <div>
                         <p class="text-gray-500 text-sm font-medium">มีต้นสังกัด (คน)</p>
                         <h3 class="text-3xl font-bold text-gray-800" id="stat-sponsor">0</h3>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500 flex items-center">
-                    <div class="p-4 rounded-full bg-blue-50 text-blue-500 mr-4">
-                        <i class="fa-solid fa-mars-and-venus text-3xl"></i>
-                    </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500 flex items-center">
+                    <div class="p-3 rounded-full bg-blue-50 text-blue-500 mr-4"><i class="fa-solid fa-mars-and-venus text-2xl"></i></div>
                     <div>
                         <p class="text-gray-500 text-sm font-medium">สัดส่วน ชาย / หญิง</p>
                         <h3 class="text-3xl font-bold text-gray-800" id="stat-gender">0 / 0</h3>
                     </div>
                 </div>
-            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
-                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
-                        <i class="fa-solid fa-star text-3xl"></i>
-                                  </div>
-                <!-- ↑ ปิดการ์ดชาย/หญิง -->
 
-                <!-- การ์ดจุฬาฯ -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
-                    <div class="p-4 rounded-full bg-pink-50 text-chula mr-4">
-                        <i class="fa-solid fa-star text-3xl"></i>
-                    </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-chula flex items-center">
+                    <div class="p-3 rounded-full bg-pink-50 text-chula mr-4"><i class="fa-solid fa-star text-2xl"></i></div>
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">เลือกจุฬาฯ เป็นอันดับ 1 (คน)</p>
+                        <p class="text-gray-500 text-sm font-medium">เลือกจุฬาฯ เป็นอันดับ 1</p>
                         <h3 class="text-3xl font-bold text-gray-800">
                             <span id="stat-chula">0</span>
                             <span class="text-base font-medium text-gray-400" id="stat-chula-pct"></span>
                         </h3>
                     </div>
                 </div>
-            </div>
-            <!-- ↑ ปิดบล็อก Scorecards -->
 
-            <!-- ส่วนที่ 2: กราฟข้อมูล -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-amber-500 flex items-center">
+                    <div class="p-3 rounded-full bg-amber-50 text-amber-500 mr-4"><i class="fa-solid fa-language text-2xl"></i></div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">ผ่านเกณฑ์ภาษาอังกฤษ</p>
+                        <h3 class="text-3xl font-bold text-gray-800">
+                            <span id="stat-eng">0</span>
+                            <span class="text-base font-medium text-gray-400" id="stat-eng-pct"></span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- กราฟ -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- กราฟวงกลม: สถานะต้นสังกัด -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">ผู้สมัครที่มีต้นสังกัด vs อิสระ</h3>
-                    <div class="relative h-64 w-full">
-                        <canvas id="sponsorChart"></canvas>
-                    </div>
+                    <div class="relative h-64 w-full"><canvas id="sponsorChart"></canvas></div>
                 </div>
-
-                <!-- กราฟแท่ง: สถาบันที่จบการศึกษา -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">สถาบันที่สำเร็จการศึกษา (พ.บ.)</h3>
-                    <div class="relative h-64 w-full">
-                        <canvas id="medSchoolChart"></canvas>
-                    </div>
+                    <div class="relative h-64 w-full"><canvas id="medSchoolChart"></canvas></div>
                 </div>
             </div>
 
-            <!-- ส่วนที่ 3: ตารางรายชื่อผู้สมัครล่าสุด -->
+            <!-- ตาราง -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible mt-8">
-                <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center rounded-t-xl">
+                <div class="p-6 border-b border-gray-100 bg-gray-50 flex flex-wrap justify-between items-center gap-3 rounded-t-xl">
                     <h3 class="text-lg font-bold text-gray-800">รายละเอียดผู้สมัครและการตรวจสอบเอกสาร</h3>
                     <div class="flex flex-wrap items-center gap-3">
-    <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-pink-50 border border-pink-200 px-3 py-2 rounded-lg cursor-pointer">
-        <input type="checkbox" id="filterChula" class="w-4 h-4"> แสดงเฉพาะผู้ที่เลือกจุฬาฯ เป็นอันดับ 1
-    </label>
-    <span class="text-sm text-gray-500">เรียงตามวันที่สมัครล่าสุด</span>
-</div>
+                        <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-pink-50 border border-pink-200 px-3 py-2 rounded-lg cursor-pointer">
+                            <input type="checkbox" id="filterChula" class="w-4 h-4"> เฉพาะเลือกจุฬาฯ อันดับ 1
+                        </label>
+                        <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-amber-50 border border-amber-200 px-3 py-2 rounded-lg cursor-pointer">
+                            <input type="checkbox" id="filterEng" class="w-4 h-4"> เฉพาะผ่านเกณฑ์ภาษาอังกฤษ
+                        </label>
+                        <span class="text-sm text-gray-500">เรียงตามวันที่สมัครล่าสุด</span>
+                    </div>
                 </div>
                 <div class="overflow-x-auto min-h-[300px]">
-                    <table class="w-full text-left border-collapse min-w-[1000px]">
-                          <thead>
-    <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
-        <th class="p-4 font-semibold">รหัสผู้สมัคร</th>
-        <th class="p-4 font-semibold">วันที่สมัคร</th>
-        <th class="p-4 font-semibold">ชื่อ-นามสกุล</th>
-        <th class="p-4 font-semibold">สถาบันอันดับ 1</th>
-        <th class="p-4 font-semibold">ต้นสังกัด</th>
-        <th class="p-4 font-semibold">สถานะเอกสาร</th>
-        <th class="p-4 font-semibold text-center">ไฟล์แนบ</th>
-    </tr>
-</thead>
-                        <tbody id="tableBody" class="text-gray-700 text-base">
-                            <!-- แถวข้อมูลจะถูกเติมด้วย JavaScript -->
-                        </tbody>
+                    <table class="w-full text-left border-collapse min-w-[1400px]">
+                        <thead>
+                            <tr class="bg-white border-b border-gray-200 text-sm text-gray-500">
+                                <th class="p-4 font-semibold">รหัสผู้สมัคร</th>
+                                <th class="p-4 font-semibold">วันที่สมัคร</th>
+                                <th class="p-4 font-semibold">ชื่อ-นามสกุล</th>
+                                <th class="p-4 font-semibold">สถาบันอันดับ 1</th>
+                                <th class="p-4 font-semibold">คะแนนภาษาอังกฤษ</th>
+                                <th class="p-4 font-semibold">ต้นสังกัด</th>
+                                <th class="p-4 font-semibold">สถานะเอกสาร</th>
+                                <th class="p-4 font-semibold text-center">ไฟล์แนบ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="text-gray-700 text-base"></tbody>
                     </table>
                 </div>
             </div>
-            
+
         </div>
     </main>
 
-    <!-- ส่วนที่โหลดข้อมูลและการสร้าง Dashboard -->
     <script>
-        // ===============================================
-        // 1. ใส่ URL เว็บแอป Google Apps Script ของคุณที่นี่
-        // ===============================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhvXhGUzOHaNRbLZPtW0r_HdermeqEKbC6go8TP4mwDVSuGaXWWfR1lESa_ROWnexU/exec';
+        // ใช้ URL เดียวกับหน้าฟอร์ม
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQoh9fo7jn3GuuP-ypjOiO_FEUyn16r06ua3ImtkLuV2-48aAw0q6r2HfDV5LFfC7H/exec';
 
-        // เริ่มดึงข้อมูลทันทีที่เปิดหน้าเว็บ
-        window.onload = async () => {
+        const ENGLISH_RULES = [
+            { key: 'engCutep',    name: 'CU-TEP',    min: 67 },
+            { key: 'engToeflIbt', name: 'TOEFL iBT', min: 71 },
+            { key: 'engToeflItp', name: 'TOEFL ITP', min: 527 },
+            { key: 'engIelts',    name: 'IELTS',     min: 5.5 }
+        ];
+
+        let allRows = [];
+        let sponsorChartObj = null;
+        let schoolChartObj = null;
+
+        const isChula = (row) => String(row.choice1 || '').includes('จุฬาลงกรณ์');
+        const extractUrls = (text) => String(text || '').match(/https?:\/\/[^\s]+/g) || [];
+        const hasValue = (v) => v !== undefined && v !== null && String(v).trim() !== '';
+        const engPassed = (row) => ENGLISH_RULES.some(r => {
+            const v = parseFloat(row[r.key]);
+            return !isNaN(v) && v >= r.min;
+        });
+
+        function showError(msg) {
+            document.getElementById('loadingMsg').style.display = 'none';
+            const box = document.getElementById('errorMsg');
+            box.innerText = msg;
+            box.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            let result;
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getAllData`);
-                const result = await response.json();
-                
-                if(result.status === 'success') {
-                    document.getElementById('loadingMsg').style.display = 'none';
-                    document.getElementById('dashboardContent').style.display = 'block';
-                    window.allRows = result.data;
-                     if (location.hash === '#chula') document.getElementById('filterChula').checked = true;
-                    renderDashboard(result.data);
-                    document.getElementById('filterChula').addEventListener('change', () => {
-                        location.hash = document.getElementById('filterChula').checked ? 'chula' : '';
-                        location.reload();
-                    });
-                   
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                const response = await fetch(`${SCRIPT_URL}?action=getAllData&t=${Date.now()}`);
+                const text = await response.text();
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    showError('Apps Script ตอบกลับไม่ใช่ JSON (อาจต้อง Deploy ใหม่ และตั้ง Who has access = Anyone)');
+                    console.error(text.slice(0, 300));
+                    return;
                 }
-            } catch(e) {
-                alert('ไม่สามารถเชื่อมต่อระบบฐานข้อมูลได้');
+            } catch (e) {
                 console.error(e);
+                showError('ไม่สามารถเชื่อมต่อระบบฐานข้อมูลได้: ' + e.message);
+                return;
             }
-        };
 
-        // ฟังก์ชันคำนวณและวาดกราฟ รวมถึงสร้างตารางรายชื่อ
-        function renderDashboard(data) {
-            // ถอดข้อมูล Array มาคำนวณ
+            if (result.status !== 'success') {
+                showError('เกิดข้อผิดพลาดจากระบบ: ' + (result.message || result.status));
+                return;
+            }
+
+            allRows = result.data || [];
+            document.getElementById('loadingMsg').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+
+            try {
+                renderSummary(allRows);
+                renderTable();
+                document.getElementById('filterChula').addEventListener('change', renderTable);
+                document.getElementById('filterEng').addEventListener('change', renderTable);
+            } catch (e) {
+                console.error(e);
+                showError('ดึงข้อมูลสำเร็จ แต่แสดงผลผิดพลาด: ' + e.message);
+            }
+        });
+
+        function renderSummary(data) {
             const total = data.length;
-            let sponsorCount = 0;
-            let maleCount = 0;
-            let femaleCount = 0;
-            let chulaCount = 0;
-            const isChula = (row) => String(row.choice1 || '').includes('จุฬาลงกรณ์');
+            let sponsorCount = 0, maleCount = 0, femaleCount = 0, chulaCount = 0, engCount = 0;
             const medSchoolsCount = {};
-            data.forEach(row => {
-                // คำนวณต้นสังกัด
-                if(row.hasSponsor === 'มี') sponsorCount++;
-                if (isChula(row)) chulaCount++;
-                // คำนวณเพศ
-                if(row.gender === 'ชาย') maleCount++;
-                else if (row.gender === 'หญิง') femaleCount++;
 
-                // นับจำนวนสถาบันที่จบ
+            data.forEach(row => {
+                if (row.hasSponsor === 'มี') sponsorCount++;
+                if (isChula(row)) chulaCount++;
+                if (engPassed(row)) engCount++;
+                if (row.gender === 'ชาย') maleCount++;
+                else if (row.gender === 'หญิง') femaleCount++;
                 const school = row.medSchool || 'ไม่ระบุ';
-                if(medSchoolsCount[school]) {
-                    medSchoolsCount[school]++;
-                } else {
-                    medSchoolsCount[school] = 1;
-                }
+                medSchoolsCount[school] = (medSchoolsCount[school] || 0) + 1;
             });
 
-            // 1. อัปเดตตัวเลข Scorecards
             document.getElementById('stat-total').innerText = total;
             document.getElementById('stat-sponsor').innerText = sponsorCount;
             document.getElementById('stat-gender').innerText = `${maleCount} / ${femaleCount}`;
             document.getElementById('stat-chula').innerText = chulaCount;
             document.getElementById('stat-chula-pct').innerText = total ? ` (${Math.round(chulaCount / total * 100)}%)` : '';
+            document.getElementById('stat-eng').innerText = engCount;
+            document.getElementById('stat-eng-pct').innerText = total ? ` (${Math.round(engCount / total * 100)}%)` : '';
 
-            // 2. สร้างกราฟวงกลม (Sponsor)
-            const ctxSponsor = document.getElementById('sponsorChart').getContext('2d');
-            new Chart(ctxSponsor, {
+            if (sponsorChartObj) sponsorChartObj.destroy();
+            sponsorChartObj = new Chart(document.getElementById('sponsorChart').getContext('2d'), {
                 type: 'doughnut',
                 data: {
                     labels: ['มีต้นสังกัด', 'ไม่มีต้นสังกัด (อิสระ)'],
-                    datasets: [{
-                        data: [sponsorCount, total - sponsorCount],
-                        backgroundColor: ['#ce1255', '#e5e7eb'],
-                        borderWidth: 0
-                    }]
+                    datasets: [{ data: [sponsorCount, total - sponsorCount], backgroundColor: ['#ce1255', '#e5e7eb'], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // 3. สร้างกราฟแท่ง (Med School) - จัดเรียงและแสดง 5 อันดับแรก
             const sortedSchools = Object.entries(medSchoolsCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            const schoolLabels = sortedSchools.map(item => item[0]);
-            const schoolData = sortedSchools.map(item => item[1]);
-
-            const ctxSchool = document.getElementById('medSchoolChart').getContext('2d');
-            new Chart(ctxSchool, {
+            if (schoolChartObj) schoolChartObj.destroy();
+            schoolChartObj = new Chart(document.getElementById('medSchoolChart').getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: schoolLabels,
-                    datasets: [{
-                        label: 'จำนวนผู้สมัคร (คน)',
-                        data: schoolData,
-                        backgroundColor: '#1a365d',
-                        borderRadius: 6
-                    }]
+                    labels: sortedSchools.map(i => i[0]),
+                    datasets: [{ label: 'จำนวนผู้สมัคร (คน)', data: sortedSchools.map(i => i[1]), backgroundColor: '#1a365d', borderRadius: 6 }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
                     plugins: { legend: { display: false } }
                 }
             });
+        }
 
-                     // 4. เติมข้อมูลลงตาราง
+        function renderTable() {
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
             const onlyChula = document.getElementById('filterChula').checked;
-            const recentData = [...data].reverse().filter(row => !onlyChula || isChula(row));
+            const onlyEng = document.getElementById('filterEng').checked;
+            const rows = [...allRows].reverse().filter(row =>
+                (!onlyChula || isChula(row)) && (!onlyEng || engPassed(row))
+            );
 
+            // เอกสารที่ต้องมี (fileEnglish ไม่บังคับแล้ว จึงไม่อยู่ในรายการนี้)
             const requiredDocs = [
                 { key: 'filePhoto', name: 'รูปถ่าย' },
                 { key: 'fileTcgme', name: 'ใบสมัครแพทยสภา' },
@@ -275,42 +275,50 @@
                 { key: 'fileNL', name: 'คะแนน ศรว.' },
                 { key: 'fileCV', name: 'CV' }
             ];
-
             const allDocs = [
                 ...requiredDocs,
                 { key: 'fileSponsor', name: 'หนังสือต้นสังกัด' },
                 { key: 'fileNameChange', name: 'ใบเปลี่ยนชื่อ/สมรส' },
                 { key: 'filePortfolio', name: 'Portfolio' },
                 { key: 'fileRecLetter', name: 'หนังสือรับรอง' },
-                { key: 'fileMedical', name: 'ใบรับรองแพทย์' }
+                { key: 'fileMedical', name: 'ใบรับรองแพทย์' },
+                { key: 'fileEnglish', name: 'หลักฐานภาษาอังกฤษ' }
             ];
 
-            // ดึงเฉพาะ URL จากข้อความรูปแบบ "ชื่อไฟล์: https://..."
-            const extractUrls = (text) => String(text || '').match(/https?:\/\/[^\s]+/g) || [];
+            if (rows.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8" class="p-8 text-center text-gray-400">ไม่มีข้อมูล</td></tr>';
+                return;
+            }
 
-            recentData.forEach(row => {
-                // วันที่
+            rows.forEach(row => {
                 let dateStr = '-';
                 if (row.timestamp) {
                     const d = new Date(row.timestamp);
                     if (!isNaN(d.getTime())) {
                         dateStr = d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' }) +
-                                  ` <span class="text-gray-400 text-sm"><br>${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')} น.</span>`;
+                            ` <span class="text-gray-400 text-sm"><br>${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} น.</span>`;
                     }
                 }
 
-                // ตรวจเอกสารขาด/ครบ
                 const currentRequired = [...requiredDocs];
                 if (row.hasSponsor === 'มี') currentRequired.push({ key: 'fileSponsor', name: 'หนังสือต้นสังกัด' });
-                const missingDocs = currentRequired
-                    .filter(doc => extractUrls(row[doc.key]).length === 0)
-                    .map(doc => doc.name);
+                const missingDocs = currentRequired.filter(doc => extractUrls(row[doc.key]).length === 0).map(doc => doc.name);
 
                 const statusHtml = missingDocs.length === 0
                     ? `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-circle-check"></i> ครบถ้วน</span>`
                     : `<div class="text-sm font-medium text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-100 shadow-sm leading-relaxed"><i class="fa-solid fa-triangle-exclamation mr-1"></i> <b>ขาด:</b> ${missingDocs.join(', ')}</div>`;
 
-                // รายการไฟล์ใน Dropdown
+                // คะแนนภาษาอังกฤษ
+                const engParts = ENGLISH_RULES.filter(r => hasValue(row[r.key])).map(r => {
+                    const v = parseFloat(row[r.key]);
+                    const ok = !isNaN(v) && v >= r.min;
+                    const cls = ok
+                        ? 'bg-green-50 text-green-700 border-green-200'
+                        : 'bg-orange-50 text-orange-700 border-orange-200';
+                    return `<div class="inline-block mb-1 mr-1 px-2 py-1 rounded-md border text-xs font-semibold ${cls}">${r.name} ${row[r.key]} · ${ok ? 'ผ่านเกณฑ์' : 'ไม่ถึงเกณฑ์'}</div>`;
+                });
+                const engHtml = engParts.length ? engParts.join('') : `<span class="text-gray-400 text-sm">ไม่ได้กรอก</span>`;
+
                 let filesHtml = '';
                 if (row.pdfUrl) {
                     filesHtml += `<a href="${row.pdfUrl}" target="_blank" class="block w-full text-left px-4 py-2.5 text-sm text-chula font-bold hover:bg-pink-50 border-b border-gray-100"><i class="fa-solid fa-file-pdf mr-2"></i> PDF สรุปใบสมัคร</a>`;
@@ -328,13 +336,12 @@
                 if (filesHtml === '') {
                     filesHtml = `<span class="block px-4 py-3 text-sm text-center text-gray-400">ไม่มีไฟล์แนบ</span>`;
                 }
-                // สถาบันอันดับ 1 (ตัดเลขนำหน้า "1. " ออก)
+
                 const choice1Text = String(row.choice1 || '').replace(/^\d+\.\s*/, '').trim();
                 const choice1Html = choice1Text
                     ? `<span class="inline-block px-3 py-1 rounded-lg bg-pink-50 text-chula font-semibold text-sm border border-pink-200">${choice1Text}</span>`
                     : `<span class="text-gray-400 text-sm">ไม่ได้เลือก</span>`;
-                
-                // ต้นสังกัด
+
                 const sponsorHtml = row.hasSponsor === 'มี'
                     ? `<span class="font-bold text-chula">${row.sponsorName || 'ไม่ระบุชื่อสถาบัน'}</span>`
                     : `<span class="text-gray-400 bg-gray-50 px-2 py-1 rounded-md border border-gray-200 text-sm">ไม่มีต้นสังกัด</span>`;
@@ -346,6 +353,7 @@
                     <td class="p-4 text-sm">${dateStr}</td>
                     <td class="p-4 font-medium text-gray-800">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
                     <td class="p-4">${choice1Html}</td>
+                    <td class="p-4">${engHtml}</td>
                     <td class="p-4 text-sm">${sponsorHtml}</td>
                     <td class="p-4">${statusHtml}</td>
                     <td class="p-4 text-center">
