@@ -140,7 +140,7 @@
     </main>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-ZczwICIZ0ZwoYrpCMP6HnP2ICNiZOfn52hfm4_025gkcBAj_YMv8dMnpBykiiUra/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1PBxVv2MlRUiAr-1f90Xkllbr5EQCjt27x33DtMoOYocL78HH9c7TxnIMHmmXEzz7/exec';
 
         let allRows = [];
         let charts = {};
@@ -339,7 +339,7 @@
                 tr.innerHTML = `
                     <td class="p-4 font-bold text-gray-800">${row.appId || '-'}</td>
                     <td class="p-4 text-sm">${dateStr}</td>
-                    <td class="p-4 font-medium text-gray-800">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</td>
+                    <td class="p-4 font-medium"><a href="applicant.html?id=${encodeURIComponent(row.appId)}" class="text-chula font-bold hover:underline">${row.titleTh || ''}${row.firstNameTh || ''} ${row.lastNameTh || ''}</a></td>
                     <td class="p-4">${choice1Html}</td>
                     <td class="p-4 text-sm">${sponsorHtml}</td>
                     <td class="p-4">${statusHtml}</td>
