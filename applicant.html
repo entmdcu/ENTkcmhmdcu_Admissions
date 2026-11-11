@@ -83,10 +83,8 @@
         document.getElementById('loading').classList.add('hidden');
         const b = document.getElementById('error'); b.innerText = msg; b.classList.remove('hidden');
     }
- // ลบฟังก์ชัน getKey() ออกไปเลย
-
+    
     async function call(action, id) {
-        // ลบพารามิเตอร์ &key= ออกจาก URL
         const r = await fetch(`${SCRIPT_URL}?action=${action}&id=${encodeURIComponent(id)}&t=${Date.now()}`);
         const t = await r.text();
         try { return JSON.parse(t); } catch (e) { throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ตรวจการ Deploy)'); }
@@ -98,10 +96,8 @@
         let res;
         try { res = await call('getApplicant', id); } catch (e) { return showError(e.message); }
         if (res.status === 'not_found') return showError('ไม่พบผู้สมัครรหัส ' + id);
-        // ลบคำสั่ง sessionStorage.removeItem ทิ้ง เพราะไม่ได้ใช้แล้ว
         if (res.status !== 'success') { return showError(res.message || 'เกิดข้อผิดพลาด'); }
         render(res.data);
-        loadNL(id);
     })();
 
     function docLinksHtml(d) {
@@ -129,21 +125,15 @@
 
         const photo = links(d.filePhoto).slice(-1)[0];
         const photoId = photo ? (photo.url.match(/\/d\/([\w-]+)/) || [])[1] : '';
+        // ปรับขนาดรูปเป็น w-40 h-40 และ md:w-48 md:h-48 (ใหญ่ขึ้นมาก)
         const photoHtml = photoId
-            ? `<img src="https://drive.google.com/thumbnail?id=${photoId}&sz=w300" class="w-28 h-28 rounded-2xl object-cover bg-pink-50 border border-pink-100" onerror="this.outerHTML='<div class=\\'w-28 h-28 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-4xl\\'><i class=\\'fa-solid fa-user\\'></i></div>'">`
-            : `<div class="w-28 h-28 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-4xl"><i class="fa-solid fa-user"></i></div>`;
+            ? `<img src="https://drive.google.com/thumbnail?id=${photoId}&sz=w500" class="w-40 h-40 md:w-48 md:h-48 rounded-2xl object-cover bg-pink-50 border border-pink-100 shadow-sm" onerror="this.outerHTML='<div class=\\'w-40 h-40 md:w-48 md:h-48 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-5xl\\'><i class=\\'fa-solid fa-user\\'></i></div>'">`
+            : `<div class="w-40 h-40 md:w-48 md:h-48 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-5xl shadow-sm"><i class="fa-solid fa-user"></i></div>`;
 
         const choices = [1,2,3,4,5].filter(i => has(d['choice'+i])).map(i => `
             <div class="flex items-center gap-3 py-2 border-b border-gray-50">
                 <span class="w-8 h-8 rounded-full ${i===1?'bg-chula text-white':'bg-gray-100 text-gray-600'} flex items-center justify-center font-bold text-sm">${i}</span>
                 <span class="${i===1?'font-bold text-chula':''}">${esc(String(d['choice'+i]).replace(/^\d+\.\s*/,''))}</span></div>`).join('') || '<p class="text-gray-400">ไม่ได้เลือก</p>';
-
-        const nlRows = [1,2,3].map(i => item(i===3 ? 'ขั้นตอนที่ 3 (OSCE)' : 'ขั้นตอนที่ '+i,
-            `${val(d['nl'+i+'_status'])} <span class="text-xs font-normal text-gray-400 block">สอบเมื่อ ${fmtDate(d['nl'+i+'_date'])}</span>`)).join('');
-
-        const engItems = [['engCutep','CU-TEP'],['engToeflIbt','TOEFL iBT'],['engToeflItp','TOEFL ITP'],['engIelts','IELTS']]
-            .map(([k,n]) => `<div class="rounded-xl border ${has(d[k])?'border-pink-200 bg-pink-50':'border-gray-100 bg-gray-50'} p-4 text-center">
-                <p class="text-xs text-gray-500">${n}</p><p class="text-2xl font-bold ${has(d[k])?'text-chula':'text-gray-300'}">${has(d[k]) ? esc(d[k]) : '-'}</p></div>`).join('');
 
         const works = [1,2,3].map(i => has(d['work'+i+'_place']) ? `
             <div class="rounded-xl border border-gray-100 p-4 bg-gray-50">
@@ -168,13 +158,13 @@
 
         const html = `
         <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <div class="flex flex-col md:flex-row gap-6 items-start">
+            <div class="flex flex-col md:flex-row gap-8 items-start">
                 ${photoHtml}
-                <div class="flex-1">
+                <div class="flex-1 mt-2 md:mt-0">
                     <p class="text-sm text-gray-400">${esc(d.appId)}</p>
                     <h1 class="text-3xl font-bold text-gray-800">${esc(d.titleTh||'')}${esc(d.firstNameTh||'')} ${esc(d.lastNameTh||'')}</h1>
-                    <p class="text-gray-500">${esc(d.titleEn||'')} ${esc(d.firstNameEn||'')} ${esc(d.lastNameEn||'')} ${has(d.nickname)?'· ชื่อเล่น '+esc(d.nickname):''}</p>
-                    <div class="flex flex-wrap gap-2 mt-3">
+                    <p class="text-gray-500 mt-1">${esc(d.titleEn||'')} ${esc(d.firstNameEn||'')} ${esc(d.lastNameEn||'')} ${has(d.nickname)?'· ชื่อเล่น '+esc(d.nickname):''}</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
                         <span class="px-3 py-1 rounded-full text-sm font-semibold bg-pink-50 text-chula border border-pink-200">อันดับ 1: ${esc(String(d.choice1||'ไม่ได้เลือก').replace(/^\d+\.\s*/,''))}</span>
                         <span class="px-3 py-1 rounded-full text-sm font-semibold ${d.hasSponsor==='มี'?'bg-green-50 text-green-700 border border-green-200':'bg-gray-50 text-gray-600 border border-gray-200'}">${d.hasSponsor==='มี'?'ต้นสังกัด: '+esc(d.sponsorName||'ไม่ระบุ'):'ไม่มีต้นสังกัด'}</span>
                     </div>
@@ -206,19 +196,6 @@
         </div>
 
         <div class="grid lg:grid-cols-2 gap-6">
-            ${card('fa-clipboard-check','ผลสอบ ศรว. (NL)', `
-                <p class="text-xs text-gray-400 mb-2">ข้อมูลที่ผู้สมัครกรอก</p>
-                <div class="grid grid-cols-3 gap-4">${nlRows}</div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <p class="text-xs text-gray-400 mb-2">ข้อมูลที่อ่านจากไฟล์ NL ฉบับล่าสุด (ระบบอ่านอัตโนมัติ กรุณาตรวจกับไฟล์จริง)</p>
-                    <div id="nlBox" class="text-sm text-gray-500"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i>กำลังอ่านไฟล์ NL...</div>
-                </div>`)}
-
-            ${card('fa-language','คะแนนภาษาอังกฤษ', `<div class="grid grid-cols-2 md:grid-cols-4 gap-3">${engItems}</div>
-                <div class="mt-4">${docLinksHtml(Object.assign({}, DOCS.find(x=>x.key==='fileEnglish'), d))}</div>`)}
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-6">
             ${card('fa-building-columns','สถาบันที่เลือก', choices)}
             ${card('fa-building-user','ต้นสังกัด', `<div class="grid grid-cols-2 gap-4">
                 ${item('สถานะ',val(d.hasSponsor))}${item('ชื่อต้นสังกัด',d.hasSponsor==='มี'?val(d.sponsorName):'-')}</div>
@@ -234,24 +211,6 @@
         c.innerHTML = html;
         document.getElementById('loading').classList.add('hidden');
         c.classList.remove('hidden');
-    }
-
-    async function loadNL(id) {
-        const box = document.getElementById('nlBox');
-        try {
-            const r = await call('getNL', id);
-            if (r.status !== 'success') { box.innerText = r.message || 'อ่านไฟล์ไม่สำเร็จ'; return; }
-            if (!r.hasFile) { box.innerHTML = '<span class="text-amber-600">ยังไม่มีไฟล์ NL</span>'; return; }
-            if (r.error) { box.innerHTML = `<span class="text-red-500">${esc(r.error)}</span> <a href="${esc(r.url)}" target="_blank" class="text-chula underline">เปิดไฟล์</a>`; return; }
-            const tags = [];
-            if (r.hasNumber) tags.push('<span class="px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">พบตัวเลขคะแนน</span>');
-            if (r.hasPass) tags.push('<span class="px-2 py-1 rounded-md bg-green-50 text-green-700 text-xs font-semibold">พบคำว่า ผ่าน</span>');
-            if (r.hasFail) tags.push('<span class="px-2 py-1 rounded-md bg-orange-50 text-orange-700 text-xs font-semibold">พบคำว่า ไม่ผ่าน</span>');
-            if (!tags.length) tags.push('<span class="px-2 py-1 rounded-md bg-gray-100 text-gray-600 text-xs font-semibold">ไม่พบข้อความ/คะแนนที่อ่านได้ (อาจเป็นภาพสแกนไม่ชัด)</span>');
-            box.innerHTML = `<div class="flex flex-wrap gap-2 mb-2">${tags.join('')}</div>
-                ${(r.evidence||[]).length ? `<div class="bg-gray-50 border border-gray-100 rounded-lg p-3 text-xs text-gray-600 space-y-1 max-h-48 overflow-y-auto">${r.evidence.map(l=>`<p>${esc(l)}</p>`).join('')}</div>` : ''}
-                <a href="${esc(r.url)}" target="_blank" class="inline-block mt-2 text-chula font-semibold underline">เปิดไฟล์ NL ต้นฉบับ</a>`;
-        } catch (e) { box.innerText = 'อ่านไฟล์ NL ไม่สำเร็จ: ' + e.message; }
     }
 </script>
 </body>
