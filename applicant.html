@@ -33,7 +33,7 @@
 </main>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1PBxVv2MlRUiAr-1f90Xkllbr5EQCjt27x33DtMoOYocL78HH9c7TxnIMHmmXEzz7/exec'; // ต้องเป็นตัวเดียวกับฟอร์ม
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtn3YOfu7iu1WzPVqyFUEYaTqimhlVSFmbHRo65gaqNx293S5oMJSDqo5A_0DkosvY/exec'; // ต้องเป็นตัวเดียวกับฟอร์ม
 
     const REQUIRED_FIELDS = [
         ['titleTh','คำนำหน้า'],['firstNameTh','ชื่อ'],['lastNameTh','นามสกุล'],['idCard','เลขบัตรประชาชน'],
@@ -83,13 +83,11 @@
         document.getElementById('loading').classList.add('hidden');
         const b = document.getElementById('error'); b.innerText = msg; b.classList.remove('hidden');
     }
-    function getKey() {
-        let k = sessionStorage.getItem('viewKey');
-        if (!k) { k = prompt('กรุณาใส่รหัสสำหรับกรรมการ'); if (k) sessionStorage.setItem('viewKey', k); }
-        return k || '';
-    }
+ // ลบฟังก์ชัน getKey() ออกไปเลย
+
     async function call(action, id) {
-        const r = await fetch(`${SCRIPT_URL}?action=${action}&id=${encodeURIComponent(id)}&key=${encodeURIComponent(getKey())}&t=${Date.now()}`);
+        // ลบพารามิเตอร์ &key= ออกจาก URL
+        const r = await fetch(`${SCRIPT_URL}?action=${action}&id=${encodeURIComponent(id)}&t=${Date.now()}`);
         const t = await r.text();
         try { return JSON.parse(t); } catch (e) { throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ตรวจการ Deploy)'); }
     }
@@ -100,7 +98,8 @@
         let res;
         try { res = await call('getApplicant', id); } catch (e) { return showError(e.message); }
         if (res.status === 'not_found') return showError('ไม่พบผู้สมัครรหัส ' + id);
-        if (res.status !== 'success') { sessionStorage.removeItem('viewKey'); return showError(res.message || 'เกิดข้อผิดพลาด'); }
+        // ลบคำสั่ง sessionStorage.removeItem ทิ้ง เพราะไม่ได้ใช้แล้ว
+        if (res.status !== 'success') { return showError(res.message || 'เกิดข้อผิดพลาด'); }
         render(res.data);
         loadNL(id);
     })();
