@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปข้อมูลผู้สมัคร</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background: linear-gradient(180deg,#fdf2f6 0%,#f3f4f6 300px); }
+        .bg-chula { background-color: #ce1255; }
+        .text-chula { color: #ce1255; }
+    </style>
+</head>
+<body class="text-gray-800 pb-16">
+
+<header class="bg-chula text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <span class="font-bold text-lg"><i class="fa-solid fa-user-doctor mr-2"></i>สรุปข้อมูลผู้สมัคร</span>
+        <div class="flex gap-2">
+            <a id="btnFolder" target="_blank" class="hidden bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg text-sm font-semibold"><i class="fa-brands fa-google-drive mr-1"></i>โฟลเดอร์ผู้สมัคร</a>
+            <a href="https://drive.google.com/drive/folders/17q-lpRPcH0CSXYXJauxbh1xH-JHBcPmW?usp=sharing" target="_blank" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg text-sm font-semibold"><i class="fa-solid fa-folder-tree mr-1"></i>โฟลเดอร์รวมทั้งหมด</a>
+            <a href="dashboard.html" class="bg-white text-chula hover:bg-pink-50 px-3 py-2 rounded-lg text-sm font-bold"><i class="fa-solid fa-arrow-left mr-1"></i>กลับ Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+    <div id="loading" class="text-center py-20 text-gray-500"><i class="fa-solid fa-circle-notch fa-spin text-4xl text-chula mb-3"></i><p>กำลังโหลดข้อมูล...</p></div>
+    <div id="error" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-6 text-center font-medium"></div>
+    <div id="content" class="hidden space-y-6"></div>
+</main>
+
+<script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1PBxVv2MlRUiAr-1f90Xkllbr5EQCjt27x33DtMoOYocL78HH9c7TxnIMHmmXEzz7/exec'; // ต้องเป็นตัวเดียวกับฟอร์ม
+
+    const REQUIRED_FIELDS = [
+        ['titleTh','คำนำหน้า'],['firstNameTh','ชื่อ'],['lastNameTh','นามสกุล'],['idCard','เลขบัตรประชาชน'],
+        ['mobile','โทรศัพท์มือถือ'],['email','อีเมล'],['medSchool','สถาบันที่จบ'],['gradYear','ปีที่จบ'],
+        ['medLicense','เลขใบประกอบวิชาชีพ'],['choice1','สถาบันอันดับ 1'],['hasSponsor','ข้อมูลต้นสังกัด']
+    ];
+    const REQUIRED_DOCS = ['filePhoto','fileTcgme','fileIdCard','fileLicense','fileIntern','fileTranscript','fileNL','fileCV'];
+    const DOCS = [
+        { key:'filePhoto', name:'รูปถ่ายหน้าตรง' },
+        { key:'fileTcgme', name:'ใบสมัครศูนย์เวชบัณฑิตศึกษาแห่งประเทศ' },
+        { key:'fileIdCard', name:'สำเนาบัตรประชาชน' },
+        { key:'fileNameChange', name:'ใบเปลี่ยนชื่อ-สกุล / ทะเบียนสมรส' },
+        { key:'fileLicense', name:'ใบอนุญาตประกอบวิชาชีพเวชกรรม' },
+        { key:'fileIntern', name:'ใบรับรองผ่านเพิ่มพูนทักษะ' },
+        { key:'fileSponsor', name:'หนังสือจากต้นสังกัด' },
+        { key:'fileTranscript', name:'Transcript แพทยศาสตร์' },
+        { key:'fileNL', name:'เอกสารผลคะแนน ศรว. (NL)' },
+        { key:'fileCV', name:'ประวัติย่อ (CV)' },
+        { key:'filePortfolio', name:'แฟ้มสะสมผลงาน (Portfolio)' },
+        { key:'fileRecLetter', name:'หนังสือรับรอง/แนะนำ', multi:true },
+        { key:'fileMedical', name:'ใบรับรองแพทย์/ตรวจตาสามมิติ', multi:true },
+        { key:'fileEnglish', name:'หลักฐานคะแนนภาษาอังกฤษ', multi:true }
+    ];
+
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const has = v => v !== undefined && v !== null && String(v).trim() !== '';
+    const val = v => has(v) ? esc(v) : '<span class="text-gray-300">-</span>';
+    const links = cell => (String(cell || '').split('\n').map(l => {
+        const m = l.match(/https?:\/\/[^\s]+/);
+        return m ? { url: m[0], name: l.slice(0, l.indexOf(m[0])).replace(/:\s*$/, '').trim() || 'ไฟล์' } : null;
+    }).filter(Boolean));
+    function fmtDate(v) {
+        if (!has(v)) return '-';
+        const d = new Date(v);
+        if (isNaN(d.getTime())) return esc(v);
+        return d.toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'numeric' });
+    }
+    const item = (label, value) => `<div><p class="text-xs text-gray-400 mb-0.5">${label}</p><p class="font-semibold text-gray-800 break-words">${value}</p></div>`;
+    const card = (icon, title, body, extra='') => `
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-chula"><i class="fa-solid ${icon} mr-2"></i>${title}</h2>${extra}
+            </div>${body}
+        </section>`;
+
+    function showError(msg) {
+        document.getElementById('loading').classList.add('hidden');
+        const b = document.getElementById('error'); b.innerText = msg; b.classList.remove('hidden');
+    }
+    function getKey() {
+        let k = sessionStorage.getItem('viewKey');
+        if (!k) { k = prompt('กรุณาใส่รหัสสำหรับกรรมการ'); if (k) sessionStorage.setItem('viewKey', k); }
+        return k || '';
+    }
+    async function call(action, id) {
+        const r = await fetch(`${SCRIPT_URL}?action=${action}&id=${encodeURIComponent(id)}&key=${encodeURIComponent(getKey())}&t=${Date.now()}`);
+        const t = await r.text();
+        try { return JSON.parse(t); } catch (e) { throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ตรวจการ Deploy)'); }
+    }
+
+    (async () => {
+        const id = new URLSearchParams(location.search).get('id');
+        if (!id) return showError('ไม่พบรหัสผู้สมัครใน URL');
+        let res;
+        try { res = await call('getApplicant', id); } catch (e) { return showError(e.message); }
+        if (res.status === 'not_found') return showError('ไม่พบผู้สมัครรหัส ' + id);
+        if (res.status !== 'success') { sessionStorage.removeItem('viewKey'); return showError(res.message || 'เกิดข้อผิดพลาด'); }
+        render(res.data);
+        loadNL(id);
+    })();
+
+    function docLinksHtml(d) {
+        const all = links(d[d.key]);
+        if (!all.length) return `<span class="text-sm text-gray-400">ยังไม่มีไฟล์</span>`;
+        const btn = (l, label, cls) => `<a href="${esc(l.url)}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold border ${cls}"><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>${label}</a>`;
+        if (d.multi) return `<div class="flex flex-wrap gap-2">${all.map((l,i) => btn(l, `ไฟล์ ${i+1}`, 'bg-pink-50 text-chula border-pink-200 hover:bg-pink-100')).join('')}</div>`;
+        const latest = all[all.length - 1], older = all.slice(0, -1);
+        return `<div class="flex flex-wrap items-center gap-2">${btn(latest, 'เปิดฉบับล่าสุด', 'bg-pink-50 text-chula border-pink-200 hover:bg-pink-100')}
+            ${older.length ? `<details class="inline"><summary class="cursor-pointer text-xs text-gray-400">ฉบับก่อนหน้า (${older.length})</summary><div class="flex flex-wrap gap-2 mt-2">${older.map((l,i)=>btn(l,`ก่อนหน้า ${i+1}`,'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100')).join('')}</div></details>` : ''}</div>`;
+    }
+
+    function render(d) {
+        document.title = 'สรุป ' + (d.firstNameTh || '') + ' ' + (d.lastNameTh || '');
+        if (d.folderUrl) { const f = document.getElementById('btnFolder'); f.href = d.folderUrl; f.classList.remove('hidden'); }
+
+        // ความครบถ้วน
+        const missingFields = REQUIRED_FIELDS.filter(([k]) => !has(d[k])).map(([,n]) => n);
+        const reqDocs = [...REQUIRED_DOCS]; if (d.hasSponsor === 'มี') reqDocs.push('fileSponsor');
+        const missingDocs = reqDocs.filter(k => links(d[k]).length === 0).map(k => DOCS.find(x => x.key === k).name);
+        const total = REQUIRED_FIELDS.length + reqDocs.length;
+        const done = total - missingFields.length - missingDocs.length;
+        const pct = Math.round(done / total * 100);
+        const complete = missingFields.length + missingDocs.length === 0;
+
+        const photo = links(d.filePhoto).slice(-1)[0];
+        const photoId = photo ? (photo.url.match(/\/d\/([\w-]+)/) || [])[1] : '';
+        const photoHtml = photoId
+            ? `<img src="https://drive.google.com/thumbnail?id=${photoId}&sz=w300" class="w-28 h-28 rounded-2xl object-cover bg-pink-50 border border-pink-100" onerror="this.outerHTML='<div class=\\'w-28 h-28 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-4xl\\'><i class=\\'fa-solid fa-user\\'></i></div>'">`
+            : `<div class="w-28 h-28 rounded-2xl bg-pink-50 flex items-center justify-center text-chula text-4xl"><i class="fa-solid fa-user"></i></div>`;
+
+        const choices = [1,2,3,4,5].filter(i => has(d['choice'+i])).map(i => `
+            <div class="flex items-center gap-3 py-2 border-b border-gray-50">
+                <span class="w-8 h-8 rounded-full ${i===1?'bg-chula text-white':'bg-gray-100 text-gray-600'} flex items-center justify-center font-bold text-sm">${i}</span>
+                <span class="${i===1?'font-bold text-chula':''}">${esc(String(d['choice'+i]).replace(/^\d+\.\s*/,''))}</span></div>`).join('') || '<p class="text-gray-400">ไม่ได้เลือก</p>';
+
+        const nlRows = [1,2,3].map(i => item(i===3 ? 'ขั้นตอนที่ 3 (OSCE)' : 'ขั้นตอนที่ '+i,
+            `${val(d['nl'+i+'_status'])} <span class="text-xs font-normal text-gray-400 block">สอบเมื่อ ${fmtDate(d['nl'+i+'_date'])}</span>`)).join('');
+
+        const engItems = [['engCutep','CU-TEP'],['engToeflIbt','TOEFL iBT'],['engToeflItp','TOEFL ITP'],['engIelts','IELTS']]
+            .map(([k,n]) => `<div class="rounded-xl border ${has(d[k])?'border-pink-200 bg-pink-50':'border-gray-100 bg-gray-50'} p-4 text-center">
+                <p class="text-xs text-gray-500">${n}</p><p class="text-2xl font-bold ${has(d[k])?'text-chula':'text-gray-300'}">${has(d[k]) ? esc(d[k]) : '-'}</p></div>`).join('');
+
+        const works = [1,2,3].map(i => has(d['work'+i+'_place']) ? `
+            <div class="rounded-xl border border-gray-100 p-4 bg-gray-50">
+                <p class="text-xs text-gray-400 mb-1">ลำดับที่ ${i}${i===1?' (ล่าสุด)':''}</p>
+                <p class="font-bold">${esc(d['work'+i+'_place'])}</p>
+                <p class="text-sm text-gray-600">${esc(d['work'+i+'_pos']||'')} ${has(d['work'+i+'_prov'])?'· '+esc(d['work'+i+'_prov']):''}</p>
+                <p class="text-sm text-gray-500">ช่วงเวลา: ${val(d['work'+i+'_period'])}</p>
+                <p class="text-sm text-gray-500">ผู้รับรอง: ${val(d['work'+i+'_ref'])} · โทร ${val(d['work'+i+'_tel'])}</p></div>` : '').join('') || '<p class="text-gray-400">ไม่ได้กรอก</p>';
+
+        const addr = p => [d[p+'_no'], has(d[p+'_moo'])?'หมู่ '+d[p+'_moo']:'', d[p+'_village'], d[p+'_road'], d[p+'_subdist'], d[p+'_dist'], d[p+'_prov'], d[p+'_zip']].filter(has).join(' ');
+
+        const docsHtml = DOCS.map(doc => {
+            const required = reqDocs.includes(doc.key);
+            const ok = links(d[doc.key]).length > 0;
+            return `<div class="flex flex-col md:flex-row md:items-center justify-between gap-2 py-3 border-b border-gray-50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid ${ok?'fa-circle-check text-green-500':(required?'fa-circle-xmark text-red-400':'fa-circle-minus text-gray-300')}"></i>
+                    <span class="font-medium">${doc.name}</span>
+                    ${required?'':'<span class="text-xs text-gray-400">(ไม่บังคับ)</span>'}
+                </div>${docLinksHtml(Object.assign({}, doc, d))}</div>`;
+        }).join('');
+
+        const html = `
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+                ${photoHtml}
+                <div class="flex-1">
+                    <p class="text-sm text-gray-400">${esc(d.appId)}</p>
+                    <h1 class="text-3xl font-bold text-gray-800">${esc(d.titleTh||'')}${esc(d.firstNameTh||'')} ${esc(d.lastNameTh||'')}</h1>
+                    <p class="text-gray-500">${esc(d.titleEn||'')} ${esc(d.firstNameEn||'')} ${esc(d.lastNameEn||'')} ${has(d.nickname)?'· ชื่อเล่น '+esc(d.nickname):''}</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="px-3 py-1 rounded-full text-sm font-semibold bg-pink-50 text-chula border border-pink-200">อันดับ 1: ${esc(String(d.choice1||'ไม่ได้เลือก').replace(/^\d+\.\s*/,''))}</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-semibold ${d.hasSponsor==='มี'?'bg-green-50 text-green-700 border border-green-200':'bg-gray-50 text-gray-600 border border-gray-200'}">${d.hasSponsor==='มี'?'ต้นสังกัด: '+esc(d.sponsorName||'ไม่ระบุ'):'ไม่มีต้นสังกัด'}</span>
+                    </div>
+                </div>
+                <div class="w-full md:w-64 rounded-xl p-4 ${complete?'bg-green-50 border border-green-200':'bg-amber-50 border border-amber-200'}">
+                    <p class="font-bold ${complete?'text-green-700':'text-amber-700'}"><i class="fa-solid ${complete?'fa-circle-check':'fa-triangle-exclamation'} mr-1"></i>${complete?'ข้อมูลครบถ้วน':'ข้อมูลยังไม่ครบ'}</p>
+                    <div class="w-full bg-white rounded-full h-2 mt-2 overflow-hidden"><div class="h-2 ${complete?'bg-green-500':'bg-amber-500'}" style="width:${pct}%"></div></div>
+                    <p class="text-xs text-gray-500 mt-1">${done}/${total} รายการ (${pct}%)</p>
+                    ${complete?'':`<p class="text-xs text-amber-800 mt-2">ขาด: ${esc([...missingFields, ...missingDocs].join(', '))}</p>`}
+                </div>
+            </div>
+        </section>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+            ${card('fa-id-card','ข้อมูลส่วนตัวและการติดต่อ', `<div class="grid grid-cols-2 gap-4">
+                ${item('เพศ',val(d.gender))}${item('วันเกิด',fmtDate(d.dob))}${item('อายุ',has(d.age)?esc(d.age)+' ปี':'-')}
+                ${item('เลขบัตรประชาชน',val(d.idCard))}${item('สัญชาติ / เชื้อชาติ',`${val(d.nationality)} / ${val(d.race)}`)}${item('ศาสนา',val(d.religion))}
+                ${item('มือถือ',val(d.mobile))}${item('โทรศัพท์บ้าน/ที่ทำงาน',val(d.phoneHome))}${item('อีเมล',val(d.email))}</div>
+                <div class="mt-4 pt-4 border-t border-gray-100 space-y-2 text-sm">
+                    <p><span class="text-gray-400">ที่อยู่ปัจจุบัน:</span> ${esc(addr('addr1'))||'-'}</p>
+                    <p><span class="text-gray-400">ตามทะเบียนบ้าน:</span> ${esc(addr('addr2'))||'-'}</p></div>`)}
+
+            ${card('fa-graduation-cap','การศึกษาและคุณวุฒิ', `<div class="grid grid-cols-2 gap-4">
+                ${item('สถาบันที่จบ (พ.บ.)',val(d.medSchool))}${item('ปีที่จบ (พ.ศ.)',val(d.gradYear))}
+                ${item('เลขใบประกอบวิชาชีพ',val(d.medLicense))}${item('เกรดเฉลี่ยรวม',val(d.gpaTotal))}
+                ${item('เกรดเฉพาะ โสต ศอ นาสิก',val(d.gpaEnt))}${item('เพิ่มพูนทักษะ 1 ปี',val(d.intern1Year))}
+                ${item('สถานที่เพิ่มพูนทักษะ',val(d.internPlace))}${item('ชดใช้ทุน (ปี)',val(d.workYears))}
+                ${item('ที่ทำงานปัจจุบัน',val(d.currentWorkplace))}${item('จำนวนครั้งที่สมัคร',val(d.applyCount))}</div>`)}
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+            ${card('fa-clipboard-check','ผลสอบ ศรว. (NL)', `
+                <p class="text-xs text-gray-400 mb-2">ข้อมูลที่ผู้สมัครกรอก</p>
+                <div class="grid grid-cols-3 gap-4">${nlRows}</div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-xs text-gray-400 mb-2">ข้อมูลที่อ่านจากไฟล์ NL ฉบับล่าสุด (ระบบอ่านอัตโนมัติ กรุณาตรวจกับไฟล์จริง)</p>
+                    <div id="nlBox" class="text-sm text-gray-500"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i>กำลังอ่านไฟล์ NL...</div>
+                </div>`)}
+
+            ${card('fa-language','คะแนนภาษาอังกฤษ', `<div class="grid grid-cols-2 md:grid-cols-4 gap-3">${engItems}</div>
+                <div class="mt-4">${docLinksHtml(Object.assign({}, DOCS.find(x=>x.key==='fileEnglish'), d))}</div>`)}
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+            ${card('fa-building-columns','สถาบันที่เลือก', choices)}
+            ${card('fa-building-user','ต้นสังกัด', `<div class="grid grid-cols-2 gap-4">
+                ${item('สถานะ',val(d.hasSponsor))}${item('ชื่อต้นสังกัด',d.hasSponsor==='มี'?val(d.sponsorName):'-')}</div>
+                ${d.hasSponsor==='มี'?`<div class="mt-4">${docLinksHtml(Object.assign({}, DOCS.find(x=>x.key==='fileSponsor'), d))}</div>`:''}`)}
+        </div>
+
+        ${card('fa-briefcase','ประวัติการปฏิบัติงาน 3 ที่สุดท้าย', `<div class="grid md:grid-cols-3 gap-4">${works}</div>`)}
+
+        ${card('fa-folder-open','เอกสารประกอบการสมัคร (ฉบับล่าสุด)', docsHtml,
+            d.pdfUrl ? `<a href="${esc(d.pdfUrl)}" target="_blank" class="text-sm font-bold text-chula hover:underline"><i class="fa-solid fa-file-pdf mr-1"></i>PDF สรุปใบสมัคร</a>` : '')}`;
+
+        const c = document.getElementById('content');
+        c.innerHTML = html;
+        document.getElementById('loading').classList.add('hidden');
+        c.classList.remove('hidden');
+    }
+
+    async function loadNL(id) {
+        const box = document.getElementById('nlBox');
+        try {
+            const r = await call('getNL', id);
+            if (r.status !== 'success') { box.innerText = r.message || 'อ่านไฟล์ไม่สำเร็จ'; return; }
+            if (!r.hasFile) { box.innerHTML = '<span class="text-amber-600">ยังไม่มีไฟล์ NL</span>'; return; }
+            if (r.error) { box.innerHTML = `<span class="text-red-500">${esc(r.error)}</span> <a href="${esc(r.url)}" target="_blank" class="text-chula underline">เปิดไฟล์</a>`; return; }
+            const tags = [];
+            if (r.hasNumber) tags.push('<span class="px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">พบตัวเลขคะแนน</span>');
+            if (r.hasPass) tags.push('<span class="px-2 py-1 rounded-md bg-green-50 text-green-700 text-xs font-semibold">พบคำว่า ผ่าน</span>');
+            if (r.hasFail) tags.push('<span class="px-2 py-1 rounded-md bg-orange-50 text-orange-700 text-xs font-semibold">พบคำว่า ไม่ผ่าน</span>');
+            if (!tags.length) tags.push('<span class="px-2 py-1 rounded-md bg-gray-100 text-gray-600 text-xs font-semibold">ไม่พบข้อความ/คะแนนที่อ่านได้ (อาจเป็นภาพสแกนไม่ชัด)</span>');
+            box.innerHTML = `<div class="flex flex-wrap gap-2 mb-2">${tags.join('')}</div>
+                ${(r.evidence||[]).length ? `<div class="bg-gray-50 border border-gray-100 rounded-lg p-3 text-xs text-gray-600 space-y-1 max-h-48 overflow-y-auto">${r.evidence.map(l=>`<p>${esc(l)}</p>`).join('')}</div>` : ''}
+                <a href="${esc(r.url)}" target="_blank" class="inline-block mt-2 text-chula font-semibold underline">เปิดไฟล์ NL ต้นฉบับ</a>`;
+        } catch (e) { box.innerText = 'อ่านไฟล์ NL ไม่สำเร็จ: ' + e.message; }
+    }
+</script>
+</body>
+</html>
